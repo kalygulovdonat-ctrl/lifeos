@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.heading h1 {
+  font-size: 22px;
+}
+.heading p {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+.switch {
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}

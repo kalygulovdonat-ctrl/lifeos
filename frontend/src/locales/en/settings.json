@@ -1,0 +1,30 @@
+{
+  "title": "Settings",
+  "profile": {
+    "title": "Profile and preferences",
+    "displayName": "Name",
+    "email": "Email",
+    "language": "Language",
+    "timezone": "Time zone",
+    "timeFormat": "Time format",
+    "timeFormat12": "12-hour",
+    "timeFormat24": "24-hour",
+    "weekStart": "Week starts on",
+    "theme": "Theme",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "themeSystem": "System",
+    "dayStart": "Day starts",
+    "dayEnd": "Day ends",
+    "dayWindowHint": "Used to calculate free time."
+  },
+  "weekdays": {
+    "1": "Monday",
+    "2": "Tuesday",
+    "3": "Wednesday",
+    "4": "Thursday",
+    "5": "Friday",
+    "6": "Saturday",
+    "7": "Sunday"
+  }
+}

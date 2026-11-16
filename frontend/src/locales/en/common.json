@@ -1,0 +1,54 @@
+{
+  "appName": "LifeOS",
+  "nav": {
+    "dashboard": "Dashboard",
+    "schedule": "Schedule",
+    "tasks": "Tasks",
+    "habits": "Habits",
+    "goals": "Goals",
+    "journal": "Journal",
+    "time": "Time tracking",
+    "analytics": "Analytics",
+    "reviews": "Weekly review",
+    "wellness": "Wellness",
+    "assistant": "AI assistant",
+    "settings": "Settings",
+    "logout": "Sign out",
+    "mainNavigation": "Main navigation"
+  },
+  "actions": { "save": "Save", "cancel": "Cancel", "back": "Back", "retry": "Retry" },
+  "status": { "loading": "Loading…", "saved": "Saved" },
+  "placeholder": {
+    "title": "The “{{module}}” module is coming soon",
+    "description": "This section will be built in {{phase}} according to the roadmap."
+  },
+  "notFound": { "title": "Page not found", "action": "Go to dashboard" },
+  "categories": {
+    "system": {
+      "work": "Work",
+      "study": "Study",
+      "health": "Health",
+      "sport": "Sport",
+      "personal": "Personal",
+      "rest": "Rest",
+      "household": "Household",
+      "social": "Social"
+    }
+  },
+  "errors": {
+    "VALIDATION_ERROR": "Please check the entered data.",
+    "NOT_AUTHENTICATED": "Please sign in.",
+    "TOKEN_EXPIRED": "Your session has expired. Please sign in again.",
+    "REFRESH_INVALID": "Your session has expired. Please sign in again.",
+    "INVALID_CREDENTIALS": "Incorrect email or password.",
+    "EMAIL_TAKEN": "An account with this email already exists.",
+    "REGISTRATION_CLOSED": "Registration is closed.",
+    "PERMISSION_DENIED": "You do not have permission to do this.",
+    "CSRF_FAILED": "Security check failed. Please reload the page.",
+    "NOT_FOUND": "Not found.",
+    "RATE_LIMITED": "Too many requests. Try again later.",
+    "INTERNAL_ERROR": "Internal server error.",
+    "NETWORK_ERROR": "Cannot reach the server.",
+    "UNKNOWN_ERROR": "Something went wrong."
+  }
+}

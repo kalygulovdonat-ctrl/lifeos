@@ -1,0 +1,54 @@
+{
+  "appName": "LifeOS",
+  "nav": {
+    "dashboard": "Главная",
+    "schedule": "Расписание",
+    "tasks": "Задачи",
+    "habits": "Привычки",
+    "goals": "Цели",
+    "journal": "Дневник",
+    "time": "Учёт времени",
+    "analytics": "Аналитика",
+    "reviews": "Обзор недели",
+    "wellness": "Самочувствие",
+    "assistant": "AI-ассистент",
+    "settings": "Настройки",
+    "logout": "Выйти",
+    "mainNavigation": "Основная навигация"
+  },
+  "actions": { "save": "Сохранить", "cancel": "Отмена", "back": "Назад", "retry": "Повторить" },
+  "status": { "loading": "Загрузка…", "saved": "Сохранено" },
+  "placeholder": {
+    "title": "Модуль «{{module}}» скоро появится",
+    "description": "Этот раздел будет реализован в {{phase}} согласно плану разработки."
+  },
+  "notFound": { "title": "Страница не найдена", "action": "На главную" },
+  "categories": {
+    "system": {
+      "work": "Работа",
+      "study": "Учёба",
+      "health": "Здоровье",
+      "sport": "Спорт",
+      "personal": "Личное",
+      "rest": "Отдых",
+      "household": "Быт",
+      "social": "Общение"
+    }
+  },
+  "errors": {
+    "VALIDATION_ERROR": "Проверьте введённые данные.",
+    "NOT_AUTHENTICATED": "Требуется вход в систему.",
+    "TOKEN_EXPIRED": "Сессия истекла. Войдите снова.",
+    "REFRESH_INVALID": "Сессия истекла. Войдите снова.",
+    "INVALID_CREDENTIALS": "Неверный email или пароль.",
+    "EMAIL_TAKEN": "Аккаунт с таким email уже существует.",
+    "REGISTRATION_CLOSED": "Регистрация закрыта.",
+    "PERMISSION_DENIED": "Недостаточно прав.",
+    "CSRF_FAILED": "Ошибка проверки безопасности. Обновите страницу.",
+    "NOT_FOUND": "Не найдено.",
+    "RATE_LIMITED": "Слишком много запросов. Попробуйте позже.",
+    "INTERNAL_ERROR": "Внутренняя ошибка сервера.",
+    "NETWORK_ERROR": "Нет соединения с сервером.",
+    "UNKNOWN_ERROR": "Что-то пошло не так."
+  }
+}

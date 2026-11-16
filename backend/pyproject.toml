@@ -1,0 +1,27 @@
+[project]
+name = "lifeos-backend"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings.test"
+python_files = ["test_*.py"]
+addopts = "-q --strict-markers"
+pythonpath = ["."]
+
+[tool.coverage.run]
+source = ["apps", "common"]
+omit = ["*/migrations/*", "*/tests/*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+extend-exclude = ["migrations"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "DJ", "S", "DTZ", "RUF"]
+ignore = ["S101", "RUF012", "DJ001", "S105", "S106"]
+
+[tool.ruff.lint.per-file-ignores]
+"*/tests/*" = ["S", "DTZ"]
+"config/settings/*" = ["F405"]

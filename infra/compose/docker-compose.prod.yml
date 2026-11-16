@@ -1,0 +1,74 @@
+# Cloud: docker compose -f infra/compose/docker-compose.prod.yml up -d
+# Secrets live in ../../.env.prod (never committed; see .env.prod.example).
+# Images are built by CI; TLS is terminated by a host reverse proxy in front of `web`.
+name: lifeos-prod
+
+x-backend: &backend
+  image: ${BACKEND_IMAGE:-lifeos-backend:latest}
+  env_file: [../../.env.prod]
+  restart: unless-stopped
+
+services:
+  db:
+    image: postgres:16-alpine
+    env_file: [../../.env.prod]
+    volumes: [pgdata:/var/lib/postgresql/data]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --save "" --appendonly no
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 10
+
+  migrate:
+    <<: *backend
+    restart: "no"
+    command: python manage.py migrate --noinput
+    depends_on:
+      db: { condition: service_healthy }
+
+  backend:
+    <<: *backend
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+
+  worker:
+    <<: *backend
+    command: celery -A config worker -Q default,ai,reports -l info
+    # The image HEALTHCHECK probes HTTP :8000, which only the API serves.
+    healthcheck:
+      test: ["CMD-SHELL", "celery -A config inspect ping -d celery@$$HOSTNAME --timeout 10 | grep -q pong"]
+      interval: 60s
+      timeout: 20s
+      start_period: 30s
+      retries: 3
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+
+  beat:
+    <<: *backend
+    command: celery -A config beat -l info
+    healthcheck:
+      disable: true  # beat has no probe endpoint; restart policy covers crashes
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      redis: { condition: service_healthy }
+
+  web:
+    image: ${FRONTEND_IMAGE:-lifeos-frontend:latest}
+    restart: unless-stopped
+    ports: ["127.0.0.1:8080:80"]
+    depends_on: [backend]
+
+volumes:
+  pgdata:

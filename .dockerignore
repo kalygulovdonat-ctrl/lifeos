@@ -1,0 +1,16 @@
+**/node_modules
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+**/*.sqlite3
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.prod.example
+frontend/dist
+frontend/playwright-report
+frontend/test-results
+backend/media
+backend/staticfiles
+.git

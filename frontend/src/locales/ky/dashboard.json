@@ -1,0 +1,11 @@
+{
+  "greeting": {
+    "morning": "Кутман таң, {{name}}",
+    "day": "Кутман күн, {{name}}",
+    "evening": "Кутман кеч, {{name}}",
+    "night": "Бейпил түн, {{name}}"
+  },
+  "today": "Бүгүн",
+  "foundationReady": "LifeOS пайдубалы даяр. Күн тартиби, тапшырмалар жана Dashboard виджеттери Phase 1 этабында пайда болот.",
+  "timezoneNote": "Убакыт алкагы: {{tz}}"
+}

@@ -1,0 +1,54 @@
+{
+  "appName": "LifeOS",
+  "nav": {
+    "dashboard": "Башкы бет",
+    "schedule": "Күн тартиби",
+    "tasks": "Тапшырмалар",
+    "habits": "Адаттар",
+    "goals": "Максаттар",
+    "journal": "Күндөлүк",
+    "time": "Убакыт эсеби",
+    "analytics": "Аналитика",
+    "reviews": "Апталык сереп",
+    "wellness": "Ал-абал",
+    "assistant": "AI-жардамчы",
+    "settings": "Жөндөөлөр",
+    "logout": "Чыгуу",
+    "mainNavigation": "Негизги навигация"
+  },
+  "actions": { "save": "Сактоо", "cancel": "Жокко чыгаруу", "back": "Артка", "retry": "Кайталоо" },
+  "status": { "loading": "Жүктөлүүдө…", "saved": "Сакталды" },
+  "placeholder": {
+    "title": "«{{module}}» модулу жакында пайда болот",
+    "description": "Бул бөлүм иштеп чыгуу планына ылайык {{phase}} этабында ишке ашырылат."
+  },
+  "notFound": { "title": "Барак табылган жок", "action": "Башкы бетке" },
+  "categories": {
+    "system": {
+      "work": "Иш",
+      "study": "Окуу",
+      "health": "Ден соолук",
+      "sport": "Спорт",
+      "personal": "Жеке",
+      "rest": "Эс алуу",
+      "household": "Үй иштери",
+      "social": "Баарлашуу"
+    }
+  },
+  "errors": {
+    "VALIDATION_ERROR": "Киргизилген маалыматтарды текшериңиз.",
+    "NOT_AUTHENTICATED": "Системага кириңиз.",
+    "TOKEN_EXPIRED": "Сессия бүттү. Кайра кириңиз.",
+    "REFRESH_INVALID": "Сессия бүттү. Кайра кириңиз.",
+    "INVALID_CREDENTIALS": "Email же сырсөз туура эмес.",
+    "EMAIL_TAKEN": "Мындай email менен аккаунт бар.",
+    "REGISTRATION_CLOSED": "Каттоо жабык.",
+    "PERMISSION_DENIED": "Укугуңуз жетишсиз.",
+    "CSRF_FAILED": "Коопсуздук текшерүүсү өтпөдү. Баракты жаңылаңыз.",
+    "NOT_FOUND": "Табылган жок.",
+    "RATE_LIMITED": "Суроо-талаптар өтө көп. Кийинчерээк аракет кылыңыз.",
+    "INTERNAL_ERROR": "Сервердин ички катасы.",
+    "NETWORK_ERROR": "Сервер менен байланыш жок.",
+    "UNKNOWN_ERROR": "Бир нерсе туура эмес болду."
+  }
+}

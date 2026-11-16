@@ -1,0 +1,11 @@
+{
+  "greeting": {
+    "morning": "Доброе утро, {{name}}",
+    "day": "Добрый день, {{name}}",
+    "evening": "Добрый вечер, {{name}}",
+    "night": "Доброй ночи, {{name}}"
+  },
+  "today": "Сегодня",
+  "foundationReady": "Фундамент LifeOS готов. Расписание, задачи и виджеты Dashboard появятся в Phase 1.",
+  "timezoneNote": "Часовой пояс: {{tz}}"
+}
