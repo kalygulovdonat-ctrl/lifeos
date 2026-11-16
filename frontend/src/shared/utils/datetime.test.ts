@@ -62,3 +62,50 @@ describe('clock options', () => {
     );
   });
 });
+
+describe('day, week and year progress', () => {
+  // 2026-11-16 is a Monday; 14:30 UTC = 20:30 in Asia/Bishkek (UTC+6).
+  const now = new Date('2026-11-16T14:30:00Z');
+
+  it('reads wall-clock fields in the user time zone', async () => {
+    const { localParts } = await import('@/shared/utils/datetime');
+    expect(localParts(now, 'Asia/Bishkek')).toMatchObject({
+      day: 16,
+      hour: 20,
+      minute: 30,
+      weekday: 1,
+    });
+    expect(localParts(new Date('2026-11-16T19:00:00Z'), 'Asia/Bishkek')).toMatchObject({
+      day: 17,
+      weekday: 2,
+    });
+  });
+
+  it('places now inside the working window', async () => {
+    const { dayWindow } = await import('@/shared/utils/datetime');
+    const during = dayWindow(now, 'Asia/Bishkek', '07:00', '23:00');
+    expect(during.phase).toBe('during');
+    if (during.phase === 'during') {
+      expect(during.minutesLeft).toBe(150);
+      expect(during.progress).toBeCloseTo(810 / 960);
+    }
+    expect(dayWindow(now, 'Asia/Bishkek', '21:00', '23:00')).toMatchObject({
+      phase: 'before',
+      minutesUntilStart: 30,
+    });
+    expect(dayWindow(now, 'Asia/Bishkek', '07:00', '18:00')).toMatchObject({ phase: 'after' });
+  });
+
+  it('computes week progress from the chosen first weekday', async () => {
+    const { weekProgress } = await import('@/shared/utils/datetime');
+    expect(weekProgress(now, 'Asia/Bishkek', 1)).toBeCloseTo((20 * 60 + 30) / (7 * 1440));
+    expect(weekProgress(now, 'Asia/Bishkek', 7)).toBeCloseTo((1440 + 20 * 60 + 30) / (7 * 1440));
+  });
+
+  it('computes year progress', async () => {
+    const { yearProgress } = await import('@/shared/utils/datetime');
+    const { year, progress } = yearProgress(now, 'Asia/Bishkek');
+    expect(year).toBe(2026);
+    expect(progress).toBeCloseTo((319 + 20.5 / 24) / 365, 4);
+  });
+});

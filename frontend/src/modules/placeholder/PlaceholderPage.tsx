@@ -23,9 +23,16 @@ export default function PlaceholderPage({
   return (
     <Card className={styles.card}>
       <div className={styles.glow} aria-hidden="true" />
-      <IconTile size={64}>
-        <Icon size={30} strokeWidth={1.8} />
-      </IconTile>
+      <span className={styles.orbits} aria-hidden="true">
+        <i />
+        <i />
+        <i />
+      </span>
+      <span className={styles.floating}>
+        <IconTile size={64}>
+          <Icon size={30} strokeWidth={1.8} />
+        </IconTile>
+      </span>
       <Badge tone="accent" icon={<Rocket size={12} />}>
         {t('placeholder.badge', { phase })}
       </Badge>

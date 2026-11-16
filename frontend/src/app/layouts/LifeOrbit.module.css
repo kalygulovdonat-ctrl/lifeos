@@ -1,0 +1,184 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+/* 400×400 design space, scaled down on shorter screens. */
+.stage {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  flex: none;
+}
+@media (max-height: 860px) {
+  .stage {
+    scale: 0.82;
+    margin: -36px 0;
+  }
+}
+@media (max-height: 720px) {
+  .stage {
+    scale: 0.66;
+    margin: -68px 0;
+  }
+}
+
+.rings {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+.ringOuter,
+.ringInner {
+  fill: none;
+  stroke: rgb(255 255 255 / 22%);
+}
+.ringOuter {
+  stroke-width: 1.5;
+  stroke-dasharray: 2 8;
+  stroke-linecap: round;
+  transform-origin: 200px 200px;
+  animation: orbit 120s linear infinite;
+}
+.ringInner {
+  stroke-width: 1;
+  stroke: rgb(255 255 255 / 12%);
+}
+
+.core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+}
+.pulse {
+  position: absolute;
+  width: 72px;
+  height: 72px;
+  border-radius: 30%;
+  border: 1.5px solid rgb(255 255 255 / 55%);
+  animation: pulse-ring 2.6s var(--ease) infinite;
+}
+
+/* The whole orbit turns; each node counter-turns to stay upright. */
+.orbit {
+  position: absolute;
+  inset: 0;
+  animation: orbit 60s linear infinite;
+}
+.slot {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+}
+.upright {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: counter-orbit 60s linear infinite;
+}
+.still,
+.still .upright {
+  animation: none;
+}
+.node {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  color: #fff;
+  background: rgb(255 255 255 / 10%);
+  border: 1px solid rgb(255 255 255 / 20%);
+  backdrop-filter: blur(8px);
+  transition:
+    background-color 300ms var(--ease),
+    box-shadow 300ms var(--ease),
+    border-color 300ms var(--ease);
+}
+.nodeActive {
+  background: #fff;
+  color: #4c1d95;
+  border-color: #fff;
+  box-shadow:
+    0 0 0 6px rgb(255 255 255 / 12%),
+    0 12px 30px -6px rgb(244 114 182 / 70%);
+}
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: rgb(255 255 255 / 55%);
+  transition: color 300ms var(--ease);
+}
+.labelActive {
+  color: #fff;
+}
+
+.caption {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+}
+.captionText {
+  position: relative;
+  width: 100%;
+  height: 88px;
+}
+/* Items overlap so the next step cross-fades in while the previous one leaves. */
+.captionItem {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.stepNo {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: rgb(255 255 255 / 55%);
+}
+.caption strong {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.caption p {
+  color: rgb(255 255 255 / 72%);
+  font-size: 15px;
+}
+.dots {
+  display: flex;
+  gap: 6px;
+}
+.dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 30%);
+  transition:
+    width 300ms var(--ease),
+    background-color 300ms var(--ease);
+}
+.dots .dotActive {
+  width: 22px;
+  background: #fff;
+}

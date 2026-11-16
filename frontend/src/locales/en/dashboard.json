@@ -41,5 +41,21 @@
       "title": "Focus time",
       "empty": "How much time went into deep work."
     }
+  },
+  "day": {
+    "title": "Working day",
+    "left": "{{time}} left",
+    "before": "Starts in {{time}}",
+    "after": "Working day is over"
+  },
+  "units": {
+    "hm": "{{h}} h {{m}} min",
+    "m": "{{m}} min"
+  },
+  "week": {
+    "title": "Week"
+  },
+  "year": {
+    "title": "Year {{year}}"
   }
 }

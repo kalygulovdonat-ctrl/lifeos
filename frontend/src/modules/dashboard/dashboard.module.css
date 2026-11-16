@@ -8,48 +8,27 @@
 .hero {
   position: relative;
   overflow: hidden;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: var(--space-5);
-  flex-wrap: wrap;
-  padding: clamp(24px, 4vw, 40px);
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'text day'
+    'horizon day';
+  gap: var(--space-6) var(--space-8);
+  padding: clamp(24px, 4vw, 44px);
   border-radius: var(--radius-xl);
-  background: var(--gradient-panel);
+  background: linear-gradient(150deg, #17133f 0%, #2a1f72 50%, #4c1d95 100%);
   color: #fff;
   box-shadow: var(--shadow-lg);
 }
-.hero::before,
-.hero::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(70px);
-  pointer-events: none;
-}
-.hero::before {
-  width: 360px;
-  height: 360px;
-  right: -80px;
-  top: -160px;
-  background: #d946ef;
-  opacity: 0.5;
-}
-.hero::after {
-  width: 300px;
-  height: 300px;
-  left: 30%;
-  bottom: -220px;
-  background: #6366f1;
-  opacity: 0.6;
-}
-.hero > * {
+.hero > :not(:first-child) {
   position: relative;
 }
 .heroText {
+  grid-area: text;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
   min-width: 0;
 }
 .eyebrow {
@@ -59,7 +38,7 @@
   flex-wrap: wrap;
   font-size: 14px;
   font-weight: 550;
-  color: rgb(255 255 255 / 78%);
+  color: rgb(255 255 255 / 75%);
 }
 .dot {
   width: 4px;
@@ -68,19 +47,87 @@
   background: currentColor;
 }
 .hero h1 {
-  font-size: clamp(26px, 3.4vw, 38px);
-  letter-spacing: -0.03em;
-  font-weight: 700;
+  font-size: clamp(30px, 4vw, 52px);
+  max-width: 16ch;
 }
 .lead {
-  color: rgb(255 255 255 / 75%);
-  max-width: 56ch;
+  color: rgb(255 255 255 / 72%);
+  max-width: 46ch;
+  font-size: 16px;
 }
 .heroMeta > span {
-  backdrop-filter: blur(6px);
-  background: rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 10%);
   color: #fff;
   border-color: rgb(255 255 255 / 18%);
+  backdrop-filter: blur(6px);
+}
+
+.dayCard {
+  grid-area: day;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-xl);
+  background: rgb(255 255 255 / 7%);
+  border: 1px solid rgb(255 255 255 / 14%);
+  backdrop-filter: blur(14px);
+}
+.ringValue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  gap: 6px;
+}
+.ringValue strong {
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+.ringValue > span {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 65%);
+}
+.dayMeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+.dayStatus {
+  font-weight: 600;
+  font-size: 14px;
+}
+.dayWindow {
+  white-space: nowrap;
+  font-size: 12.5px;
+  color: rgb(255 255 255 / 60%);
+  font-variant-numeric: tabular-nums;
+}
+
+.horizon {
+  grid-area: horizon;
+  align-self: end;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+  max-width: 560px;
+}
+.horizonHead {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgb(255 255 255 / 80%);
 }
 
 /* ---------- Section ---------- */
@@ -95,7 +142,10 @@
   gap: 4px;
 }
 .sectionHead h2 {
-  font-size: 20px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.03em;
 }
 .sectionHead p {
   color: var(--color-text-muted);
@@ -105,44 +155,70 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: minmax(190px, auto);
   gap: var(--space-4);
-}
-.grid > article {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  transition:
-    transform 160ms var(--ease),
-    box-shadow 160ms var(--ease),
-    border-color 160ms var(--ease);
-}
-.grid > article:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-border-strong);
 }
 .wide {
   grid-column: span 2;
   grid-row: span 2;
 }
+.grid > div {
+  display: flex;
+}
 
+.widget {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text);
+  font-weight: 400;
+  transition:
+    transform 260ms var(--ease),
+    box-shadow 260ms var(--ease),
+    border-color 260ms var(--ease);
+}
+.widget:hover {
+  text-decoration: none;
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: color-mix(in srgb, var(--color-primary) 35%, var(--color-border));
+}
+/* Spotlight that follows the pointer (--x/--y set in JS). */
+.widgetGlow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(
+    380px circle at var(--x, 50%) var(--y, 50%),
+    color-mix(in srgb, var(--color-primary) 14%, transparent),
+    transparent 60%
+  );
+  transition: opacity 260ms var(--ease);
+}
+.widget:hover .widgetGlow {
+  opacity: 1;
+}
 .widgetHead {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-}
-.widgetTitle {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  margin-bottom: var(--space-2);
 }
-.widgetTitle h3 {
-  font-size: 16px;
+.widget h3 {
+  font-size: 17px;
+  letter-spacing: -0.02em;
 }
-.widgetText {
+.widget p {
   color: var(--color-text-muted);
   font-size: 14px;
   flex: 1;
@@ -150,22 +226,30 @@
 .widgetLink {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+.widgetLink svg {
+  transition: transform 220ms var(--ease);
+}
+.widget:hover .widgetLink svg {
+  transform: translate(2px, -2px);
 }
 
 .timeline {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: var(--space-3) 0;
+  padding: var(--space-2) 0;
 }
 .slot {
   display: grid;
   grid-template-columns: 52px 1fr;
   align-items: center;
   gap: var(--space-3);
-  height: 34px;
+  height: 32px;
 }
 .slot span {
   font-size: 12px;
@@ -182,6 +266,22 @@
 }
 
 @media (max-width: 1023px) {
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      'text'
+      'day'
+      'horizon';
+  }
+  .dayCard {
+    flex-direction: row;
+    justify-self: start;
+    gap: var(--space-5);
+  }
+  .dayMeta {
+    align-items: flex-start;
+    text-align: left;
+  }
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -198,5 +298,28 @@
   }
   .timeline {
     display: none;
+  }
+  .horizon {
+    grid-template-columns: 1fr;
+  }
+  .dayCard {
+    justify-self: stretch;
+    padding: var(--space-4);
+  }
+  /* ProgressRing sets an inline size; shrink it on phones. */
+  .dayCard > div:first-child {
+    width: 128px !important;
+    height: 128px !important;
+  }
+  .dayCard > div:first-child svg {
+    width: 100%;
+    height: 100%;
+  }
+  .ringValue strong {
+    font-size: 30px;
+  }
+  .ringValue > span {
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
   }
 }

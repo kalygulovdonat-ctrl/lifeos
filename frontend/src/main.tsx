@@ -1,5 +1,6 @@
 import '@/app/providers/i18n';
 import '@fontsource-variable/inter';
+import '@fontsource-variable/unbounded';
 import '@/styles/global.css';
 
 import { StrictMode } from 'react';

@@ -21,7 +21,7 @@
     transform 140ms var(--ease);
 }
 .button:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: translateY(1px) scale(0.985);
 }
 .button:disabled {
   opacity: 0.55;
@@ -42,14 +42,33 @@
   font-size: 13px;
 }
 .primary {
-  background: var(--color-primary);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #7c4dff 100%);
   color: var(--color-primary-contrast);
   box-shadow:
-    0 1px 0 rgb(255 255 255 / 18%) inset,
-    0 6px 16px -8px var(--color-primary);
+    0 1px 0 rgb(255 255 255 / 22%) inset,
+    0 10px 24px -10px var(--color-primary);
+}
+/* A light sweep crosses the button on hover. */
+.primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 28%) 50%, transparent 70%);
+  translate: -120% 0;
+  transition: translate 650ms var(--ease);
+}
+.primary:hover:not(:disabled)::after {
+  translate: 120% 0;
 }
 .primary:hover:not(:disabled) {
-  background: var(--color-primary-hover);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 22%) inset,
+    0 14px 30px -10px var(--color-primary);
+  transform: translateY(-1px);
 }
 .secondary {
   background: var(--color-surface);

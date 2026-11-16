@@ -1,0 +1,47 @@
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.ring {
+  position: relative;
+  flex: none;
+}
+.ring svg {
+  display: block;
+  filter: drop-shadow(0 8px 24px rgb(244 114 182 / 35%));
+}
+.ringCenter {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.bar {
+  height: 6px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 16%);
+  overflow: hidden;
+}
+.bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #fff, #f9a8d4);
+  transform-origin: left center;
+}
+
+.reveal {
+  display: inline;
+}
+.revealMask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.revealWord {
+  display: inline-block;
+}

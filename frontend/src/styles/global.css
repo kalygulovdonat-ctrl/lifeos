@@ -7,6 +7,7 @@
     'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
     sans-serif;
   --font-feature: 'cv11', 'ss01', 'ss03';
+  --font-display: 'Unbounded Variable', 'Inter Variable', system-ui, sans-serif;
 
   --radius-xs: 6px;
   --radius-sm: 8px;
@@ -157,6 +158,15 @@ h4 {
   font-weight: 650;
 }
 
+/* Display face for page-level headings: the wide, geometric Unbounded gives LifeOS its voice. */
+h1,
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.1;
+}
+
 p {
   margin: 0;
 }
@@ -197,6 +207,110 @@ textarea {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+/* Film grain over everything: breaks the flat "template" look of pure gradients. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root[data-theme='dark'] body::after {
+  opacity: 0.07;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) body::after {
+    opacity: 0.07;
+  }
+}
+
+/* Route changes use the View Transitions API (react-router `viewTransition`). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 260ms;
+  animation-timing-function: var(--ease);
+}
+::view-transition-old(root) {
+  animation-name: vt-out;
+}
+::view-transition-new(root) {
+  animation-name: vt-in;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+    filter: blur(2px);
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(2px);
+  }
+}
+
+/* Slowly drifting colour fields used inside hero panels. */
+@keyframes aurora-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-12%, 14%) scale(1.15);
+  }
+}
+@keyframes aurora-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1.1);
+  }
+  50% {
+    transform: translate(16%, -10%) scale(0.9);
+  }
+}
+@keyframes aurora-c {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-8%, -16%) rotate(25deg);
+  }
+}
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes counter-orbit {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
 }
 
 @keyframes fade-up {

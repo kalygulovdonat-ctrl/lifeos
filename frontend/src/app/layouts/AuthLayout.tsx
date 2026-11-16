@@ -1,21 +1,14 @@
-import {
-  ChartColumn,
-  ChevronDown,
-  CircleCheck,
-  Compass,
-  Globe,
-  Lightbulb,
-  Play,
-  Zap,
-} from 'lucide-react';
+import { ChevronDown, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link, Navigate, Outlet } from 'react-router';
 
 import { LANGUAGES, type Language } from '@/shared/api/types';
+import { Aurora, LogoMark } from '@/shared/components/brand';
 import { FullPageSpinner } from '@/shared/components/ui';
 import { useAuthStore } from '@/shared/store/authStore';
 
 import styles from './layouts.module.css';
+import { LifeOrbit } from './LifeOrbit';
 
 const LANGUAGE_NAMES: Record<Language, string> = { ru: 'Русский', en: 'English', ky: 'Кыргызча' };
 
@@ -49,9 +42,7 @@ export function Brand({ onDark = false, link = true }: { onDark?: boolean; link?
   const className = [styles.brand, onDark ? styles.brandOnDark : ''].join(' ');
   const content = (
     <>
-      <span className={styles.brandMark} aria-hidden="true">
-        <Zap size={18} strokeWidth={2.4} />
-      </span>
+      <LogoMark size={32} />
       LifeOS
     </>
   );
@@ -64,37 +55,17 @@ export function Brand({ onDark = false, link = true }: { onDark?: boolean; link?
   );
 }
 
-/** Plan → Execute → Track → Reflect → Improve (PRD §17). */
-const CYCLE = [
-  { key: 'plan', icon: Compass },
-  { key: 'execute', icon: Play },
-  { key: 'track', icon: ChartColumn },
-  { key: 'reflect', icon: Lightbulb },
-  { key: 'improve', icon: CircleCheck },
-] as const;
-
 function BrandPanel() {
   const { t } = useTranslation('auth');
   return (
     <aside className={styles.authPanel} aria-hidden="true">
+      <Aurora />
       <Brand onDark link={false} />
       <div className={styles.panelHeadline}>
-        <h2>{t('panel.headline')}</h2>
+        <h2 className="display">{t('panel.headline')}</h2>
         <p>{t('panel.subheadline')}</p>
       </div>
-      <ul className={styles.cycle}>
-        {CYCLE.map(({ key, icon: Icon }) => (
-          <li key={key} className={styles.cycleItem}>
-            <span className={styles.cycleIcon}>
-              <Icon size={17} />
-            </span>
-            <span className={styles.cycleText}>
-              <strong>{t(`panel.cycle.${key}.title`)}</strong>
-              <span>{t(`panel.cycle.${key}.text`)}</span>
-            </span>
-          </li>
-        ))}
-      </ul>
+      <LifeOrbit />
       <p className={styles.panelFoot}>{t('panel.privacy')}</p>
     </aside>
   );

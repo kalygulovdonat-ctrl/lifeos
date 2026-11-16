@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { LogOut } from 'lucide-react';
+import { LogOut, Moon, Sun } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Navigate, NavLink, Outlet, useLocation, useNavigate } from 'react-router';
@@ -11,8 +12,9 @@ import {
   SETTINGS_ITEM,
   type NavItem,
 } from '@/app/navigation';
-import { authApi } from '@/shared/api/auth';
+import { authApi, profileApi } from '@/shared/api/auth';
 import { Avatar, FullPageSpinner } from '@/shared/components/ui';
+import { applyTheme } from '@/shared/hooks/useSession';
 import { useAuthStore } from '@/shared/store/authStore';
 
 import { Brand } from './AuthLayout';
@@ -25,14 +27,73 @@ function SidebarLink({ item }: { item: NavItem }) {
     <NavLink
       to={item.to}
       end={item.end}
+      viewTransition
       className={({ isActive }) => [styles.navLink, isActive ? styles.navLinkActive : ''].join(' ')}
     >
-      <Icon size={18} strokeWidth={2} aria-hidden="true" />
-      <span className={styles.navLabel}>{t(`nav.${item.key}`)}</span>
-      {item.phase ? (
-        <span className={styles.navSoon} title={t('nav.soon', { phase: item.phase })} />
-      ) : null}
+      {({ isActive }) => (
+        <>
+          {isActive ? (
+            // Shared layout id: the highlight glides to whichever item becomes active.
+            <motion.span
+              layoutId="nav-active"
+              className={styles.navActiveBg}
+              transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+            />
+          ) : null}
+          <Icon size={18} strokeWidth={2} aria-hidden="true" className={styles.navIcon} />
+          <span className={styles.navLabel}>{t(`nav.${item.key}`)}</span>
+          {item.phase ? (
+            <span className={styles.navSoon} title={t('nav.soon', { phase: item.phase })} />
+          ) : null}
+        </>
+      )}
     </NavLink>
+  );
+}
+
+function resolvedTheme(theme: string | undefined): 'light' | 'dark' {
+  if (theme === 'light' || theme === 'dark') return theme;
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+/** One-click light/dark switch; persists to the profile like the settings page does. */
+function ThemeToggle() {
+  const { t } = useTranslation('settings');
+  const profile = useAuthStore((s) => s.profile);
+  const current = resolvedTheme(profile?.theme);
+  const next = current === 'dark' ? 'light' : 'dark';
+
+  const toggle = async () => {
+    applyTheme(next);
+    try {
+      const updated = await profileApi.update({ theme: next });
+      useAuthStore.getState().setProfile(updated);
+    } catch {
+      applyTheme(profile?.theme ?? 'system');
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      className={styles.iconButton}
+      onClick={toggle}
+      aria-label={t(next === 'dark' ? 'profile.themeDark' : 'profile.themeLight')}
+      title={t(next === 'dark' ? 'profile.themeDark' : 'profile.themeLight')}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={current}
+          className={styles.themeIcon}
+          initial={{ rotate: -90, scale: 0.4, opacity: 0 }}
+          animate={{ rotate: 0, scale: 1, opacity: 1 }}
+          exit={{ rotate: 90, scale: 0.4, opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          {current === 'dark' ? <Moon size={17} /> : <Sun size={17} />}
+        </motion.span>
+      </AnimatePresence>
+    </button>
   );
 }
 
@@ -65,6 +126,7 @@ export function AppLayout() {
       <aside className={styles.sidebar}>
         <div className={styles.sidebarBrand}>
           <Brand />
+          <ThemeToggle />
         </div>
         <nav className={styles.nav} aria-label={t('nav.mainNavigation')}>
           {NAV_GROUPS.map((group) => (
@@ -89,7 +151,7 @@ export function AppLayout() {
           </div>
           <button
             type="button"
-            className={styles.iconButton}
+            className={[styles.iconButton, styles.logoutButton].join(' ')}
             onClick={logout}
             aria-label={t('nav.logout')}
             title={t('nav.logout')}
@@ -102,16 +164,19 @@ export function AppLayout() {
       <main className={styles.main}>
         <div className={styles.mobileTop}>
           <Brand />
-          <button
-            type="button"
-            className={styles.iconButton}
-            onClick={logout}
-            aria-label={t('nav.logout')}
-          >
-            <LogOut size={18} aria-hidden="true" />
-          </button>
+          <span className={styles.mobileActions}>
+            <ThemeToggle />
+            <button
+              type="button"
+              className={styles.iconButton}
+              onClick={logout}
+              aria-label={t('nav.logout')}
+            >
+              <LogOut size={18} aria-hidden="true" />
+            </button>
+          </span>
         </div>
-        <div className={styles.mainInner} key={location.pathname}>
+        <div className={styles.mainInner}>
           <Suspense fallback={<FullPageSpinner />}>
             <Outlet />
           </Suspense>
@@ -127,6 +192,7 @@ export function AppLayout() {
               key={key}
               to={item.to}
               end={item.end}
+              viewTransition
               className={({ isActive }) => [styles.tab, isActive ? styles.tabActive : ''].join(' ')}
             >
               <Icon size={20} aria-hidden="true" />

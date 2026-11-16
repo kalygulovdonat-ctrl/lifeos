@@ -12,16 +12,6 @@
 .brand:hover {
   text-decoration: none;
 }
-.brandMark {
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: var(--gradient-brand);
-  display: grid;
-  place-items: center;
-  color: #fff;
-  box-shadow: 0 6px 16px -6px rgb(86 80 230 / 60%);
-}
 .brandOnDark {
   color: #fff;
 }
@@ -68,39 +58,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: var(--space-8);
+  gap: var(--space-6);
   padding: var(--space-8) clamp(32px, 5vw, 64px);
   background: var(--gradient-panel);
   color: #fff;
 }
-.authPanel::before,
-.authPanel::after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.55;
-  pointer-events: none;
-}
-.authPanel::before {
-  width: 420px;
-  height: 420px;
-  right: -120px;
-  top: -120px;
-  background: #d946ef;
-}
-.authPanel::after {
-  width: 360px;
-  height: 360px;
-  left: -140px;
-  bottom: -140px;
-  background: #4f46e5;
-}
-.authPanel > * {
+.authPanel > *:not(:first-child) {
   position: relative;
-}
-.cycle {
-  max-width: 460px;
 }
 .panelHeadline {
   display: flex;
@@ -109,68 +73,13 @@
   max-width: 520px;
 }
 .panelHeadline h2 {
-  max-width: 17ch;
-  font-size: clamp(28px, 3vw, 38px);
-  line-height: 1.12;
-  letter-spacing: -0.03em;
-  font-weight: 700;
+  max-width: 16ch;
+  font-size: clamp(28px, 2.8vw, 40px);
+  line-height: 1.08;
 }
 .panelHeadline p {
   color: rgb(255 255 255 / 75%);
   font-size: 16px;
-}
-.cycle {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-.cycleItem {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: 10px 14px;
-  border-radius: var(--radius-md);
-  background: rgb(255 255 255 / 8%);
-  border: 1px solid rgb(255 255 255 / 12%);
-  backdrop-filter: blur(6px);
-  animation: fade-up 500ms var(--ease) both;
-}
-.cycleItem:nth-child(2) {
-  animation-delay: 60ms;
-}
-.cycleItem:nth-child(3) {
-  animation-delay: 120ms;
-}
-.cycleItem:nth-child(4) {
-  animation-delay: 180ms;
-}
-.cycleItem:nth-child(5) {
-  animation-delay: 240ms;
-}
-.cycleIcon {
-  width: 34px;
-  height: 34px;
-  flex: none;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  background: rgb(255 255 255 / 14%);
-}
-.cycleText {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.3;
-}
-.cycleText strong {
-  font-size: 14px;
-  font-weight: 650;
-}
-.cycleText span {
-  font-size: 13px;
-  color: rgb(255 255 255 / 70%);
 }
 .panelFoot {
   font-size: 13px;
@@ -202,6 +111,19 @@
   width: 100%;
   max-width: 400px;
   animation: fade-up 400ms var(--ease) both;
+}
+
+/* Short laptop screens: keep the orbit, drop secondary copy. */
+@media (max-height: 780px) {
+  .authPanel {
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-5);
+    gap: var(--space-3);
+  }
+  .panelHeadline p,
+  .panelFoot {
+    display: none;
+  }
 }
 
 @media (max-width: 959px) {
@@ -236,7 +158,10 @@
   overflow-y: auto;
 }
 .sidebarBrand {
-  padding: 0 var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-1) 0 var(--space-2);
 }
 .nav {
   display: flex;
@@ -295,18 +220,36 @@
 }
 .navLinkActive,
 .navLinkActive:hover {
-  background: var(--color-primary-soft);
+  background: transparent;
   color: var(--color-primary);
 }
-.navLinkActive::before {
+.navActiveBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+.navActiveBg::before {
   content: '';
   position: absolute;
   left: -16px;
-  top: 8px;
-  bottom: 8px;
+  top: 9px;
+  bottom: 9px;
   width: 3px;
   border-radius: 0 3px 3px 0;
   background: var(--color-primary);
+}
+.navLink > :not(.navActiveBg) {
+  position: relative;
+  z-index: 1;
+}
+.navIcon {
+  transition: transform 220ms var(--ease);
+}
+.navLink:hover .navIcon {
+  transform: translateX(2px) scale(1.06);
 }
 
 .userCard {
@@ -353,7 +296,18 @@
 }
 .iconButton:hover {
   background: var(--color-surface-2);
+  color: var(--color-text);
+}
+.logoutButton:hover {
   color: var(--color-danger);
+}
+.themeIcon {
+  display: inline-grid;
+  place-items: center;
+}
+.mobileActions {
+  display: inline-flex;
+  gap: 4px;
 }
 
 .main {
@@ -363,7 +317,6 @@
 .mainInner {
   max-width: var(--content-max);
   margin: 0 auto;
-  animation: fade-up 350ms var(--ease) both;
 }
 
 .mobileTop {

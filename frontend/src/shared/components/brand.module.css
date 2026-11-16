@@ -1,0 +1,60 @@
+.mark {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border-radius: 30%;
+  box-shadow:
+    0 8px 20px -8px rgb(124 116 255 / 70%),
+    0 0 0 1px rgb(255 255 255 / 12%) inset;
+}
+.mark svg {
+  display: block;
+  border-radius: 30%;
+}
+.orbiting {
+  transform-origin: 20px 20px;
+  animation: orbit 9s linear infinite;
+}
+
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.aurora i {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.75;
+  will-change: transform;
+}
+.a {
+  width: 55%;
+  height: 120%;
+  right: -10%;
+  top: -50%;
+  background: #d946ef;
+  animation: aurora-a 18s ease-in-out infinite;
+}
+.b {
+  width: 50%;
+  height: 110%;
+  left: 15%;
+  bottom: -70%;
+  background: #6366f1;
+  animation: aurora-b 22s ease-in-out infinite;
+}
+.c {
+  width: 35%;
+  height: 80%;
+  left: -10%;
+  top: -30%;
+  background: #22d3ee;
+  opacity: 0.35;
+  animation: aurora-c 26s ease-in-out infinite;
+}
+.soft i {
+  opacity: 0.22;
+}

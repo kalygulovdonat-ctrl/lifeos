@@ -100,3 +100,76 @@ export function clockOptions(
   if (current && !values.includes(current)) values.push(current);
   return values.sort().map((value) => ({ value, label: formatClock(value, timeFormat) }));
 }
+
+export interface LocalParts {
+  year: number;
+  month: number;
+  day: number;
+  hour: number;
+  minute: number;
+  /** ISO weekday: 1 = Monday … 7 = Sunday. */
+  weekday: number;
+}
+
+const WEEKDAYS: Record<string, number> = { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 };
+
+/** Calendar fields of `date` as seen on a wall clock in `timezone`. */
+export function localParts(date: Date, timezone: string): LocalParts {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: timezone,
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    weekday: 'short',
+    hourCycle: 'h23',
+  }).formatToParts(date);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? '0';
+  return {
+    year: Number(get('year')),
+    month: Number(get('month')),
+    day: Number(get('day')),
+    hour: Number(get('hour')),
+    minute: Number(get('minute')),
+    weekday: WEEKDAYS[get('weekday')] ?? 1,
+  };
+}
+
+const toMinutes = (hhmm: string) => {
+  const [h = 0, m = 0] = hhmm.split(':').map(Number);
+  return h * 60 + m;
+};
+
+export type DayWindowState =
+  | { phase: 'before'; minutesUntilStart: number; progress: 0 }
+  | { phase: 'during'; minutesLeft: number; progress: number }
+  | { phase: 'after'; progress: 1 };
+
+/** Where "now" sits inside the user's working window (profile day_start/day_end). */
+export function dayWindow(now: Date, timezone: string, start: string, end: string): DayWindowState {
+  const p = localParts(now, timezone);
+  const minute = p.hour * 60 + p.minute;
+  const from = toMinutes(start);
+  const to = toMinutes(end);
+  if (minute < from) return { phase: 'before', minutesUntilStart: from - minute, progress: 0 };
+  if (minute >= to) return { phase: 'after', progress: 1 };
+  return { phase: 'during', minutesLeft: to - minute, progress: (minute - from) / (to - from) };
+}
+
+/** Share of the current week that has passed, honouring the user's first weekday. */
+export function weekProgress(now: Date, timezone: string, weekStart: number): number {
+  const p = localParts(now, timezone);
+  const dayIndex = (p.weekday - weekStart + 7) % 7;
+  return (dayIndex * 1440 + p.hour * 60 + p.minute) / (7 * 1440);
+}
+
+/** Share of the current calendar year that has passed, plus the year itself. */
+export function yearProgress(now: Date, timezone: string): { year: number; progress: number } {
+  const p = localParts(now, timezone);
+  const startOfYear = Date.UTC(p.year, 0, 1);
+  const today = Date.UTC(p.year, p.month - 1, p.day);
+  const daysInYear = (Date.UTC(p.year + 1, 0, 1) - startOfYear) / 86_400_000;
+  const dayOfYear = (today - startOfYear) / 86_400_000;
+  return { year: p.year, progress: (dayOfYear + (p.hour * 60 + p.minute) / 1440) / daysInYear };
+}
