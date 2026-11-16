@@ -147,9 +147,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
+        env:
+          # Links the ghcr package to this repository; without the link GITHUB_TOKEN
+          # is denied when writing the manifest.
+          SOURCE: https://github.com/${{ github.repository }}
         run: |
           OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          docker build -f infra/docker/Dockerfile.backend --target prod -t ghcr.io/$OWNER/lifeos-backend:${{ github.sha }} .
-          docker build -f infra/docker/Dockerfile.frontend --target prod -t ghcr.io/$OWNER/lifeos-frontend:${{ github.sha }} .
-          docker push ghcr.io/$OWNER/lifeos-backend:${{ github.sha }}
-          docker push ghcr.io/$OWNER/lifeos-frontend:${{ github.sha }}
+          for app in backend frontend; do
+            IMAGE=ghcr.io/$OWNER/lifeos-$app
+            docker build -f infra/docker/Dockerfile.$app --target prod \
+              --label org.opencontainers.image.source=$SOURCE \
+              --label org.opencontainers.image.revision=${{ github.sha }} \
+              -t $IMAGE:${{ github.sha }} -t $IMAGE:latest .
+            docker push $IMAGE:${{ github.sha }}
+            docker push $IMAGE:latest
+          done
