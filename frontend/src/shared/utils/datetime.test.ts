@@ -43,3 +43,22 @@ describe('detectLanguage', () => {
     expect(detectLanguage([])).toBe('ru');
   });
 });
+
+describe('clock options', () => {
+  it('formats wall-clock times in 12/24-hour style', async () => {
+    const { formatClock } = await import('@/shared/utils/datetime');
+    expect(formatClock('07:00', '24h')).toBe('07:00');
+    expect(formatClock('00:30', '12h')).toBe('12:30 AM');
+    expect(formatClock('23:00', '12h')).toBe('11:00 PM');
+  });
+
+  it('offers half-hour steps and keeps an off-grid saved value', async () => {
+    const { clockOptions } = await import('@/shared/utils/datetime');
+    expect(clockOptions('24h')).toHaveLength(48);
+    const withCustom = clockOptions('24h', '07:15');
+    expect(withCustom).toHaveLength(49);
+    expect(withCustom.map((o) => o.value).indexOf('07:15')).toBe(
+      withCustom.map((o) => o.value).indexOf('07:00') + 1,
+    );
+  });
+});

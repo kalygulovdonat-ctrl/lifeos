@@ -78,3 +78,25 @@ export function supportedTimezones(): string[] {
   const zones = intl.supportedValuesOf?.('timeZone') ?? [];
   return zones.includes('UTC') ? zones : ['UTC', ...zones];
 }
+
+/** "HH:MM" wall-clock time rendered in the user's 12/24-hour preference (no time zone involved). */
+export function formatClock(hhmm: string, timeFormat: TimeFormat): string {
+  const [h = 0, m = 0] = hhmm.split(':').map(Number);
+  const mm = String(m).padStart(2, '0');
+  if (timeFormat === '24h') return `${String(h).padStart(2, '0')}:${mm}`;
+  const suffix = h < 12 ? 'AM' : 'PM';
+  return `${h % 12 || 12}:${mm} ${suffix}`;
+}
+
+/** Half-hour steps for a day, keeping an off-grid current value selectable. */
+export function clockOptions(
+  timeFormat: TimeFormat,
+  current?: string,
+): Array<{ value: string; label: string }> {
+  const values = Array.from({ length: 48 }, (_, i) => {
+    const h = String(Math.floor(i / 2)).padStart(2, '0');
+    return `${h}:${i % 2 ? '30' : '00'}`;
+  });
+  if (current && !values.includes(current)) values.push(current);
+  return values.sort().map((value) => ({ value, label: formatClock(value, timeFormat) }));
+}

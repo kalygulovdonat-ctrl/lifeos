@@ -1,4 +1,5 @@
 import '@/app/providers/i18n';
+import '@fontsource-variable/inter';
 import '@/styles/global.css';
 
 import { StrictMode } from 'react';

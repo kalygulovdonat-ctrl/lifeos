@@ -1,69 +1,122 @@
-/* Design tokens: Light is primary, Dark is alternative (PRD §15). */
+/*
+ * LifeOS design tokens. Light is the primary theme, dark the alternative (PRD §15).
+ * Calm neutrals, one indigo accent, a brand gradient used sparingly.
+ */
 :root {
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --radius-sm: 6px;
-  --radius-md: 10px;
+  --font-sans:
+    'Inter Variable', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-feature: 'cv11', 'ss01', 'ss03';
+
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
   --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-full: 999px;
+
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --sidebar-width: 240px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 56px;
 
-  --color-bg: #f7f7fb;
+  --sidebar-width: 264px;
+  --content-max: 1120px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Light */
+  --color-bg: #f5f6fa;
+  --color-bg-accent: radial-gradient(1200px 600px at 100% -10%, #eef0ff 0%, transparent 60%);
   --color-surface: #ffffff;
-  --color-surface-2: #f0f1f6;
-  --color-border: #e2e4ec;
-  --color-text: #1b1d29;
-  --color-text-muted: #5d6175;
-  --color-primary: #4f46e5;
-  --color-primary-hover: #4338ca;
+  --color-surface-2: #f2f3f8;
+  --color-surface-3: #e9ebf3;
+  --color-border: #e3e5ee;
+  --color-border-strong: #d3d6e2;
+  --color-text: #12141c;
+  --color-text-muted: #5b6176;
+  --color-text-subtle: #8a90a3;
+  --color-primary: #5650e6;
+  --color-primary-hover: #4740d4;
+  --color-primary-soft: #eeedfd;
   --color-primary-contrast: #ffffff;
-  --color-danger: #c62828;
-  --color-danger-bg: #fdecec;
-  --color-success: #1b7f4a;
-  --color-focus: #6366f1;
-  --shadow-1: 0 1px 2px rgb(16 24 40 / 6%), 0 1px 3px rgb(16 24 40 / 10%);
+  --color-danger: #c4323a;
+  --color-danger-soft: #fdeeee;
+  --color-success: #15803d;
+  --color-success-soft: #e8f6ee;
+  --color-warning: #b45309;
+  --color-warning-soft: #fdf3e3;
+  --color-focus: #6d67f0;
+  --gradient-brand: linear-gradient(135deg, #5650e6 0%, #8b5cf6 55%, #d946ef 100%);
+  --gradient-panel: linear-gradient(160deg, #1d1a4d 0%, #3b2a8c 55%, #6d28d9 100%);
+  --shadow-xs: 0 1px 2px rgb(18 20 28 / 5%);
+  --shadow-sm: 0 1px 2px rgb(18 20 28 / 4%), 0 2px 6px rgb(18 20 28 / 5%);
+  --shadow-md: 0 2px 4px rgb(18 20 28 / 4%), 0 10px 24px -6px rgb(18 20 28 / 10%);
+  --shadow-lg: 0 24px 60px -20px rgb(40 30 120 / 35%);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg: #0f1117;
-    --color-surface: #171a23;
-    --color-surface-2: #1f2330;
-    --color-border: #2b3040;
-    --color-text: #e8eaf2;
-    --color-text-muted: #a0a5b8;
-    --color-primary: #818cf8;
-    --color-primary-hover: #a5b4fc;
-    --color-primary-contrast: #0f1117;
-    --color-danger: #f28b82;
-    --color-danger-bg: #3a1d1d;
-    --color-success: #6fcf97;
-    --color-focus: #a5b4fc;
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 40%);
+    --color-bg: #0b0c11;
+    --color-bg-accent: radial-gradient(1200px 600px at 100% -10%, #1b1840 0%, transparent 60%);
+    --color-surface: #13151d;
+    --color-surface-2: #1a1d27;
+    --color-surface-3: #232735;
+    --color-border: #252a37;
+    --color-border-strong: #333a4b;
+    --color-text: #eceef5;
+    --color-text-muted: #a1a7ba;
+    --color-text-subtle: #727a90;
+    --color-primary: #8f8bff;
+    --color-primary-hover: #aaa7ff;
+    --color-primary-soft: #23214a;
+    --color-primary-contrast: #0b0c11;
+    --color-danger: #f2878b;
+    --color-danger-soft: #3a1c20;
+    --color-success: #6ad49a;
+    --color-success-soft: #14301f;
+    --color-warning: #f3b660;
+    --color-warning-soft: #33250f;
+    --color-focus: #aaa7ff;
+    --shadow-xs: 0 1px 2px rgb(0 0 0 / 40%);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+    --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 60%);
+    --shadow-lg: 0 24px 60px -20px rgb(0 0 0 / 70%);
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --color-bg: #0f1117;
-  --color-surface: #171a23;
-  --color-surface-2: #1f2330;
-  --color-border: #2b3040;
-  --color-text: #e8eaf2;
-  --color-text-muted: #a0a5b8;
-  --color-primary: #818cf8;
-  --color-primary-hover: #a5b4fc;
-  --color-primary-contrast: #0f1117;
-  --color-danger: #f28b82;
-  --color-danger-bg: #3a1d1d;
-  --color-success: #6fcf97;
-  --color-focus: #a5b4fc;
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 40%);
+  --color-bg: #0b0c11;
+  --color-bg-accent: radial-gradient(1200px 600px at 100% -10%, #1b1840 0%, transparent 60%);
+  --color-surface: #13151d;
+  --color-surface-2: #1a1d27;
+  --color-surface-3: #232735;
+  --color-border: #252a37;
+  --color-border-strong: #333a4b;
+  --color-text: #eceef5;
+  --color-text-muted: #a1a7ba;
+  --color-text-subtle: #727a90;
+  --color-primary: #8f8bff;
+  --color-primary-hover: #aaa7ff;
+  --color-primary-soft: #23214a;
+  --color-primary-contrast: #0b0c11;
+  --color-danger: #f2878b;
+  --color-danger-soft: #3a1c20;
+  --color-success: #6ad49a;
+  --color-success-soft: #14301f;
+  --color-warning: #f3b660;
+  --color-warning-soft: #33250f;
+  --color-focus: #aaa7ff;
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 60%);
+  --shadow-lg: 0 24px 60px -20px rgb(0 0 0 / 70%);
   color-scheme: dark;
 }
 
@@ -76,33 +129,65 @@
 html,
 body,
 #root {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
 }
 
 body {
   font-family: var(--font-sans);
+  font-feature-settings: var(--font-feature);
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.55;
+  letter-spacing: -0.006em;
   color: var(--color-text);
-  background: var(--color-bg);
+  background: var(--color-bg-accent), var(--color-bg);
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 h1,
 h2,
-h3 {
-  line-height: 1.25;
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.2;
+  letter-spacing: -0.022em;
+  font-weight: 650;
+}
+
+p {
   margin: 0;
 }
 
 a {
   color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 550;
+}
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  letter-spacing: inherit;
 }
 
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+::selection {
+  background: var(--color-primary-soft);
+  color: var(--color-text);
 }
 
 .visually-hidden {
@@ -112,4 +197,24 @@ a {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

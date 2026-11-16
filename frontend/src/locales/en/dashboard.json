@@ -6,6 +6,40 @@
     "night": "Good night, {{name}}"
   },
   "today": "Today",
-  "foundationReady": "The LifeOS foundation is ready. Schedule, tasks and dashboard widgets arrive in Phase 1.",
-  "timezoneNote": "Time zone: {{tz}}"
+  "foundationReady": "Widgets show up here as soon as their modules are ready.",
+  "timezoneNote": "Time zone: {{tz}}",
+  "lead": {
+    "morning": "A good moment to set what matters today.",
+    "day": "A good time to check how the day is going.",
+    "evening": "Wrap up the day and jot down your thoughts.",
+    "night": "Time to rest — tomorrow can wait."
+  },
+  "todayTitle": "Your day",
+  "openModule": "Open section",
+  "widgets": {
+    "schedule": {
+      "title": "Today's schedule",
+      "empty": "Events and focus blocks appear here together with the schedule module."
+    },
+    "tasks": {
+      "title": "Today's tasks",
+      "empty": "Tasks due today and your inbox."
+    },
+    "free": {
+      "title": "Free time",
+      "empty": "Open slots inside your working day."
+    },
+    "habits": {
+      "title": "Habits",
+      "empty": "Today's check-ins and current streaks."
+    },
+    "goals": {
+      "title": "Active goals",
+      "empty": "Goal progress and upcoming milestones."
+    },
+    "focus": {
+      "title": "Focus time",
+      "empty": "How much time went into deep work."
+    }
+  }
 }

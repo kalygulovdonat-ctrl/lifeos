@@ -1,23 +1,48 @@
+import { ArrowLeft, Compass, Rocket } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
-import { Card, EmptyState } from '@/shared/components/ui';
+import { navItem, type ModuleKey } from '@/app/navigation';
+import { Badge, Card, IconTile } from '@/shared/components/ui';
+
+import styles from './placeholder.module.css';
 
 /** Stand-in for modules scheduled in later roadmap phases (PRD §13). */
 export default function PlaceholderPage({
   moduleKey,
   phase,
 }: {
-  moduleKey: string;
+  moduleKey: ModuleKey;
   phase: string;
 }) {
   const { t } = useTranslation();
+  const Icon = navItem(moduleKey).icon;
+  const features = t(`modules.${moduleKey}.features`, { returnObjects: true }) as unknown;
+  const list = Array.isArray(features) ? (features as string[]) : [];
+
   return (
-    <Card>
-      <EmptyState
-        title={t('placeholder.title', { module: t(`nav.${moduleKey}`) })}
-        description={t('placeholder.description', { phase })}
-      />
+    <Card className={styles.card}>
+      <div className={styles.glow} aria-hidden="true" />
+      <IconTile size={64}>
+        <Icon size={30} strokeWidth={1.8} />
+      </IconTile>
+      <Badge tone="accent" icon={<Rocket size={12} />}>
+        {t('placeholder.badge', { phase })}
+      </Badge>
+      <h1 className={styles.title}>{t(`nav.${moduleKey}`)}</h1>
+      <p className={styles.description}>{t(`modules.${moduleKey}.description`)}</p>
+      {list.length ? (
+        <ul className={styles.features}>
+          {list.map((feature) => (
+            <li key={feature}>{feature}</li>
+          ))}
+        </ul>
+      ) : null}
+      <p className={styles.note}>{t('placeholder.description', { phase })}</p>
+      <Link to="/" className={styles.back}>
+        <ArrowLeft size={15} aria-hidden="true" />
+        {t('notFound.action')}
+      </Link>
     </Card>
   );
 }
@@ -25,8 +50,16 @@ export default function PlaceholderPage({
 export function NotFoundPage() {
   const { t } = useTranslation();
   return (
-    <Card>
-      <EmptyState title={t('notFound.title')} action={<Link to="/">{t('notFound.action')}</Link>} />
+    <Card className={styles.card}>
+      <IconTile size={64}>
+        <Compass size={30} strokeWidth={1.8} />
+      </IconTile>
+      <h1 className={styles.title}>{t('notFound.title')}</h1>
+      <p className={styles.description}>{t('notFound.description')}</p>
+      <Link to="/" className={styles.back}>
+        <ArrowLeft size={15} aria-hidden="true" />
+        {t('notFound.action')}
+      </Link>
     </Card>
   );
 }

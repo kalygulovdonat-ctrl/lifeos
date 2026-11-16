@@ -14,15 +14,34 @@
     "assistant": "AI assistant",
     "settings": "Settings",
     "logout": "Sign out",
-    "mainNavigation": "Main navigation"
+    "mainNavigation": "Main navigation",
+    "groups": {
+      "planning": "Planning",
+      "growth": "Growth",
+      "insight": "Insight"
+    },
+    "soon": "Coming · {{phase}}"
   },
-  "actions": { "save": "Save", "cancel": "Cancel", "back": "Back", "retry": "Retry" },
-  "status": { "loading": "Loading…", "saved": "Saved" },
+  "actions": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "retry": "Retry"
+  },
+  "status": {
+    "loading": "Loading…",
+    "saved": "Saved"
+  },
   "placeholder": {
     "title": "The “{{module}}” module is coming soon",
-    "description": "This section will be built in {{phase}} according to the roadmap."
+    "description": "This section will be built in {{phase}} according to the roadmap.",
+    "badge": "Arrives in {{phase}}"
   },
-  "notFound": { "title": "Page not found", "action": "Go to dashboard" },
+  "notFound": {
+    "title": "Page not found",
+    "action": "Go to dashboard",
+    "description": "This page does not seem to exist. Head back to the dashboard and continue from there."
+  },
   "categories": {
     "system": {
       "work": "Work",
@@ -50,5 +69,47 @@
     "INTERNAL_ERROR": "Internal server error.",
     "NETWORK_ERROR": "Cannot reach the server.",
     "UNKNOWN_ERROR": "Something went wrong."
+  },
+  "modules": {
+    "schedule": {
+      "description": "Your day, week and month on one screen: fixed events, focus blocks and free time.",
+      "features": ["Day / Week / Month", "Recurring events", "Conflict detection"]
+    },
+    "tasks": {
+      "description": "Everything you need to do, from a quick capture in the inbox to done.",
+      "features": ["Inbox", "Subtasks and priorities", "Postponement history"]
+    },
+    "habits": {
+      "description": "Routines with honest stats: streaks, consistency and rest days.",
+      "features": ["Yes/no, minutes, count, scale", "Streaks", "Heatmap"]
+    },
+    "goals": {
+      "description": "Long-term goals broken into milestones and linked to tasks.",
+      "features": ["Goal hierarchy", "Milestones", "Progress in percent"]
+    },
+    "journal": {
+      "description": "A daily reflection template and free notes — for your eyes only.",
+      "features": ["Daily template", "Mood and energy", "Search"]
+    },
+    "time": {
+      "description": "A timer and manual entries to compare plan with reality.",
+      "features": ["One active timer", "Pomodoro", "Plan vs actual"]
+    },
+    "analytics": {
+      "description": "Objective metrics with explainable formulas — no single “life score”.",
+      "features": ["Task completion", "Habit consistency", "Focus hours"]
+    },
+    "reviews": {
+      "description": "A weekly review: results, unfinished tasks and next week's focus.",
+      "features": ["Stats snapshot", "Task decisions", "Review history"]
+    },
+    "wellness": {
+      "description": "Sleep, mood, energy and stress — to notice overload in time.",
+      "features": ["Sleep", "Check-ins", "Trends"]
+    },
+    "assistant": {
+      "description": "AI suggests tasks and schedules but never changes anything without your confirmation.",
+      "features": ["Quick capture", "Week planning", "Insights"]
+    }
   }
 }

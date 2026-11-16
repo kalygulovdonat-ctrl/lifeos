@@ -26,5 +26,26 @@
     "5": "Friday",
     "6": "Saturday",
     "7": "Sunday"
+  },
+  "subtitle": "How LifeOS shows time, language and appearance.",
+  "unsaved": "You have unsaved changes",
+  "allSaved": "All changes saved",
+  "sections": {
+    "profile": {
+      "title": "Profile",
+      "description": "How the app addresses you."
+    },
+    "region": {
+      "title": "Language and region",
+      "description": "Interface language, time zone and date format."
+    },
+    "appearance": {
+      "title": "Appearance",
+      "description": "Light, dark or follow the system."
+    },
+    "day": {
+      "title": "Working day",
+      "description": "The window in which LifeOS looks for free time."
+    }
   }
 }

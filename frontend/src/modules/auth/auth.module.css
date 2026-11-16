@@ -1,19 +1,25 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 .heading {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
 }
 .heading h1 {
-  font-size: 22px;
+  font-size: 30px;
+  letter-spacing: -0.03em;
 }
 .heading p {
-  margin: 0;
   color: var(--color-text-muted);
+  font-size: 15px;
+}
+.submit {
+  margin-top: var(--space-2);
+  flex-direction: row-reverse;
 }
 .switch {
   text-align: center;
