@@ -1,0 +1,14 @@
+# Secret scanning (CI "security" job). Default rules stay on; only test fixtures are
+# allowlisted, because they contain throwaway credentials for local test users.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Test fixtures with throwaway credentials"
+paths = [
+  '''(^|/)tests?/''',
+  '''(^|/)conftest\.py$''',
+  '''^frontend/e2e/''',
+  '''\.test\.tsx?$''',
+  '''^frontend/src/test/''',
+]

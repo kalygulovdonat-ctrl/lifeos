@@ -30,7 +30,10 @@ const schema = z
     path: ['day_end_time'],
     message: 'day_end_time',
   });
-type Values = z.infer<typeof schema>;
+/** Form state as the inputs hold it (select values arrive as strings). */
+type FormValues = z.input<typeof schema>;
+/** Parsed result handed to onSubmit (week_start coerced to a number). */
+type Values = z.output<typeof schema>;
 
 const LANGUAGE_NAMES = { ru: 'Русский', en: 'English', ky: 'Кыргызча' } as const;
 
@@ -62,7 +65,7 @@ export default function ProfileSettingsPage() {
     setError,
     reset,
     formState: { errors, isSubmitting, isDirty },
-  } = useForm<Values>({
+  } = useForm<FormValues, unknown, Values>({
     resolver: zodResolver(schema),
     values: profile ? toValues(profile) : undefined,
   });
