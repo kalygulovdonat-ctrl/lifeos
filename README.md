@@ -5,6 +5,16 @@ Personal Life Management System — планирование, задачи, пр
 - [Product Requirements (PRD)](LifeOS%20Product%20Requirements.md) — **что** делает система.
 - [System Design Document (SDD)](LifeOS%20System%20Design%20Document.md) — **как** это реализовано. Любое отклонение от SDD сначала вносится в SDD.
 
+## Скриншоты
+
+| Вход | Главная |
+| --- | --- |
+| ![Вход](docs/screenshots/01-login-light.png) | ![Главная](docs/screenshots/03-dashboard-light.png) |
+| **Тёмная тема** | **Настройки** |
+| ![Тёмная тема](docs/screenshots/06-dashboard-dark.png) | ![Настройки](docs/screenshots/04-settings-light.png) |
+
+<img src="docs/screenshots/08-dashboard-mobile.png" alt="Мобильная версия" width="300">
+
 ## Статус: Phase 0 — Foundation ✅
 
 | Область | Что готово |
