@@ -396,6 +396,8 @@ export interface JournalEntry {
   tag_ids: string[];
   is_sensitive: boolean;
   ai_allowed: boolean;
+  mood: number | null;
+  energy: number | null;
   created_at: string;
   updated_at: string;
 }

@@ -61,15 +61,15 @@ export const NAV_GROUPS: NavGroup[] = [
       { key: 'habits', to: '/habits', icon: Repeat },
       { key: 'goals', to: '/goals', icon: Target },
       { key: 'journal', to: '/journal', icon: NotebookPen },
-      { key: 'wellness', to: '/wellness', icon: HeartPulse, phase: 'Phase 4' },
+      { key: 'wellness', to: '/wellness', icon: HeartPulse },
     ],
   },
   {
     key: 'insight',
     items: [
-      { key: 'analytics', to: '/analytics', icon: ChartColumn, phase: 'Phase 3' },
-      { key: 'reviews', to: '/reviews', icon: ClipboardCheck, phase: 'Phase 3' },
-      { key: 'assistant', to: '/assistant', icon: Sparkles, phase: 'Phase 3' },
+      { key: 'analytics', to: '/analytics', icon: ChartColumn },
+      { key: 'reviews', to: '/reviews', icon: ClipboardCheck },
+      { key: 'assistant', to: '/assistant', icon: Sparkles },
     ],
   },
 ];

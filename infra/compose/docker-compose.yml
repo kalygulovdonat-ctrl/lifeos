@@ -8,6 +8,12 @@ x-backend-env: &backend-env
   CELERY_BROKER_URL: redis://redis:6379/1
   EMAIL_HOST: mailpit
   EMAIL_PORT: "1025"
+  # Sign-in/registration limit; CI raises it because every e2e scenario registers a user.
+  THROTTLE_AUTH: ${THROTTLE_AUTH:-10/min}
+  # AI assistant: off unless configured. AI_PROVIDER=fake is a scripted demo that never calls out.
+  AI_ENABLED: ${AI_ENABLED:-false}
+  AI_PROVIDER: ${AI_PROVIDER:-anthropic}
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
 
 x-backend-build: &backend-build
   context: ../..

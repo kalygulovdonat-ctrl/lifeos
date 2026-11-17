@@ -1,0 +1,29 @@
+.scale {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 4px;
+}
+.scale button {
+  height: 34px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 140ms var(--ease);
+}
+.scale button:hover {
+  border-color: var(--color-primary);
+}
+.scale button[aria-checked='true'] {
+  background: var(--gradient-brand);
+  border-color: transparent;
+  color: #fff;
+}
+.signals {
+  margin: 6px 0;
+  padding-left: 18px;
+}

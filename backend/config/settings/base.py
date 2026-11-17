@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     "apps.goals",
     "apps.journal",
     "apps.time_tracking",
+    "apps.analytics",
+    "apps.reviews",
+    "apps.wellness",
+    "apps.notifications",
+    "apps.ai_assistant",
     "apps.dashboard",
 ]
 
@@ -147,6 +152,7 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "user": env("THROTTLE_USER", default="300/min"),
         "auth": env("THROTTLE_AUTH", default="10/min"),
+        "ai": env("THROTTLE_AI", default="20/min"),
     },
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     "UNAUTHENTICATED_USER": "django.contrib.auth.models.AnonymousUser",
@@ -167,6 +173,10 @@ SPECTACULAR_SETTINGS = {
         "GoalStatusEnum": "apps.goals.models.GoalStatus",
         "MilestoneStatusEnum": "apps.goals.models.MilestoneStatus",
         "TimeEntryStatusEnum": "apps.time_tracking.models.EntryStatus",
+        "ReviewStatusEnum": "apps.reviews.models.ReviewStatus",
+        "AIActionStatusEnum": "apps.ai_assistant.models.ActionStatus",
+        "AIMessageStatusEnum": "apps.ai_assistant.models.MessageStatus",
+        "ReminderStatusEnum": "apps.notifications.models.ReminderStatus",
     },
 }
 
@@ -218,12 +228,47 @@ CELERY_TASK_ACKS_LATE = True
 CELERY_WORKER_PREFETCH_MULTIPLIER = 1
 CELERY_TASK_DEFAULT_QUEUE = "default"
 CELERY_TIMEZONE = "UTC"
+# AI calls run on their own queue so a slow provider never delays reminders (SDD §9.2).
+CELERY_TASK_ROUTES = {"apps.ai_assistant.tasks.ai_generate_response": {"queue": "ai"}}
 CELERY_BEAT_SCHEDULE = {
     "purge-idempotency-records": {
         "task": "common.tasks.purge_idempotency_records",
         "schedule": 3600.0,
     },
+    "dispatch-due-reminders": {
+        "task": "apps.notifications.tasks.dispatch_due_reminders",
+        "schedule": 60.0,
+    },
+    "overload-check-all": {
+        "task": "apps.wellness.tasks.overload_check_all",
+        "schedule": 6 * 3600.0,
+    },
+    "remind-weekly-review": {
+        "task": "apps.reviews.tasks.remind_weekly_review",
+        "schedule": 3600.0,
+    },
+    "expire-ai-actions": {
+        "task": "apps.ai_assistant.tasks.expire_actions",
+        "schedule": 3600.0,
+    },
+    "purge-old-notifications": {
+        "task": "apps.notifications.tasks.purge_old_notifications",
+        "schedule": 24 * 3600.0,
+    },
 }
+
+# --- AI assistant (SDD §9) ----------------------------------------------------------
+# Disabled unless a provider is configured; the rest of LifeOS never depends on it (NFR-013).
+AI_ENABLED = env.bool("AI_ENABLED", default=False)
+AI_PROVIDER = env("AI_PROVIDER", default="anthropic")
+AI_MODEL = env("AI_MODEL", default="claude-opus-5-5")
+AI_EFFORT = env("AI_EFFORT", default="medium")
+AI_TIMEOUT_S = env.float("AI_TIMEOUT_S", default=60.0)
+AI_MAX_TOOL_ITERATIONS = env.int("AI_MAX_TOOL_ITERATIONS", default=5)
+AI_MONTHLY_TOKEN_LIMIT = env.int("AI_MONTHLY_TOKEN_LIMIT", default=2_000_000)
+# The Anthropic SDK reads ANTHROPIC_API_KEY itself; nothing is stored in settings.
+# Without a Celery worker (bare-metal dev) the assistant can answer inside the request.
+AI_RUN_INLINE = env.bool("AI_RUN_INLINE", default=False)
 
 # --- Logging (SDD §6.4) -----------------------------------------------------------
 LOG_LEVEL = env("LOG_LEVEL", default="INFO")

@@ -80,7 +80,16 @@
     "JOURNAL_DAILY_EXISTS": "This day’s reflection already exists.",
     "GOAL_PROGRESS_AUTOMATIC": "This goal’s progress is calculated automatically.",
     "INVALID_STATUS_TRANSITION": "This status change is not allowed.",
-    "SCHEDULE_CONFLICT": "The time overlaps a fixed event."
+    "SCHEDULE_CONFLICT": "The time overlaps a fixed event.",
+    "REVIEW_ALREADY_COMPLETED": "This review is already completed.",
+    "AI_CONSENT_REQUIRED": "Turn the assistant on and choose what it may read.",
+    "AI_PROVIDER_UNAVAILABLE": "AI is unavailable right now. Everything else works.",
+    "AI_QUOTA_EXCEEDED": "The monthly AI limit is reached.",
+    "AI_ACTION_NOT_PENDING": "This draft was already handled.",
+    "AI_ACTION_EXPIRED": "The draft expired — ask the assistant again.",
+    "AI_ACTION_NOT_REVERTIBLE": "Can’t undo: the created item was already changed.",
+    "AI_ACTION_UNSUPPORTED": "This kind of action is not supported yet.",
+    "AI_INVALID_OUTPUT": "Could not build the action."
   },
   "modules": {
     "schedule": {

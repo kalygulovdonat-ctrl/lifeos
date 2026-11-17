@@ -215,6 +215,23 @@
   font-weight: 600;
   cursor: pointer;
 }
+.pills a {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.pills a:hover {
+  text-decoration: none;
+  color: var(--color-text);
+}
+.pills a[aria-current='page'],
 .pills button[aria-pressed='true'],
 .pills button[aria-checked='true'] {
   border-color: var(--color-primary);

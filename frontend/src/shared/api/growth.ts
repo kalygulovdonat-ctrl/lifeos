@@ -149,6 +149,9 @@ export interface JournalInput {
   sections?: Record<string, string>;
   body?: string;
   category_id?: string | null;
+  mood?: number | null;
+  energy?: number | null;
+  ai_allowed?: boolean;
 }
 
 export const journalApi = {

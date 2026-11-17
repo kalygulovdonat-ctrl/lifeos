@@ -26,6 +26,11 @@ const NotePage = lazy(() =>
 );
 const TimePage = lazy(() => import('@/modules/time/TimePage'));
 const MorePage = lazy(() => import('@/app/layouts/MorePage'));
+const AnalyticsPage = lazy(() => import('@/modules/analytics/AnalyticsPage'));
+const ReviewsPage = lazy(() => import('@/modules/reviews/ReviewsPage'));
+const ReviewPage = lazy(() => import('@/modules/reviews/ReviewPage'));
+const WellnessPage = lazy(() => import('@/modules/wellness/WellnessPage'));
+const AssistantPage = lazy(() => import('@/modules/assistant/AssistantPage'));
 
 /** Modules not built yet get a placeholder; their phase comes from the navigation config. */
 const UPCOMING = NAV_GROUPS.flatMap((group) => group.items).filter((item) => item.phase);
@@ -60,6 +65,13 @@ export const routes: RouteObject[] = [
       { path: 'journal/:entryId', element: <NotePage /> },
       { path: 'time', element: <TimePage /> },
       { path: 'more', element: <MorePage /> },
+      { path: 'analytics', element: <Navigate to="/analytics/week" replace /> },
+      { path: 'analytics/:period', element: <AnalyticsPage /> },
+      { path: 'reviews', element: <ReviewsPage /> },
+      { path: 'reviews/:reviewId', element: <ReviewPage /> },
+      { path: 'wellness', element: <WellnessPage /> },
+      { path: 'assistant', element: <AssistantPage /> },
+      { path: 'assistant/:conversationId', element: <AssistantPage /> },
       ...UPCOMING.map(({ to, key, phase }) => ({
         path: `${to.slice(1)}/*`,
         element: <PlaceholderPage moduleKey={key} phase={phase ?? ''} />,

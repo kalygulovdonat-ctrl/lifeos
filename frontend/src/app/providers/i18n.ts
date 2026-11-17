@@ -1,76 +1,59 @@
-import i18n from 'i18next';
+/**
+ * i18n (SDD §8.5). Russian — the default and the fallback language — ships in the main
+ * bundle; English and Kyrgyz are separate chunks loaded only when chosen (Phase 4 performance).
+ */
+import i18n, { type BackendModule, type ResourceKey } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import enAuth from '@/locales/en/auth.json';
-import enCommon from '@/locales/en/common.json';
-import enDashboard from '@/locales/en/dashboard.json';
-import enSchedule from '@/locales/en/schedule.json';
-import enSettings from '@/locales/en/settings.json';
-import enGoals from '@/locales/en/goals.json';
-import enHabits from '@/locales/en/habits.json';
-import enJournal from '@/locales/en/journal.json';
-import enTasks from '@/locales/en/tasks.json';
-import enTime from '@/locales/en/time.json';
-import kyAuth from '@/locales/ky/auth.json';
-import kyCommon from '@/locales/ky/common.json';
-import kyDashboard from '@/locales/ky/dashboard.json';
-import kySchedule from '@/locales/ky/schedule.json';
-import kySettings from '@/locales/ky/settings.json';
-import kyGoals from '@/locales/ky/goals.json';
-import kyHabits from '@/locales/ky/habits.json';
-import kyJournal from '@/locales/ky/journal.json';
-import kyTasks from '@/locales/ky/tasks.json';
-import kyTime from '@/locales/ky/time.json';
-import ruAuth from '@/locales/ru/auth.json';
-import ruCommon from '@/locales/ru/common.json';
-import ruDashboard from '@/locales/ru/dashboard.json';
-import ruSchedule from '@/locales/ru/schedule.json';
-import ruSettings from '@/locales/ru/settings.json';
-import ruGoals from '@/locales/ru/goals.json';
-import ruHabits from '@/locales/ru/habits.json';
-import ruJournal from '@/locales/ru/journal.json';
-import ruTasks from '@/locales/ru/tasks.json';
-import ruTime from '@/locales/ru/time.json';
 import { LANGUAGES, type Language } from '@/shared/api/types';
 
-export const resources = {
-  ru: {
-    common: ruCommon,
-    auth: ruAuth,
-    settings: ruSettings,
-    dashboard: ruDashboard,
-    tasks: ruTasks,
-    schedule: ruSchedule,
-    habits: ruHabits,
-    goals: ruGoals,
-    journal: ruJournal,
-    time: ruTime,
+export const NAMESPACES = [
+  'common',
+  'auth',
+  'settings',
+  'dashboard',
+  'tasks',
+  'schedule',
+  'habits',
+  'goals',
+  'journal',
+  'time',
+  'analytics',
+  'reviews',
+  'wellness',
+  'assistant',
+  'notifications',
+] as const;
+
+const eager = import.meta.glob<{ default: ResourceKey }>('../../locales/ru/*.json', {
+  eager: true,
+});
+const lazy = import.meta.glob<{ default: ResourceKey }>([
+  '../../locales/en/*.json',
+  '../../locales/ky/*.json',
+]);
+
+const nsOf = (path: string) => path.slice(path.lastIndexOf('/') + 1, -'.json'.length);
+
+const ru: Record<string, ResourceKey> = Object.fromEntries(
+  Object.entries(eager).map(([path, mod]) => [nsOf(path), mod.default]),
+);
+
+/** Loads one namespace of a non-default language on demand. */
+const chunkBackend: BackendModule = {
+  type: 'backend',
+  init() {},
+  read(language, namespace, callback) {
+    const loader = lazy[`../../locales/${language}/${namespace}.json`];
+    if (!loader) {
+      callback(null, {});
+      return;
+    }
+    loader()
+      .then((mod) => callback(null, mod.default))
+      .catch((error: Error) => callback(error, null));
   },
-  en: {
-    common: enCommon,
-    auth: enAuth,
-    settings: enSettings,
-    dashboard: enDashboard,
-    tasks: enTasks,
-    schedule: enSchedule,
-    habits: enHabits,
-    goals: enGoals,
-    journal: enJournal,
-    time: enTime,
-  },
-  ky: {
-    common: kyCommon,
-    auth: kyAuth,
-    settings: kySettings,
-    dashboard: kyDashboard,
-    tasks: kyTasks,
-    schedule: kySchedule,
-    habits: kyHabits,
-    goals: kyGoals,
-    journal: kyJournal,
-    time: kyTime,
-  },
-} as const;
+};
 
 /** Browser language → supported language (SDD ADR-014: Kyrgyz is `ky`). */
 export function detectLanguage(
@@ -83,27 +66,20 @@ export function detectLanguage(
   return 'ru';
 }
 
-void i18n.use(initReactI18next).init({
-  resources,
-  lng: detectLanguage(),
-  fallbackLng: { ky: ['ru'], default: ['ru'] },
-  supportedLngs: LANGUAGES,
-  ns: [
-    'common',
-    'auth',
-    'settings',
-    'dashboard',
-    'tasks',
-    'schedule',
-    'habits',
-    'goals',
-    'journal',
-    'time',
-  ],
-  defaultNS: 'common',
-  interpolation: { escapeValue: false },
-  returnNull: false,
-});
+void i18n
+  .use(chunkBackend)
+  .use(initReactI18next)
+  .init({
+    resources: { ru },
+    partialBundledLanguages: true,
+    lng: detectLanguage(),
+    fallbackLng: { ky: ['ru'], default: ['ru'] },
+    supportedLngs: LANGUAGES,
+    ns: NAMESPACES,
+    defaultNS: 'common',
+    interpolation: { escapeValue: false },
+    returnNull: false,
+  });
 
 i18n.on('languageChanged', (lng) => {
   document.documentElement.lang = lng;

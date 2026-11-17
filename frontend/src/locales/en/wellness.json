@@ -1,0 +1,50 @@
+{
+  "title": "Wellness",
+  "subtitle": "Sleep, mood, energy and stress — to notice overload in time.",
+  "signals": {
+    "title": "Observations for the last 7 days:",
+    "HEAVY_DAYS": "days above your workload threshold: {{days}}",
+    "SHORT_SLEEP": "sleep averaged under 6 hours",
+    "HIGH_STRESS": "average stress is high ({{avg}} of 10)",
+    "disclaimer": "This is an observation from your data, not a medical conclusion."
+  },
+  "fields": {
+    "mood": "Mood",
+    "energy": "Energy",
+    "stress": "Stress",
+    "sleep": "Sleep",
+    "quality": "quality"
+  },
+  "days": "days",
+  "charts": {
+    "state": "State over 30 days (1–10)",
+    "sleep": "Sleep per day"
+  },
+  "hours": "{{value}} h",
+  "recent": {
+    "checkins": "Recent check-ins",
+    "sleep": "Recent sleep",
+    "none": "Nothing yet."
+  },
+  "fromJournal": "from the journal",
+  "delete": "Delete",
+  "disclaimer": "LifeOS does not diagnose or give medical advice. If you are struggling, please talk to a professional.",
+  "checkin": {
+    "title": "How are you now?",
+    "mood": "Mood",
+    "energy": "Energy",
+    "stress": "Stress",
+    "note": "Note",
+    "save": "Check in"
+  },
+  "saved": "Saved",
+  "sleep": {
+    "title": "Sleep",
+    "bedDate": "Went to bed",
+    "bedTime": "Time",
+    "wakeDate": "Woke up",
+    "wakeTime": "Time",
+    "quality": "Sleep quality",
+    "save": "Log sleep"
+  }
+}

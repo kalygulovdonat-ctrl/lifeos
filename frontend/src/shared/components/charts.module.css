@@ -1,0 +1,191 @@
+/* Validated categorical palette (dataviz reference instance), light and dark steps. */
+.figure {
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+@media (prefers-color-scheme: dark) {
+  :global(:root:not([data-theme='light'])) .figure {
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+  }
+}
+:global(:root[data-theme='dark']) .figure {
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+}
+
+.plot {
+  position: relative;
+}
+.plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.grid {
+  stroke: var(--color-border);
+  stroke-width: 1;
+}
+.baseline {
+  stroke: var(--color-border-strong);
+  stroke-width: 1;
+}
+.crosshair {
+  stroke: var(--color-text-subtle);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+.axis {
+  font-size: 11px;
+  fill: var(--color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+.value {
+  font-size: 11.5px;
+  font-weight: 650;
+  fill: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+.bar {
+  fill: var(--series-1);
+  transition: opacity 160ms var(--ease);
+}
+.hit {
+  fill: transparent;
+  cursor: default;
+}
+.hit:hover {
+  fill: color-mix(in srgb, var(--color-text) 4%, transparent);
+}
+.line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.dot {
+  stroke: var(--color-surface);
+  stroke-width: 2;
+}
+.tooltip {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-md);
+  color: var(--color-text);
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+.tooltip span {
+  color: var(--color-text-muted);
+}
+.tipRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.tipRow i,
+.legend i,
+.shareLabel i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex: none;
+}
+.legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.table {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+.table summary {
+  cursor: pointer;
+  width: fit-content;
+}
+.table table {
+  margin-top: var(--space-2);
+  border-collapse: collapse;
+  width: 100%;
+}
+.table th,
+.table td {
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--color-border);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.table th[scope='row'],
+.table thead th:first-child {
+  text-align: left;
+  font-weight: 500;
+}
+.shares {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.shares li {
+  display: grid;
+  grid-template-columns: minmax(90px, 160px) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 13.5px;
+}
+.shareLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.shareTrack {
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  overflow: hidden;
+}
+.shareTrack b {
+  display: block;
+  height: 100%;
+  border-radius: 0 4px 4px 0;
+}
+.shareValue {
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

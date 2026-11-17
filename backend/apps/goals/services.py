@@ -106,6 +106,7 @@ def recalculate(
     else:
         pct = progress.manual(goal.current_value)
     if pct != goal.progress_pct:
+        reached = pct >= 100 > goal.progress_pct and goal.status == GoalStatus.ACTIVE
         goal.progress_pct = pct
         goal.save(update_fields=["progress_pct", "updated_at"])
         GoalProgress.objects.create(
@@ -117,6 +118,16 @@ def recalculate(
             source_id=source_id,
             note=note,
         )
+        if reached:
+            from apps.notifications.services import notification_create
+
+            notification_create(
+                user=goal.user,
+                type="GOAL_COMPLETED",
+                message_key="goalReached",
+                params={"title": goal.title},
+                link=f"/goals/{goal.id}",
+            )
     return goal
 
 

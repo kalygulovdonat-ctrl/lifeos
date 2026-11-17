@@ -53,6 +53,37 @@ export function NotePage() {
   );
 }
 
+/** Mood and energy are stored as a wellness check-in (ADR-009). */
+function MiniScale({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: number | null;
+  onChange: (v: number | null) => void;
+}) {
+  return (
+    <div>
+      <p className={styles.subtle}>{label}</p>
+      <div className={styles.pills} role="radiogroup" aria-label={label}>
+        {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+          <button
+            key={n}
+            type="button"
+            role="radio"
+            aria-checked={value === n}
+            onClick={() => onChange(value === n ? null : n)}
+            style={{ width: 30, height: 30, padding: 0 }}
+          >
+            {n}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function NotFoundNote() {
   const { t } = useTranslation('journal');
   return <Alert>{t('notFound')}</Alert>;
@@ -79,6 +110,9 @@ function Editor({
   const [sections, setSections] = useState<Record<string, string>>(() => ({
     ...(entry?.sections ?? {}),
   }));
+  const [mood, setMood] = useState<number | null>(entry?.mood ?? null);
+  const [energy, setEnergy] = useState<number | null>(entry?.energy ?? null);
+  const [aiAllowed, setAiAllowed] = useState(entry?.ai_allowed ?? false);
   const [saved, setSaved] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const refresh = () => void qc.invalidateQueries({ queryKey: growthKeys.journal });
@@ -87,8 +121,25 @@ function Editor({
     mutationFn: () => {
       const input =
         mode === 'DAILY'
-          ? { entry_type: 'DAILY' as const, entry_date: date, sections, body, title }
-          : { entry_type: 'FREE' as const, entry_date: entryDate, title, body };
+          ? {
+              entry_type: 'DAILY' as const,
+              entry_date: date,
+              sections,
+              body,
+              title,
+              mood,
+              energy,
+              ai_allowed: aiAllowed,
+            }
+          : {
+              entry_type: 'FREE' as const,
+              entry_date: entryDate,
+              title,
+              body,
+              mood,
+              energy,
+              ai_allowed: aiAllowed,
+            };
       if (entry) {
         const { entry_type: _ignored, ...patch } = input;
         void _ignored;
@@ -176,6 +227,10 @@ function Editor({
             />
           </div>
         ) : null}
+        <div className={styles.formGrid}>
+          <MiniScale label={t('mood')} value={mood} onChange={setMood} />
+          <MiniScale label={t('energy')} value={energy} onChange={setEnergy} />
+        </div>
         {mode === 'DAILY'
           ? DAILY_SECTIONS.map((key, i) => (
               <TextArea
@@ -196,6 +251,14 @@ function Editor({
           onChange={(e) => setBody(e.target.value)}
           rows={mode === 'DAILY' ? 3 : 12}
         />
+        <label className={styles.toggle}>
+          <input
+            type="checkbox"
+            checked={aiAllowed}
+            onChange={(e) => setAiAllowed(e.target.checked)}
+          />
+          {t('aiAllowed')}
+        </label>
         <p className={styles.subtle}>{mode === 'DAILY' ? t('daily.skipHint') : t('privacy')}</p>
         {save.error ? <Alert>{errorMessage(save.error)}</Alert> : null}
         <div className={styles.row} style={{ justifyContent: 'space-between' }}>

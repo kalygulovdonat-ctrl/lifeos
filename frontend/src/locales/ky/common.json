@@ -80,7 +80,16 @@
     "JOURNAL_DAILY_EXISTS": "Бул күндүн жыйынтыгы мурунтан жазылган.",
     "GOAL_PROGRESS_AUTOMATIC": "Бул максаттын прогресси автоматтык түрдө эсептелет.",
     "INVALID_STATUS_TRANSITION": "Мындай абалга өтүүгө болбойт.",
-    "SCHEDULE_CONFLICT": "Убакыт туруктуу окуя менен кесилишет."
+    "SCHEDULE_CONFLICT": "Убакыт туруктуу окуя менен кесилишет.",
+    "REVIEW_ALREADY_COMPLETED": "Бул сереп мурунтан аяктаган.",
+    "AI_CONSENT_REQUIRED": "Жардамчыны күйгүзүп, эмнени окуй аларын тандаңыз.",
+    "AI_PROVIDER_UNAVAILABLE": "AI азыр жеткиликсиз. Калган бөлүмдөр иштейт.",
+    "AI_QUOTA_EXCEEDED": "AIнын айлык лимити түгөндү.",
+    "AI_ACTION_NOT_PENDING": "Бул долбоор мурунтан иштетилген.",
+    "AI_ACTION_EXPIRED": "Долбоор эскирди — жардамчыдан кайра сураңыз.",
+    "AI_ACTION_NOT_REVERTIBLE": "Жокко чыгарууга болбойт: түзүлгөн объект өзгөртүлгөн.",
+    "AI_ACTION_UNSUPPORTED": "Мындай аракет азырынча колдоого алынбайт.",
+    "AI_INVALID_OUTPUT": "Аракет түзүлгөн жок."
   },
   "modules": {
     "schedule": {

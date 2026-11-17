@@ -33,7 +33,7 @@ def entry_list(
     tag: UUID | None = None,
     q: str = "",
 ) -> QuerySet[JournalEntry]:
-    qs = JournalEntry.objects.filter(user=user).prefetch_related("tags")
+    qs = JournalEntry.objects.filter(user=user).select_related("checkin").prefetch_related("tags")
     if first:
         qs = qs.filter(entry_date__gte=first)
     if last:
@@ -50,7 +50,11 @@ def entry_list(
 
 def entry_get(user: User, entry_id: UUID | str) -> JournalEntry:
     try:
-        return JournalEntry.objects.prefetch_related("tags").get(user=user, id=entry_id)
+        return (
+            JournalEntry.objects.select_related("checkin")
+            .prefetch_related("tags")
+            .get(user=user, id=entry_id)
+        )
     except (JournalEntry.DoesNotExist, ValueError) as exc:
         raise NotFoundError() from exc
 
@@ -76,13 +80,32 @@ class EntrySerializer(serializers.ModelSerializer):
             "tag_ids",
             "is_sensitive",
             "ai_allowed",
+            "mood",
+            "energy",
             "created_at",
             "updated_at",
         ]
         read_only_fields = fields
 
+    mood = serializers.SerializerMethodField()
+    energy = serializers.SerializerMethodField()
+
     def get_tag_ids(self, obj: JournalEntry) -> list[str]:
         return [str(t.id) for t in obj.tags.all()]
+
+    def _checkin(self, obj: JournalEntry):
+        try:
+            return obj.checkin
+        except Exception:  # RelatedObjectDoesNotExist: no mood/energy recorded
+            return None
+
+    def get_mood(self, obj: JournalEntry) -> int | None:
+        c = self._checkin(obj)
+        return c.mood if c else None
+
+    def get_energy(self, obj: JournalEntry) -> int | None:
+        c = self._checkin(obj)
+        return c.energy if c else None
 
 
 class EntryWriteSerializer(serializers.Serializer):
@@ -95,6 +118,9 @@ class EntryWriteSerializer(serializers.Serializer):
     tag_ids = OwnedPK(Tag, source="tags", many=True, allow_null=False, required=False)
     is_sensitive = serializers.BooleanField(required=False)
     ai_allowed = serializers.BooleanField(required=False)
+    # ADR-009: stored as a wellness check-in (source JOURNAL), not in the entry itself.
+    mood = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=10)
+    energy = serializers.IntegerField(required=False, allow_null=True, min_value=1, max_value=10)
 
 
 class ListQuery(serializers.Serializer):

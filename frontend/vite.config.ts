@@ -11,6 +11,19 @@ export default defineConfig({
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        // Long-lived vendor chunks: app releases do not invalidate the cached libraries.
+        manualChunks: {
+          react: ['react', 'react-dom', 'react-router'],
+          data: ['@tanstack/react-query', 'zustand', 'i18next', 'react-i18next'],
+          motion: ['motion'],
+          forms: ['react-hook-form', '@hookform/resolvers', 'zod'],
+        },
+      },
+    },
+  },
   server: {
     host: true,
     port: 5173,

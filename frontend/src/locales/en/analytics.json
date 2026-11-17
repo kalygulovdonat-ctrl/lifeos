@@ -1,0 +1,70 @@
+{
+  "title": "Analytics",
+  "subtitle": "Objective metrics with clear formulas — no \"overall life score\".",
+  "prev": "Previous",
+  "next": "Next",
+  "final": "Period closed",
+  "live": "In progress",
+  "periodLabel": "Period",
+  "periods": {
+    "day": "Day",
+    "week": "Week",
+    "month": "Month"
+  },
+  "delta": {
+    "same": "same as before",
+    "pp": " pp",
+    "h": " h"
+  },
+  "noData": "No data",
+  "ratio": "{{n}} of {{d}}",
+  "hours": "{{value}} h",
+  "tracked": "{{value}} h tracked in total",
+  "accuracyDetail": "{{done}} of {{plan}}",
+  "tiles": {
+    "tasks": "Task completion",
+    "habits": "Habit consistency",
+    "focus": "Focus hours",
+    "accuracy": "Plan accuracy"
+  },
+  "formulas": {
+    "tasks": "How it is counted|Completed ÷ (completed + overdue open) due in the period. Cancelled tasks and tasks due in the future are left out.",
+    "habits": "How it is counted|Completed scheduled days ÷ scheduled days. Rest days and pauses are excluded; today counts only once it is over.",
+    "focus": "How it is counted|Time entries marked Focus or linked to focus blocks. Overlapping entries are never counted twice.",
+    "accuracy": "How it is counted|How much of the planned time of past events is backed by time tracked for them or their tasks."
+  },
+  "charts": {
+    "tasks": "Tasks completed per day",
+    "focus": "Focus per day"
+  },
+  "distribution": {
+    "title": "Where the time went",
+    "none": "No category",
+    "empty": "No time entries in this period."
+  },
+  "pva": "Planned: {{planned}} · actual: {{actual}} · unplanned: {{unplanned}}",
+  "tasksBlock": {
+    "title": "Tasks",
+    "completed": "Completed",
+    "overdue": "Overdue",
+    "postponed": "Postponements",
+    "created": "Created"
+  },
+  "habitsBlock": {
+    "title": "Habits",
+    "empty": "No habits yet."
+  },
+  "goalsBlock": {
+    "title": "Active goals",
+    "empty": "No active goals.",
+    "completed": "Completed in the period: {{count}}"
+  },
+  "wellnessBlock": {
+    "title": "Wellness",
+    "mood": "Mood",
+    "energy": "Energy",
+    "stress": "Stress",
+    "sleep": "Average sleep"
+  },
+  "footer": "Formula version {{version}}. Closed periods saved in weekly reviews never change retroactively."
+}

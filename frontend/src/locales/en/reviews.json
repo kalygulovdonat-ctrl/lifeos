@@ -1,0 +1,77 @@
+{
+  "title": "Weekly review",
+  "subtitle": "Results, unfinished tasks and next week’s focus — in 10 minutes.",
+  "start": {
+    "title": "Review your week",
+    "hint": "The review collects the week’s stats and helps you decide what to do with unfinished tasks.",
+    "this": "Review this week",
+    "last": "Review last week",
+    "openThis": "Open this week’s review",
+    "openLast": "Open last week’s review"
+  },
+  "status": {
+    "DRAFT": "Draft",
+    "COMPLETED": "Completed"
+  },
+  "empty": {
+    "title": "No reviews yet",
+    "description": "Start with this week’s review."
+  },
+  "back": "All reviews",
+  "weekTitle": "Weekly review",
+  "steps": {
+    "stats": "Results",
+    "tasks": "Tasks",
+    "reflect": "Reflection",
+    "finish": "Finish"
+  },
+  "prev": "Back",
+  "next": "Next",
+  "stats": {
+    "title": "The week in numbers",
+    "refresh": "Refresh",
+    "tasks": "Task completion",
+    "habits": "Consistency",
+    "focus": "Focus",
+    "accuracy": "Plan accuracy",
+    "draftHint": "Until the review is completed, numbers are recalculated when you open it.",
+    "frozenHint": "Numbers were frozen when the review was completed (formulas {{version}})."
+  },
+  "hours": "{{value}} h",
+  "tasks": {
+    "title": "Unfinished tasks",
+    "hint": "Decide for each: keep, move to next week, set a date, park it for someday, or cancel.",
+    "newDate": "New date",
+    "none": "No unfinished tasks — great week!",
+    "save": "Save decisions",
+    "appliedOnFinish": "Decisions are applied when you finish the review."
+  },
+  "decision": {
+    "KEEP": "Keep",
+    "CARRY_OVER": "Next week",
+    "RESCHEDULE": "Date…",
+    "BACKLOG": "Someday",
+    "CANCEL": "Cancel"
+  },
+  "saved": "Saved",
+  "reflect": {
+    "title": "Reflection",
+    "wins": "What went well",
+    "challenges": "What was hard",
+    "lessons": "What I learned",
+    "next_week_focus": "Next week’s focus",
+    "rating": "Rate the week",
+    "save": "Save",
+    "placeholders": {
+      "wins": "Wins, even small ones",
+      "challenges": "No self-criticism — just facts",
+      "lessons": "A takeaway worth keeping",
+      "next_week_focus": "1–3 key things"
+    }
+  },
+  "finish": {
+    "title": "Finish the review",
+    "hint": "Task decisions to apply: {{count}}. A completed review can no longer be changed.",
+    "button": "Finish review"
+  }
+}

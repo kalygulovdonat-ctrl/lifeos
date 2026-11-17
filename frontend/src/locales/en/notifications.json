@@ -1,0 +1,18 @@
+{
+  "label": "Notifications",
+  "labelUnread": "Notifications: {{count}} unread",
+  "readAll": "Mark all read",
+  "empty": "No notifications.",
+  "message": {
+    "event": "“{{title}}” at {{time}}",
+    "habit": "Don’t forget: {{name}}",
+    "goalReached": "Goal “{{title}}” reached 100% — complete it when you are ready",
+    "overload": "Looks like overload: {{signals}}",
+    "reviewDue": "The week is ending — time for your weekly review"
+  },
+  "signal": {
+    "HEAVY_DAYS": "heavy days",
+    "SHORT_SLEEP": "short sleep",
+    "HIGH_STRESS": "high stress"
+  }
+}

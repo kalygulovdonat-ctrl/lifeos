@@ -80,7 +80,16 @@
     "JOURNAL_DAILY_EXISTS": "Итоги этого дня уже записаны.",
     "GOAL_PROGRESS_AUTOMATIC": "Прогресс этой цели считается автоматически.",
     "INVALID_STATUS_TRANSITION": "Такой переход статуса невозможен.",
-    "SCHEDULE_CONFLICT": "Время пересекается с фиксированным событием."
+    "SCHEDULE_CONFLICT": "Время пересекается с фиксированным событием.",
+    "REVIEW_ALREADY_COMPLETED": "Этот обзор уже завершён.",
+    "AI_CONSENT_REQUIRED": "Включите ассистента и выберите, что он может читать.",
+    "AI_PROVIDER_UNAVAILABLE": "AI сейчас недоступен. Остальные разделы работают.",
+    "AI_QUOTA_EXCEEDED": "Месячный лимит AI исчерпан.",
+    "AI_ACTION_NOT_PENDING": "Этот черновик уже обработан.",
+    "AI_ACTION_EXPIRED": "Черновик устарел — попросите ассистента ещё раз.",
+    "AI_ACTION_NOT_REVERTIBLE": "Отменить нельзя: созданный объект уже изменён.",
+    "AI_ACTION_UNSUPPORTED": "Такое действие пока не поддерживается.",
+    "AI_INVALID_OUTPUT": "Не удалось сформировать действие."
   },
   "modules": {
     "schedule": {

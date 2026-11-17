@@ -17,8 +17,12 @@ PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 REST_FRAMEWORK["DEFAULT_THROTTLE_RATES"] = {
     "user": "10000/min",
     "auth": env("THROTTLE_AUTH", default="10000/min"),
+    "ai": "10000/min",
 }
 REFRESH_COOKIE["secure"] = False
 CELERY_TASK_ALWAYS_EAGER = True
 EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 LOGGING["root"]["level"] = "WARNING"
+
+AI_ENABLED = True
+AI_PROVIDER = "fake"  # deterministic scripted provider, never calls the network

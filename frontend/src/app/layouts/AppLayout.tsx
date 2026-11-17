@@ -19,6 +19,7 @@ import { useAuthStore } from '@/shared/store/authStore';
 
 import { Brand } from './AuthLayout';
 import styles from './layouts.module.css';
+import { NotificationBell } from '@/modules/notifications/NotificationBell';
 import { TimerPill } from '@/modules/time/TimerPill';
 
 function SidebarLink({ item }: { item: NavItem }) {
@@ -127,7 +128,10 @@ export function AppLayout() {
       <aside className={styles.sidebar}>
         <div className={styles.sidebarBrand}>
           <Brand />
-          <ThemeToggle />
+          <span className={styles.brandActions}>
+            <NotificationBell />
+            <ThemeToggle />
+          </span>
         </div>
         <nav className={styles.nav} aria-label={t('nav.mainNavigation')}>
           {NAV_GROUPS.map((group) => (
@@ -168,6 +172,7 @@ export function AppLayout() {
           <Brand />
           <span className={styles.mobileActions}>
             <TimerPill compact />
+            <NotificationBell align="right" />
             <ThemeToggle />
             <button
               type="button"

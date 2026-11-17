@@ -47,8 +47,23 @@ def _set_tags(user: User, entry: JournalEntry, tags: list[Tag]) -> None:
     entry.tags.set(tags)
 
 
+def _state(user: User, entry: JournalEntry, data: dict[str, Any], state: dict[str, Any]) -> None:
+    if not state:
+        return
+    from apps.wellness.services import journal_state
+
+    mood = state.get("mood", getattr(getattr(entry, "checkin", None), "mood", None))
+    energy = state.get("energy", getattr(getattr(entry, "checkin", None), "energy", None))
+    journal_state(user=user, entry=entry, mood=mood, energy=energy)
+
+
+def _pop_state(data: dict[str, Any]) -> dict[str, Any]:
+    return {k: data.pop(k) for k in ("mood", "energy") if k in data}
+
+
 @transaction.atomic
 def entry_create(*, user: User, data: dict[str, Any]) -> JournalEntry:
+    state = _pop_state(data)
     tags = data.pop("tags", None)
     d = {k: v for k, v in data.items() if k in FIELDS}
     d.setdefault("entry_date", local_today(user.profile.timezone))
@@ -62,12 +77,14 @@ def entry_create(*, user: User, data: dict[str, Any]) -> JournalEntry:
         ) from exc
     if tags:
         _set_tags(user, entry, tags)
+    _state(user, entry, data, state)
     audit(user=user, entity_type="journal_entry", entity_id=entry.id, action="CREATE")
     return entry
 
 
 @transaction.atomic
 def entry_update(*, user: User, entry: JournalEntry, data: dict[str, Any]) -> JournalEntry:
+    state = _pop_state(data)
     tags = data.pop("tags", None)
     d = {k: v for k, v in data.items() if k in FIELDS and k != "entry_type"}
     merged = {
@@ -89,6 +106,7 @@ def entry_update(*, user: User, entry: JournalEntry, data: dict[str, Any]) -> Jo
         ) from exc
     if tags is not None:
         _set_tags(user, entry, tags)
+    _state(user, entry, data, state)
     audit(user=user, entity_type="journal_entry", entity_id=entry.id, action="UPDATE")
     return entry
 

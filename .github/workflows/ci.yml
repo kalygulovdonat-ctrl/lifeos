@@ -116,6 +116,10 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium
       - name: Start stack
+        env:
+          THROTTLE_AUTH: 1000/min # each scenario registers its own user
+          AI_ENABLED: "true"
+          AI_PROVIDER: fake # scripted assistant, no network and no API key
         run: docker compose -f infra/compose/docker-compose.yml up -d --build --wait backend frontend
       - name: Wait for frontend
         run: |

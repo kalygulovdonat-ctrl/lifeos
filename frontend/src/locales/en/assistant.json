@@ -1,0 +1,114 @@
+{
+  "title": "AI assistant",
+  "subtitle": "Helps you plan, but changes nothing without your confirmation.",
+  "disabled": {
+    "title": "The assistant is not connected.",
+    "hint": "The server admin needs to set AI_ENABLED and an ANTHROPIC_API_KEY. Everything else works as usual."
+  },
+  "conversations": "Conversations",
+  "newChat": "New conversation",
+  "untitled": "Untitled",
+  "deleteChat": "Delete conversation",
+  "welcome": {
+    "title": "How can I help?",
+    "hint": "Ask about free time, have it draft a day plan, or capture a task."
+  },
+  "consent": {
+    "summary": "AI may read: {{list}}",
+    "edit": "Change",
+    "title": "What AI may read",
+    "hint": "The assistant sees only the areas you choose, and only when it needs them for an answer. Journal and wellness only if you turn them on explicitly.",
+    "enable": "Turn the assistant on",
+    "done": "Done",
+    "disable": "Turn everything off"
+  },
+  "scope": {
+    "TASKS": "Tasks",
+    "SCHEDULE": "Schedule",
+    "HABITS": "Habits",
+    "GOALS": "Goals",
+    "JOURNAL": "Journal",
+    "WELLNESS": "Wellness",
+    "ANALYTICS": "Analytics"
+  },
+  "scopeHint": {
+    "TASKS": "Task titles, due dates and statuses",
+    "SCHEDULE": "Events and free windows",
+    "HABITS": "Habits and check-offs",
+    "GOALS": "Goals and progress",
+    "JOURNAL": "Only entries marked “AI may read”",
+    "WELLNESS": "Sleep and state averages",
+    "ANALYTICS": "Metrics for a period"
+  },
+  "chat": "Conversation",
+  "examples": {
+    "title": "For example:",
+    "plan": "Plan tomorrow around my free time",
+    "task": "Add a task: prepare the seminar slides",
+    "free": "When do I have two free hours this week?"
+  },
+  "placeholder": "Write a message… (Enter to send)",
+  "send": "Send",
+  "disclaimer": "AI can be wrong. Every change shows up as a draft first — check it before confirming.",
+  "thinking": "Thinking…",
+  "errors": {
+    "AI_PROVIDER_UNAVAILABLE": "AI is unavailable right now. Everything else works — try again later.",
+    "AI_INVALID_OUTPUT": "Could not put an answer together. Try rephrasing.",
+    "AI_REFUSED": "The assistant can’t help with this request."
+  },
+  "context": {
+    "button": "What the AI saw",
+    "none": "The AI did not read your data for this answer."
+  },
+  "field": {
+    "title": "Title",
+    "due_date": "Due",
+    "priority": "Priority",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "body": "Text",
+    "description": "Description",
+    "estimated_minutes": "Estimate, min",
+    "subtasks": "Subtasks",
+    "time_type": "Time type",
+    "task_id": "Task",
+    "event_id": "Event",
+    "reason": "Reason",
+    "titles": "Subtasks",
+    "habit_id": "Habit",
+    "status": "Status",
+    "value": "Value"
+  },
+  "priority": {
+    "LOW": "Low",
+    "MEDIUM": "Medium",
+    "HIGH": "High",
+    "URGENT": "Urgent"
+  },
+  "action": {
+    "CREATE_TASK": "New task",
+    "UPDATE_TASK": "Update task",
+    "CREATE_EVENT": "New event",
+    "UPDATE_EVENT": "Update event",
+    "RESCHEDULE_EVENT": "Move event",
+    "CREATE_SUBTASKS": "Subtasks",
+    "LOG_HABIT": "Check off habit",
+    "CREATE_JOURNAL_DRAFT": "Journal draft"
+  },
+  "actionStatus": {
+    "PROPOSED": "Draft",
+    "CONFIRMED": "Confirmed",
+    "EXECUTED": "Done",
+    "REJECTED": "Rejected",
+    "FAILED": "Failed",
+    "EXPIRED": "Expired",
+    "REVERTED": "Undone"
+  },
+  "assumptions": "Assumptions",
+  "conflicts": "Overlaps with: {{list}}",
+  "confirm": "Confirm",
+  "reject": "Reject",
+  "open": "Open",
+  "revert": "Undo"
+}
