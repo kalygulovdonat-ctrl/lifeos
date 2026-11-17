@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import time
 from typing import Any
 
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
@@ -113,8 +114,8 @@ class UserProfile(models.Model):
         default=1, validators=[MinValueValidator(1), MaxValueValidator(7)]
     )
     theme = models.CharField(max_length=8, choices=Theme.choices, default=Theme.SYSTEM)
-    day_start_time = models.TimeField(default="07:00")
-    day_end_time = models.TimeField(default="23:00")
+    day_start_time = models.TimeField(default=time(7, 0))
+    day_end_time = models.TimeField(default=time(23, 0))
     pomodoro_settings = models.JSONField(default=default_pomodoro)
     overload_threshold_minutes = models.PositiveIntegerField(default=600)
     onboarding_completed_at = models.DateTimeField(null=True, blank=True)

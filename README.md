@@ -7,6 +7,18 @@ Personal Life Management System — планирование, задачи, пр
 
 ## Скриншоты
 
+| Главная | Расписание — неделя |
+| --- | --- |
+| ![Главная](docs/screenshots/phase1-dashboard.png) | ![Неделя](docs/screenshots/phase1-week.png) |
+| **День и свободное время** | **Задачи** |
+| ![День](docs/screenshots/phase1-day.png) | ![Задачи](docs/screenshots/phase1-tasks.png) |
+| **Карточка задачи** | **Тёмная тема** |
+| ![Карточка задачи](docs/screenshots/phase1-task-drawer.png) | ![Тёмная тема](docs/screenshots/phase1-week-dark.png) |
+
+<img src="docs/screenshots/phase1-mobile-tasks.png" alt="Задачи на телефоне" width="300">
+
+<details><summary>Phase 0: вход, настройки</summary>
+
 | Вход | Главная |
 | --- | --- |
 | ![Вход](docs/screenshots/01-login-light.png) | ![Главная](docs/screenshots/03-dashboard-light.png) |
@@ -15,7 +27,21 @@ Personal Life Management System — планирование, задачи, пр
 
 <img src="docs/screenshots/08-dashboard-mobile.png" alt="Мобильная версия" width="300">
 
-## Статус: Phase 0 — Foundation ✅
+</details>
+
+## Статус: Phase 1 — Planning Core ✅
+
+| Модуль | Что готово |
+| --- | --- |
+| Расписание | Виды «день / неделя / месяц / список»; 6 типов времени (`FIXED`, `FOCUS`, `PERSONAL`, `REST`, `BUFFER`, `FREE`); повторения (каждый день, по будням, еженедельно, ежемесячно, до даты) с виртуальным развёртыванием в часовом поясе события, в том числе через переход на летнее время; правка одного экземпляра, «этого и следующих» или всей серии; исключение экземпляра; перенос с причиной и историей; статусы «выполнено / пропущено / отменено» |
+| Конфликты | Матрица SDD §6.3: два `FIXED` → `409 SCHEDULE_CONFLICT` с возможностью «сохранить всё равно» (`?force=true`), остальные пересечения — предупреждения; проверка ещё до сохранения |
+| Свободное время | Рабочее окно профиля минус занятые блоки, окна от 15 минут; клик по окну создаёт событие |
+| Задачи | Статусы с матрицей переходов (`409 INVALID_STATUS_TRANSITION`), приоритеты, сроки «до конца дня» в часовом поясе пользователя, оценка, категории и теги, подзадачи, перенос с причиной, история статусов, архив, мягкое удаление; блок времени в расписании для задачи |
+| Входящие | Быстрый захват одной строкой, разбор («Разобрано» или назначение срока / категории / приоритета) |
+| Категории | Создание, переименование, цвет, архив (Настройки → Категории) |
+| Главная | Одна выдача `GET /dashboard/`: расписание дня, задачи на сегодня и просроченные, Входящие, свободное время, фокус и выполненные задачи |
+
+## Phase 0 — Foundation ✅
 
 | Область | Что готово |
 | --- | --- |
@@ -94,9 +120,12 @@ backend/
   config/            settings (base/local/test/production), urls, celery
   common/            ошибки, базовые модели, audit, idempotency, время, логи, health
   apps/accounts/     пользователь, профиль, категории, теги, JWT-аутентификация
+  apps/schedule/     события, серии (RRULE), конфликты, свободное время
+  apps/tasks/        задачи, подзадачи, история статусов, Входящие
+  apps/dashboard/    агрегированная выдача главной страницы
 frontend/src/
   app/               router, layouts, providers (i18n, query client)
-  modules/           auth, dashboard, settings, placeholder (остальные модули — Phase 1+)
+  modules/           auth, dashboard, schedule, tasks, settings, placeholder (модули Phase 2+)
   shared/            api-клиент, store, компоненты, хуки, утилиты времени
   locales/{ru,en,ky}/
 infra/               Dockerfiles, nginx, compose, backup/restore
@@ -113,4 +142,4 @@ infra/               Dockerfiles, nginx, compose, backup/restore
 
 ## Следующий шаг
 
-**Phase 1 — Planning Core:** Schedule (события, серии, конфликты, свободное время), Tasks (статусы, подзадачи, Inbox, история), Dashboard-виджеты — по SDD §4.4–4.5, §6.3, §7.2.
+**Phase 2 — Personal Development:** Habits, Goals и Milestones, Journal, Time Tracking — по SDD §4.6–4.9.

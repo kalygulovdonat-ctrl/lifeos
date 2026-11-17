@@ -50,8 +50,8 @@ export const NAV_GROUPS: NavGroup[] = [
   {
     key: 'planning',
     items: [
-      { key: 'schedule', to: '/schedule', icon: CalendarDays, phase: 'Phase 1' },
-      { key: 'tasks', to: '/tasks', icon: ListTodo, phase: 'Phase 1' },
+      { key: 'schedule', to: '/schedule', icon: CalendarDays },
+      { key: 'tasks', to: '/tasks', icon: ListTodo },
       { key: 'time', to: '/time', icon: Timer, phase: 'Phase 2' },
     ],
   },

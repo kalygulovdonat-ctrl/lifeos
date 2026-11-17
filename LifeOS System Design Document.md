@@ -65,6 +65,19 @@ PRD определяет, **что** делает LifeOS. Этот докуме�
 | BR-064                              | «Отсутствие записи не всегда невыполнение» — не формализовано   | Формализовано в §5.3: исключаются дни до старта, дни паузы, плановый отдых и текущий незавершённый день.        |
 | Раздел 11 `kg`                      | Код страны вместо кода языка                                    | ADR-014.                                                                                                        |
 
+### Уточнения при реализации Phase 1
+
+| Место SDD | Уточнение |
+| --- | --- |
+| §4.4 `event_series.dtstart_local` | Хранится `dtstart_at timestamptz` + `timezone`. Локальное начало получается переводом в TZ серии; развёртывание идёт по «настенному» времени, поэтому 09:00 остаётся 09:00 после перехода на летнее время. |
+| §4.4 `event.series_id` | `ON DELETE CASCADE` вместо `SET NULL`: иначе нарушается CK `(series_id IS NULL) = (original_start_at IS NULL)`. Серии удаляются мягко, физическое удаление — только вместе с аккаунтом. |
+| §4.4 GiST-индекс | Пока B-tree `(user_id, start_at)` и `(user_id, end_at)`: тесты идут и на SQLite. GiST по `tstzrange` добавляется миграцией только для PostgreSQL, когда понадобится по нагрузке. |
+| §7.2 `POST /events/` | Повторение передаётся структурой `recurrence: {freq, interval, by_day, by_month_day, count, until}`; сервер сам собирает RRULE и проверяет допустимые части. |
+| §7.2 `/event-series/{id}/occurrences/{original_start}/` | `{original_start}` — Unix-время начала экземпляра в секундах (вторая часть `occurrence_key`), чтобы не кодировать `+` и `:` в пути. |
+| §4.5 `task.due_at` | API принимает либо `due_at` (с офсетом, `due_has_time = true`), либо `due_date` (`YYYY-MM-DD` → конец этого дня в TZ пользователя). В ответе есть вычисленное `due_date`. |
+| §4.5 `milestone_id`, `task_recurrence`; `/tasks/{id}/time-entries/` | Появятся вместе с Goals и Time Tracking в Phase 2. |
+| §7.2 `GET /dashboard/` | Поля `habits`, `goals`, `active_timer` уже есть в ответе и равны `null` до Phase 2. |
+
 ---
 
 # **2. Модель времени**

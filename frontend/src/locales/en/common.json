@@ -26,7 +26,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "back": "Back",
-    "retry": "Retry"
+    "retry": "Retry",
+    "close": "Close"
   },
   "status": {
     "loading": "Loading…",

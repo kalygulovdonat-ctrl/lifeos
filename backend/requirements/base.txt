@@ -14,3 +14,4 @@ tzdata>=2025.2
 gunicorn>=23,<24
 uvicorn>=0.35,<1
 whitenoise>=6.9,<7
+python-dateutil>=2.9,<3

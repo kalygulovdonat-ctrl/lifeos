@@ -80,3 +80,113 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---------- Settings tabs & categories ---------- */
+.tabs {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+.tabs a {
+  padding: 10px 4px;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: var(--space-4);
+}
+.tabs a:hover {
+  text-decoration: none;
+  color: var(--color-text);
+}
+.tabs a:global(.active) {
+  color: var(--color-text);
+  border-color: var(--color-primary);
+}
+.catForm {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+.catForm input,
+.catItem input {
+  flex: 1;
+  min-width: 160px;
+  height: 38px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+.swatches {
+  display: flex;
+  gap: 6px;
+}
+.swatches button {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0%);
+}
+.swatches button[aria-checked='true'] {
+  border-color: var(--color-text);
+  box-shadow: inset 0 0 0 2px var(--color-surface);
+}
+.catList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.catItem {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: 10px 4px;
+  border-top: 1px solid var(--color-border);
+}
+.catItem > i {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+.catItem > span {
+  flex: 1;
+  font-weight: 550;
+}
+.catItem button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+.catItem button:hover {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+}
+.catError {
+  width: 100%;
+  color: var(--color-danger);
+  font-size: 13px;
+}
+.catEmpty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-muted);
+}

@@ -37,6 +37,7 @@ import { syncPreferences } from '@/shared/hooks/useSession';
 import { useAuthStore } from '@/shared/store/authStore';
 import { clockOptions, supportedTimezones } from '@/shared/utils/datetime';
 
+import { SettingsTabs } from './CategoriesSettingsPage';
 import styles from './settings.module.css';
 
 const schema = z
@@ -136,6 +137,7 @@ export default function ProfileSettingsPage() {
   return (
     <form className={styles.page} onSubmit={onSubmit} noValidate>
       <PageHeader title={t('title')} description={t('subtitle')} />
+      <SettingsTabs />
       {status === 'error' && errorText ? <Alert>{errorText}</Alert> : null}
 
       {section(

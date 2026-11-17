@@ -82,3 +82,21 @@ class IdempotencyRecord(models.Model):
 
     def __str__(self) -> str:
         return f"{self.method} {self.path} [{self.key}]"
+
+
+class AliveManager(models.Manager):
+    """Default manager for soft-deletable models: hides rows with deleted_at set (ADR-012)."""
+
+    def get_queryset(self) -> models.QuerySet:
+        return super().get_queryset().filter(deleted_at__isnull=True)
+
+
+class SoftDeleteModel(OwnedModel):
+    deleted_at = models.DateTimeField(null=True, blank=True)
+
+    objects = AliveManager()
+    all_objects = models.Manager()  # noqa: DJ012
+
+    class Meta:
+        abstract = True
+        base_manager_name = "all_objects"

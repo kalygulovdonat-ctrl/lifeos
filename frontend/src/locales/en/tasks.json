@@ -1,0 +1,122 @@
+{
+  "title": "Tasks",
+  "subtitle": "Everything to do, from a quick thought in the Inbox to done.",
+  "drawerTitle": "Task",
+  "notFound": "The task was not found or has been deleted.",
+  "views": {
+    "open": "Active",
+    "today": "Today",
+    "inbox": "Inbox",
+    "done": "Finished"
+  },
+  "quickAdd": {
+    "label": "New task",
+    "placeholder": "New task — press Enter",
+    "inboxPlaceholder": "Jot it down, sort it later",
+    "add": "Add"
+  },
+  "search": "Search tasks",
+  "allPriorities": "Any priority",
+  "inboxHint": "The Inbox holds quick thoughts. Sort them: set a due date, priority or category and the task moves to your list.",
+  "groups": {
+    "overdue": "Overdue",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "later": "Later",
+    "noDate": "No due date"
+  },
+  "due": {
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "yesterday": "Yesterday"
+  },
+  "status": {
+    "BACKLOG": "Someday",
+    "TODO": "To do",
+    "IN_PROGRESS": "In progress",
+    "POSTPONED": "Postponed",
+    "COMPLETED": "Completed",
+    "CANCELLED": "Cancelled"
+  },
+  "priority": {
+    "LOW": "Low",
+    "MEDIUM": "Medium",
+    "HIGH": "High",
+    "URGENT": "Urgent"
+  },
+  "empty": {
+    "open": {
+      "title": "Nothing here yet",
+      "description": "Add your first task in the field above."
+    },
+    "today": {
+      "title": "Nothing for today",
+      "description": "Tasks due today and overdue ones show up here."
+    },
+    "inbox": {
+      "title": "Inbox zero",
+      "description": "Drop anything that comes to mind here and sort it later."
+    },
+    "done": {
+      "title": "No finished tasks yet",
+      "description": "Completed and cancelled tasks stay here with their history."
+    }
+  },
+  "fields": {
+    "title": "Title",
+    "description": "Description",
+    "priority": "Priority",
+    "category": "Category",
+    "noCategory": "No category",
+    "dueDate": "Due date",
+    "estimate": "Estimate, min"
+  },
+  "actions": {
+    "complete": "Mark as done",
+    "reopen": "Reopen",
+    "start": "Start",
+    "pause": "Back to To do",
+    "postpone": "Postpone",
+    "schedule": "Block time",
+    "cancel": "Cancel task",
+    "restore": "Restore",
+    "triage": "Sorted",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
+    "delete": "Delete",
+    "confirmDelete": "Yes, delete",
+    "keep": "Keep",
+    "save": "Save",
+    "discard": "Discard changes",
+    "close": "Close"
+  },
+  "postponedTimes": "Postponed: {{count}}",
+  "postpone": {
+    "title": "Postpone task",
+    "newDate": "New due date",
+    "reason": "Reason",
+    "reasonHint": "Optional when a new date is set",
+    "submit": "Postpone"
+  },
+  "scheduleBlock": {
+    "title": "Time for this task",
+    "hint": "A focus block “{{title}}” will appear in your schedule.",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "submit": "Add to schedule",
+    "created": "The block was added to your schedule."
+  },
+  "subtasks": {
+    "title": "Subtasks",
+    "placeholder": "Add a subtask and press Enter",
+    "progress": "{{done}} of {{total}}"
+  },
+  "history": {
+    "title": "History",
+    "created": "Task created",
+    "changed": "{{from}} → {{to}}",
+    "reason": "Reason: {{reason}}",
+    "due": "New due date: {{date}}"
+  }
+}

@@ -32,6 +32,9 @@ INSTALLED_APPS = [
     # LifeOS
     "common",
     "apps.accounts",
+    "apps.tasks",
+    "apps.schedule",
+    "apps.dashboard",
 ]
 
 MIDDLEWARE = [
@@ -152,6 +155,10 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
     "SCHEMA_PATH_PREFIX": r"/api/v1",
     "COMPONENT_SPLIT_REQUEST": True,
+    "ENUM_NAME_OVERRIDES": {
+        "TaskStatusEnum": "apps.tasks.models.TaskStatus",
+        "EventStatusEnum": "apps.schedule.models.EventStatus",
+    },
 }
 
 # --- JWT (ADR-004) ----------------------------------------------------------------

@@ -1,23 +1,11 @@
-import {
-  ArrowUpRight,
-  CalendarDays,
-  Clock,
-  Flame,
-  Hourglass,
-  ListTodo,
-  MapPin,
-  Target,
-  type LucideIcon,
-} from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { motion } from 'motion/react';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router';
 
 import { Aurora } from '@/shared/components/brand';
 import { CountUp, ProgressBar, ProgressRing, RevealText } from '@/shared/components/motion';
-import { riseChild, spotlight, staggerParent } from '@/shared/components/motion-utils';
-import { Badge, IconTile } from '@/shared/components/ui';
+import { Badge } from '@/shared/components/ui';
+import { useNow } from '@/shared/hooks/usePrefs';
 import { useAuthStore } from '@/shared/store/authStore';
 import {
   dayPart,
@@ -30,34 +18,11 @@ import {
   yearProgress,
 } from '@/shared/utils/datetime';
 
+import { DayWidgets } from './DayWidgets';
 import styles from './dashboard.module.css';
 
 const capitalize = (text: string) => text.charAt(0).toLocaleUpperCase() + text.slice(1);
 const percent = (n: number) => `${Math.round(n)}%`;
-
-/** Widgets of DASH-003…009. Real data arrives with their modules; until then, an honest empty state. */
-const WIDGETS: ReadonlyArray<{
-  key: 'schedule' | 'tasks' | 'habits' | 'goals' | 'free' | 'focus';
-  icon: LucideIcon;
-  to: string;
-  phase: string;
-}> = [
-  { key: 'schedule', icon: CalendarDays, to: '/schedule', phase: 'Phase 1' },
-  { key: 'tasks', icon: ListTodo, to: '/tasks', phase: 'Phase 1' },
-  { key: 'free', icon: Hourglass, to: '/schedule', phase: 'Phase 1' },
-  { key: 'habits', icon: Flame, to: '/habits', phase: 'Phase 2' },
-  { key: 'goals', icon: Target, to: '/goals', phase: 'Phase 2' },
-  { key: 'focus', icon: Clock, to: '/time', phase: 'Phase 2' },
-];
-
-function useNow(intervalMs = 30_000): Date {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const id = window.setInterval(() => setNow(new Date()), intervalMs);
-    return () => window.clearInterval(id);
-  }, [intervalMs]);
-  return now;
-}
 
 /** DASH-001/002 plus live, honest time context: working day, week and year progress. */
 export default function DashboardPage() {
@@ -166,58 +131,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section aria-labelledby="today-title" className={styles.section}>
-        <div className={styles.sectionHead}>
-          <h2 id="today-title">{t('todayTitle')}</h2>
-          <p>{t('foundationReady')}</p>
-        </div>
-        <motion.div
-          className={styles.grid}
-          variants={staggerParent}
-          initial="hidden"
-          animate="show"
-        >
-          {WIDGETS.map(({ key, icon: Icon, to, phase }, index) => (
-            <motion.div
-              key={key}
-              variants={riseChild}
-              className={index === 0 ? styles.wide : undefined}
-            >
-              <Link to={to} viewTransition className={styles.widget} onPointerMove={spotlight}>
-                <span className={styles.widgetGlow} aria-hidden="true" />
-                <div className={styles.widgetHead}>
-                  <IconTile size={40}>
-                    <Icon size={19} />
-                  </IconTile>
-                  <Badge tone="accent">{phase}</Badge>
-                </div>
-                <h3>{t(`widgets.${key}.title`)}</h3>
-                {index === 0 ? <TimelinePreview /> : null}
-                <p>{t(`widgets.${key}.empty`)}</p>
-                <span className={styles.widgetLink}>
-                  {t('openModule')}
-                  <ArrowUpRight size={15} aria-hidden="true" />
-                </span>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-    </div>
-  );
-}
-
-/** Empty day grid hinting at the future schedule view (no fake events). */
-function TimelinePreview() {
-  const hours = [8, 10, 12, 14, 16, 18, 20];
-  return (
-    <div className={styles.timeline} aria-hidden="true">
-      {hours.map((h) => (
-        <div key={h} className={styles.slot}>
-          <span>{String(h).padStart(2, '0')}:00</span>
-          <i />
-        </div>
-      ))}
+      <DayWidgets />
     </div>
   );
 }

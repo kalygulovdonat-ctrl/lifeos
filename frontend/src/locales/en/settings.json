@@ -47,5 +47,21 @@
       "title": "Working day",
       "description": "The window in which LifeOS looks for free time."
     }
+  },
+  "tabs": {
+    "profile": "Profile",
+    "categories": "Categories"
+  },
+  "categories": {
+    "subtitle": "Categories colour tasks and events and show where your time goes.",
+    "placeholder": "New category",
+    "add": "Add",
+    "color": "Colour",
+    "name": "Name",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "archive": "Archive",
+    "empty": "No categories yet."
   }
 }

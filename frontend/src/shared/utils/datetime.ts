@@ -173,3 +173,84 @@ export function yearProgress(now: Date, timezone: string): { year: number; progr
   const dayOfYear = (today - startOfYear) / 86_400_000;
   return { year: p.year, progress: (dayOfYear + (p.hour * 60 + p.minute) / 1440) / daysInYear };
 }
+
+/* ---------- Calendar keys: local dates as "YYYY-MM-DD" (SDD §2.4) ---------- */
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+/** Local calendar date of `date` in `timezone`. */
+export function dateKey(date: Date, timezone: string): string {
+  const p = localParts(date, timezone);
+  return `${p.year}-${pad(p.month)}-${pad(p.day)}`;
+}
+
+function keyToUtc(key: string): Date {
+  const [y = 1970, m = 1, d = 1] = key.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d, 12));
+}
+
+export function addDays(key: string, days: number): string {
+  const d = keyToUtc(key);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+export function addMonths(key: string, months: number): string {
+  const d = keyToUtc(key);
+  d.setUTCDate(1);
+  d.setUTCMonth(d.getUTCMonth() + months);
+  return d.toISOString().slice(0, 10);
+}
+
+/** ISO weekday of a calendar key: 1 = Monday … 7 = Sunday. */
+export function isoWeekday(key: string): number {
+  return keyToUtc(key).getUTCDay() || 7;
+}
+
+export function startOfWeek(key: string, weekStart: number): string {
+  return addDays(key, -((isoWeekday(key) - weekStart + 7) % 7));
+}
+
+export function startOfMonth(key: string): string {
+  return `${key.slice(0, 7)}-01`;
+}
+
+export function daysBetween(from: string, to: string): number {
+  return Math.round((keyToUtc(to).getTime() - keyToUtc(from).getTime()) / 86_400_000);
+}
+
+/** Wall-clock time in `timezone` → absolute instant (ISO, UTC). Correct across DST. */
+export function zonedIso(key: string, hhmm: string, timezone: string): string {
+  const [y = 1970, mo = 1, d = 1] = key.split('-').map(Number);
+  const [h = 0, mi = 0] = hhmm.split(':').map(Number);
+  const wanted = Date.UTC(y, mo - 1, d, h, mi);
+  let guess = wanted;
+  for (let i = 0; i < 2; i++) {
+    const p = localParts(new Date(guess), timezone);
+    const seen = Date.UTC(p.year, p.month - 1, p.day, p.hour, p.minute);
+    guess += wanted - seen;
+  }
+  return new Date(guess).toISOString();
+}
+
+/** "HH:MM" of an instant on the wall clock of `timezone`. */
+export function clockOf(date: Date, timezone: string): string {
+  const p = localParts(date, timezone);
+  return `${pad(p.hour)}:${pad(p.minute)}`;
+}
+
+export function minutesOfDay(date: Date, timezone: string): number {
+  const p = localParts(date, timezone);
+  return p.hour * 60 + p.minute;
+}
+
+/** Formats a calendar key (no time zone shift: the key already is a local date). */
+export function formatKey(
+  key: string,
+  language: Language,
+  options: Intl.DateTimeFormatOptions,
+): string {
+  return new Intl.DateTimeFormat(intlLocale(language), { ...options, timeZone: 'UTC' }).format(
+    keyToUtc(key),
+  );
+}

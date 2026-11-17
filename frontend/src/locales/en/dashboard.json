@@ -6,7 +6,6 @@
     "night": "Good night, {{name}}"
   },
   "today": "Today",
-  "foundationReady": "Widgets show up here as soon as their modules are ready.",
   "timezoneNote": "Time zone: {{tz}}",
   "lead": {
     "morning": "A good moment to set what matters today.",
@@ -19,15 +18,22 @@
   "widgets": {
     "schedule": {
       "title": "Today's schedule",
-      "empty": "Events and focus blocks appear here together with the schedule module."
+      "empty": "Events and focus blocks appear here together with the schedule module.",
+      "none": "No events today.",
+      "add": "Plan your day",
+      "now": "Now"
     },
     "tasks": {
       "title": "Today's tasks",
-      "empty": "Tasks due today and your inbox."
+      "empty": "Tasks due today and your inbox.",
+      "none": "No tasks due today.",
+      "allDone": "All done for today!",
+      "inbox": "In the Inbox: {{count}}"
     },
     "free": {
       "title": "Free time",
-      "empty": "Open slots inside your working day."
+      "empty": "Open slots inside your working day.",
+      "busy": "{{busy}} h busy in your working window"
     },
     "habits": {
       "title": "Habits",
@@ -38,7 +44,7 @@
       "empty": "Goal progress and upcoming milestones."
     },
     "focus": {
-      "title": "Focus time",
+      "title": "Day stats",
       "empty": "How much time went into deep work."
     }
   },
@@ -50,12 +56,21 @@
   },
   "units": {
     "hm": "{{h}} h {{m}} min",
-    "m": "{{m}} min"
+    "m": "{{m}} min",
+    "hours": "{{value}} h"
   },
   "week": {
     "title": "Week"
   },
   "year": {
     "title": "Year {{year}}"
+  },
+  "dayHint": "Today’s schedule, tasks and free time in one place.",
+  "openSchedule": "Open schedule",
+  "openTasks": "All tasks",
+  "stats": {
+    "focus": "Focus",
+    "planned": "Planned",
+    "done": "Tasks done"
   }
 }

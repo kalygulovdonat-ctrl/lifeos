@@ -1,0 +1,88 @@
+{
+  "title": "Schedule",
+  "subtitle": "Fixed events, focus blocks and honest free time.",
+  "newEvent": "Event",
+  "today": "Today",
+  "prev": "Previous",
+  "next": "Next",
+  "viewLabel": "Calendar view",
+  "views": {
+    "day": "Day",
+    "week": "Week",
+    "month": "Month",
+    "agenda": "Agenda"
+  },
+  "more": "{{count}} more",
+  "agendaEmpty": "No events in the next two weeks.",
+  "timeType": {
+    "FIXED": "Fixed",
+    "FOCUS": "Focus",
+    "PERSONAL": "Personal",
+    "REST": "Rest",
+    "BUFFER": "Buffer",
+    "FREE": "Free"
+  },
+  "timeTypeHint": {
+    "FIXED": "Cannot move: classes, meetings, shifts. Two fixed events overlapping is a conflict.",
+    "FOCUS": "Time for deep work on a task.",
+    "PERSONAL": "Errands, sport, seeing friends.",
+    "REST": "Planned rest is part of the plan too.",
+    "BUFFER": "Travel and slack between things.",
+    "FREE": "Time you deliberately keep free."
+  },
+  "repeat": {
+    "none": "Does not repeat",
+    "daily": "Every day",
+    "weekdays": "Every weekday",
+    "weekly": "Every week",
+    "monthly": "Every month"
+  },
+  "editor": {
+    "createTitle": "New event",
+    "editTitle": "Event",
+    "title": "Title",
+    "titlePlaceholder": "e.g. Calculus lecture",
+    "type": "Time type",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "endBeforeStart": "End must be after start",
+    "repeat": "Repeat",
+    "until": "Until",
+    "category": "Category",
+    "noCategory": "No category",
+    "reminder": "Reminder",
+    "noReminder": "No reminder",
+    "reminderBefore": "{{count}} min before",
+    "location": "Location",
+    "description": "Notes",
+    "scope": "Apply changes to",
+    "scopes": {
+      "this": "This event",
+      "following": "This and following",
+      "all": "All events"
+    },
+    "linkedTask": "Linked to task “{{title}}”",
+    "overlapTitle": "Overlaps with:",
+    "conflictTitle": "Conflicts with a fixed event:",
+    "conflictHint": "You can save anyway — the conflict stays visible in the calendar.",
+    "saveAnyway": "Save anyway",
+    "save": "Save",
+    "close": "Close",
+    "markDone": "Done",
+    "markMissed": "Missed",
+    "markCancelled": "Cancel",
+    "delete": "Delete",
+    "deleteOne": "Delete this one",
+    "deleteSeries": "Delete series",
+    "atStart": "At start time"
+  },
+  "free": {
+    "title": "Free time",
+    "minutes": "{{h}} h {{m}} min",
+    "busy": "Busy: {{h}} h {{m}} min",
+    "slotMinutes": "{{count}} min",
+    "none": "No free windows in your working day.",
+    "hint": "Counted inside the working window from your profile settings. Click a window to fill it."
+  }
+}
