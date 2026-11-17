@@ -45,7 +45,9 @@ def test_dashboard_aggregates_day(api_client):
     assert body["stats"]["planned_minutes"] == 210
     assert body["stats"]["focus_minutes"] == 120
     assert body["free_time"]["busy_minutes"] == 210
-    assert body["habits"] is None
+    assert body["habits"] == {"planned": 0, "done": 0, "items": []}
+    assert body["active_timer"] is None
+    assert body["goals"] == []
 
 
 def test_dashboard_defaults_to_today_and_isolates(api_client, other_client):

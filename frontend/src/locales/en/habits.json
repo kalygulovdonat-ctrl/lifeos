@@ -1,0 +1,133 @@
+{
+  "title": "Habits",
+  "subtitle": "Regular actions with honest stats: streaks, consistency and rest days.",
+  "new": "Habit",
+  "prevDay": "Previous day",
+  "nextDay": "Next day",
+  "back": "All habits",
+  "edit": "Edit",
+  "archive": "Archive",
+  "restore": "Restore",
+  "archived": "archived",
+  "showArchived": "Show archive",
+  "hideArchived": "Hide archive",
+  "noArchived": "The archive is empty.",
+  "min": "min",
+  "empty": {
+    "title": "No habits yet",
+    "description": "Start with one small habit — say, 10 minutes of reading a day."
+  },
+  "today": {
+    "title": "Today",
+    "otherTitle": "Not scheduled for this day",
+    "undo": "Undo",
+    "markDone": "Mark “{{name}}”",
+    "period": "{{done}} of {{needed}} this period",
+    "paused": "paused",
+    "notPlanned": "not scheduled",
+    "streak": "Current streak",
+    "addValue": "Add a value for “{{name}}”",
+    "add": "Add"
+  },
+  "status": {
+    "DONE": "Done",
+    "PARTIAL": "Partial",
+    "SKIPPED": "Skipped",
+    "REST": "Rest",
+    "MISSED": "Missed"
+  },
+  "type": {
+    "BOOLEAN": "Yes / no",
+    "QUANTITY": "Quantity",
+    "DURATION": "Time",
+    "SCALE": "Scale"
+  },
+  "typeHint": {
+    "BOOLEAN": "Just a “done” check.",
+    "QUANTITY": "Count things: glasses of water, pages, steps. A day’s records add up.",
+    "DURATION": "Count minutes. A day’s records add up.",
+    "SCALE": "A rating, e.g. wellbeing from 1 to 5."
+  },
+  "freq": {
+    "DAILY": "Every day",
+    "WEEKDAYS": "On weekdays",
+    "TIMES_PER_WEEK": "N times a week",
+    "TIMES_PER_MONTH": "N times a month",
+    "EVERY_N_DAYS": "Every N days"
+  },
+  "freqLabel": {
+    "TIMES_PER_WEEK": "{{count}}× a week",
+    "TIMES_PER_MONTH": "{{count}}× a month",
+    "EVERY_N_DAYS": "Every {{count}} days"
+  },
+  "weekday": {
+    "MO": "Mon",
+    "TU": "Tue",
+    "WE": "Wed",
+    "TH": "Thu",
+    "FR": "Fri",
+    "SA": "Sat",
+    "SU": "Sun"
+  },
+  "comparison": {
+    "GTE": "At least the target",
+    "LTE": "At most the target"
+  },
+  "editor": {
+    "createTitle": "New habit",
+    "editTitle": "Habit",
+    "name": "Name",
+    "namePlaceholder": "e.g. Read for 20 minutes",
+    "type": "How to track",
+    "unit": "Unit",
+    "unitPlaceholder": "glasses, pages…",
+    "scaleMin": "Scale minimum",
+    "scaleMax": "Scale maximum",
+    "frequency": "How often",
+    "weekdays": "Weekdays",
+    "times": "How many times",
+    "interval": "Interval, days",
+    "target": "Daily target, {{unit}}",
+    "scaleTarget": "Successful value",
+    "comparison": "Condition",
+    "start": "Start",
+    "category": "Category",
+    "noCategory": "No category",
+    "color": "Colour",
+    "versionHint": "A new frequency applies from today — past stats stay as they were.",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "stats": {
+    "current": "Current streak",
+    "best": "Best streak",
+    "week": "Consistency this week",
+    "month": "Consistency this month",
+    "total": "Total this month",
+    "hint": "Consistency = completed scheduled days ÷ scheduled days excluding rest and pauses. Today counts only once it is over."
+  },
+  "heatmap": {
+    "title": "Last six months",
+    "rest": "Rest or pause",
+    "missed": "Missed"
+  },
+  "logs": {
+    "title": "Records",
+    "void": "Void record",
+    "empty": "No records yet.",
+    "hint": "A voided record is not deleted — the history is kept."
+  },
+  "pause": {
+    "action": "Pause",
+    "title": "Pauses",
+    "open": "open-ended",
+    "remove": "Remove pause",
+    "none": "No pauses yet.",
+    "save": "Pause habit",
+    "hint": "Paused days (holiday, illness) neither break the streak nor hurt consistency.",
+    "start": "From",
+    "end": "To",
+    "reason": "Reason",
+    "reasonPlaceholder": "Holiday, illness…"
+  }
+}

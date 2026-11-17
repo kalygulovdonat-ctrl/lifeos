@@ -106,6 +106,8 @@ export interface Task {
   is_archived: boolean;
   subtasks_total: number;
   subtasks_done: number;
+  actual_minutes: number;
+  goal_ids: string[];
   created_at: string;
   updated_at: string;
 }
@@ -202,7 +204,235 @@ export interface DashboardData {
     tasks_completed: number;
     tasks_total: number;
   };
-  habits: null;
-  goals: null;
-  active_timer: null;
+  habits: { planned: number; done: number; items: TodayHabit[] };
+  goals: Goal[];
+  active_timer: TimeEntry | null;
+  tracked_minutes: number;
+}
+
+/* ---------- Habits (backend/apps/habits/serializers.py) ---------- */
+
+export type TrackingType = 'BOOLEAN' | 'DURATION' | 'QUANTITY' | 'SCALE';
+export type FrequencyType =
+  'DAILY' | 'WEEKDAYS' | 'TIMES_PER_WEEK' | 'TIMES_PER_MONTH' | 'EVERY_N_DAYS';
+export type HabitLogStatus = 'DONE' | 'PARTIAL' | 'SKIPPED' | 'REST' | 'MISSED';
+
+export interface HabitSchedule {
+  valid_from: string;
+  valid_to: string | null;
+  frequency_type: FrequencyType;
+  weekdays_mask: number | null;
+  times_per_period: number | null;
+  interval_days: number | null;
+  target_value: string | null;
+  target_comparison: 'GTE' | 'LTE';
+}
+
+export interface Habit {
+  id: string;
+  name: string;
+  description: string;
+  category_id: string | null;
+  tracking_type: TrackingType;
+  unit: string;
+  scale_min: number | null;
+  scale_max: number | null;
+  start_date: string;
+  end_date: string | null;
+  color: string | null;
+  is_active: boolean;
+  is_archived: boolean;
+  schedule: HabitSchedule | null;
+  created_at: string;
+}
+
+export interface HabitPause {
+  id: string;
+  start_date: string;
+  end_date: string | null;
+  reason: string;
+}
+
+export interface HabitDetail extends Habit {
+  schedules: HabitSchedule[];
+  pauses: HabitPause[];
+}
+
+export interface TodayHabit {
+  habit: Habit;
+  planned: boolean;
+  paused: boolean;
+  status: HabitLogStatus | null;
+  value: string | null;
+  target_value: string | null;
+  log_ids: string[];
+  period_done: number | null;
+  period_needed: number | null;
+  current_streak: number;
+}
+
+export interface HabitLog {
+  id: string;
+  habit_id: string;
+  log_date: string;
+  status: HabitLogStatus;
+  value: string | null;
+  note: string;
+  unit_snapshot: string;
+  target_value_snapshot: string | null;
+  logged_at: string;
+  is_voided: boolean;
+}
+
+export interface HabitStats {
+  consistency: number | null;
+  success: number;
+  eligible: number;
+  current_streak: number;
+  best_streak: number;
+  total_value: string;
+  done_days: number;
+}
+
+export interface HabitDay {
+  date: string;
+  planned: boolean;
+  paused: boolean;
+  status: HabitLogStatus | null;
+  value: string | null;
+}
+
+/* ---------- Goals (backend/apps/goals/views.py) ---------- */
+
+export type GoalLevel = 'VISION' | 'YEARLY' | 'QUARTERLY' | 'MONTHLY' | 'CUSTOM';
+export type GoalStatus = 'ACTIVE' | 'PAUSED' | 'COMPLETED' | 'ABANDONED';
+export type ProgressType = 'METRIC' | 'MILESTONES' | 'TASKS' | 'MANUAL';
+export type GoalAction = 'PAUSE' | 'RESUME' | 'COMPLETE' | 'ABANDON' | 'REOPEN';
+
+export interface Milestone {
+  id: string;
+  title: string;
+  due_date: string | null;
+  status: 'PENDING' | 'COMPLETED' | 'SKIPPED';
+  weight: string;
+  completed_at: string | null;
+  sort_order: number;
+}
+
+export interface Goal {
+  id: string;
+  parent_id: string | null;
+  level: GoalLevel;
+  title: string;
+  description: string;
+  category_id: string | null;
+  status: GoalStatus;
+  start_date: string;
+  target_date: string | null;
+  progress_type: ProgressType;
+  metric_unit: string;
+  start_value: string | null;
+  target_value: string | null;
+  current_value: string | null;
+  progress_pct: string;
+  target_reached: boolean;
+  completed_at: string | null;
+  milestones_total: number;
+  milestones_done: number;
+  tasks_total: number;
+  tasks_done: number;
+  created_at: string;
+}
+
+export interface GoalNode extends Goal {
+  children: GoalNode[];
+}
+
+export interface GoalDetail extends Goal {
+  milestones: Milestone[];
+}
+
+export interface GoalHistory {
+  progress: Array<{
+    id: string;
+    recorded_at: string;
+    value: string | null;
+    progress_pct: string;
+    source: string;
+    note: string;
+  }>;
+  status: Array<{
+    id: string;
+    from_status: GoalStatus | null;
+    to_status: GoalStatus;
+    reason: string;
+    changed_at: string;
+  }>;
+}
+
+/* ---------- Journal ---------- */
+
+export type JournalType = 'DAILY' | 'FREE' | 'NOTE';
+export const DAILY_SECTIONS = [
+  'happened',
+  'accomplished',
+  'problems',
+  'learned',
+  'grateful',
+  'improve',
+  'tomorrow',
+] as const;
+export type DailySection = (typeof DAILY_SECTIONS)[number];
+
+export interface JournalEntry {
+  id: string;
+  entry_date: string;
+  entry_type: JournalType;
+  title: string;
+  template_key: string | null;
+  sections: Partial<Record<DailySection, string>>;
+  body: string;
+  category_id: string | null;
+  tag_ids: string[];
+  is_sensitive: boolean;
+  ai_allowed: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+/* ---------- Time tracking ---------- */
+
+export interface TimeEntry {
+  id: string;
+  task: { id: string; title: string } | null;
+  task_id: string | null;
+  event_id: string | null;
+  category_id: string | null;
+  description: string;
+  status: 'RUNNING' | 'PAUSED' | 'STOPPED';
+  source: string;
+  started_at: string;
+  ended_at: string | null;
+  paused_seconds: number;
+  duration_seconds: number | null;
+  elapsed_seconds: number;
+  open_pause_at: string | null;
+  is_focus: boolean;
+  warnings?: Array<{ code: string; ids: string[] }>;
+}
+
+export interface PlanVsActual {
+  planned_minutes: number;
+  matched_minutes: number;
+  actual_minutes: number;
+  unplanned_minutes: number;
+  focus_minutes: number;
+  accuracy: number | null;
+  items: Array<{
+    title: string;
+    start_at: string;
+    time_type: TimeType;
+    planned_minutes: number;
+    actual_minutes: number;
+  }>;
 }

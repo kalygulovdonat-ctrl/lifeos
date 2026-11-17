@@ -1,0 +1,55 @@
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  margin: 0 12px 8px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #2a1f72, #6d28d9);
+  color: #fff;
+  font-size: 13px;
+  box-shadow: var(--shadow-md);
+}
+.pill:hover {
+  text-decoration: none;
+  filter: brightness(1.08);
+}
+.pill b {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+.pill span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0.85;
+}
+.pill[data-paused] {
+  background: var(--color-surface-3);
+  color: var(--color-text);
+}
+.pill[data-compact] {
+  margin: 0;
+  padding: 6px 10px;
+  border-radius: var(--radius-full);
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: #f87171;
+  animation: blink 1.2s ease-in-out infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}

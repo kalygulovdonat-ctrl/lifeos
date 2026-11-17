@@ -20,7 +20,8 @@
       "growth": "Growth",
       "insight": "Insight"
     },
-    "soon": "Coming · {{phase}}"
+    "soon": "Coming · {{phase}}",
+    "more": "More"
   },
   "actions": {
     "save": "Save",
@@ -69,7 +70,17 @@
     "RATE_LIMITED": "Too many requests. Try again later.",
     "INTERNAL_ERROR": "Internal server error.",
     "NETWORK_ERROR": "Cannot reach the server.",
-    "UNKNOWN_ERROR": "Something went wrong."
+    "UNKNOWN_ERROR": "Something went wrong.",
+    "HABIT_ALREADY_LOGGED": "This day is already logged.",
+    "HABIT_TYPE_LOCKED": "The habit type cannot change after the first records — create a new habit.",
+    "HABIT_LOG_VOIDED": "This record is already voided.",
+    "TIMER_ALREADY_RUNNING": "A timer is already running.",
+    "NO_ACTIVE_TIMER": "No timer is running.",
+    "DUPLICATE_TIME_ENTRY": "This time entry already exists.",
+    "JOURNAL_DAILY_EXISTS": "This day’s reflection already exists.",
+    "GOAL_PROGRESS_AUTOMATIC": "This goal’s progress is calculated automatically.",
+    "INVALID_STATUS_TRANSITION": "This status change is not allowed.",
+    "SCHEDULE_CONFLICT": "The time overlaps a fixed event."
   },
   "modules": {
     "schedule": {

@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { LogOut, Moon, Sun } from 'lucide-react';
+import { LayoutGrid, LogOut, Moon, Sun } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +19,7 @@ import { useAuthStore } from '@/shared/store/authStore';
 
 import { Brand } from './AuthLayout';
 import styles from './layouts.module.css';
+import { TimerPill } from '@/modules/time/TimerPill';
 
 function SidebarLink({ item }: { item: NavItem }) {
   const { t } = useTranslation();
@@ -143,6 +144,7 @@ export function AppLayout() {
             <SidebarLink item={SETTINGS_ITEM} />
           </div>
         </nav>
+        <TimerPill />
         <div className={styles.userCard}>
           <Avatar name={name} />
           <div className={styles.userMeta}>
@@ -165,6 +167,7 @@ export function AppLayout() {
         <div className={styles.mobileTop}>
           <Brand />
           <span className={styles.mobileActions}>
+            <TimerPill compact />
             <ThemeToggle />
             <button
               type="button"
@@ -200,6 +203,14 @@ export function AppLayout() {
             </NavLink>
           );
         })}
+        <NavLink
+          to="/more"
+          viewTransition
+          className={({ isActive }) => [styles.tab, isActive ? styles.tabActive : ''].join(' ')}
+        >
+          <LayoutGrid size={20} aria-hidden="true" />
+          {t('nav.more')}
+        </NavLink>
       </nav>
     </div>
   );

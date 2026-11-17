@@ -105,6 +105,12 @@ def _log(
     )
 
 
+def _goals_changed(task: Task) -> None:
+    from apps.goals.services import recalc_for_task  # goals depend on tasks, not the other way round
+
+    recalc_for_task(task)
+
+
 @transaction.atomic
 def task_create(
     *,
@@ -215,6 +221,7 @@ def task_change_status(
     task.status = status
     task.save()
     _log(task, current, status, reason=reason, old_due=old_due, new_due=task.due_at, actor=actor)
+    _goals_changed(task)
     audit(
         user=user,
         entity_type="task",
@@ -252,6 +259,7 @@ def task_delete(*, user: User, task: Task) -> None:
     """Soft delete; status history is kept (BR-026)."""
     task.deleted_at = now()
     task.save(update_fields=["deleted_at", "updated_at"])
+    _goals_changed(task)
     audit(user=user, entity_type="task", entity_id=task.id, action="DELETE")
 
 

@@ -8,6 +8,10 @@ api_v1 = [
     path("", include("apps.accounts.urls")),
     path("", include("apps.tasks.urls")),
     path("", include("apps.schedule.urls")),
+    path("", include("apps.habits.urls")),
+    path("", include("apps.goals.urls")),
+    path("", include("apps.journal.urls")),
+    path("", include("apps.time_tracking.urls")),
     path("", include("apps.dashboard.urls")),
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
 ]

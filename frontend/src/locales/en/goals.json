@@ -1,0 +1,112 @@
+{
+  "title": "Goals",
+  "subtitle": "Long-term goals broken into milestones and linked to tasks.",
+  "new": "Goal",
+  "back": "All goals",
+  "edit": "Edit",
+  "addChild": "Sub-goal",
+  "delete": "Delete",
+  "confirmDelete": "Yes, delete",
+  "keep": "Keep",
+  "reached": "100%",
+  "reachedTitle": "Goal reached!",
+  "reachedHint": "Progress hit 100%. Mark the goal as completed when you are ready.",
+  "progressTitle": "progress",
+  "dates": "Since {{start}}",
+  "empty": {
+    "title": "No goals yet",
+    "description": "Write down where you are heading and break the way into milestones."
+  },
+  "level": {
+    "VISION": "Vision",
+    "YEARLY": "Year",
+    "QUARTERLY": "Quarter",
+    "MONTHLY": "Month",
+    "CUSTOM": "Goal"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "PAUSED": "Paused",
+    "COMPLETED": "Completed",
+    "ABANDONED": "Abandoned"
+  },
+  "progressType": {
+    "METRIC": "By metric",
+    "MILESTONES": "By milestones",
+    "TASKS": "By tasks",
+    "MANUAL": "Manual"
+  },
+  "progressHint": {
+    "METRIC": "E.g. weight 80 → 72 kg or savings 0 → 100,000. Works for decreasing goals too.",
+    "MILESTONES": "Share of completed milestones by weight. Skipped milestones do not count.",
+    "TASKS": "Share of completed linked tasks. Cancelled tasks do not count.",
+    "MANUAL": "You set the percentage yourself."
+  },
+  "action": {
+    "PAUSE": "Pause",
+    "RESUME": "Resume",
+    "COMPLETE": "Complete goal",
+    "ABANDON": "Abandon",
+    "REOPEN": "Reopen"
+  },
+  "detailLine": {
+    "milestones": "{{done}} of {{total}} milestones",
+    "tasks": "{{done}} of {{total}} tasks"
+  },
+  "editor": {
+    "createTitle": "New goal",
+    "editTitle": "Goal",
+    "title": "Title",
+    "titlePlaceholder": "e.g. Score 7.0 in IELTS",
+    "description": "Why it matters to me",
+    "level": "Level",
+    "parent": "Part of",
+    "noParent": "Standalone goal",
+    "progressType": "How to measure progress",
+    "startValue": "Start value",
+    "targetValue": "Target value",
+    "unit": "Unit",
+    "unitPlaceholder": "kg, books…",
+    "start": "Start",
+    "target": "Deadline",
+    "category": "Category",
+    "noCategory": "No category",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "progressInput": {
+    "manual": "Progress, %",
+    "metric": "Current value, {{unit}}",
+    "save": "Update"
+  },
+  "milestones": {
+    "title": "Milestones",
+    "complete": "Milestone done",
+    "skip": "Skip milestone",
+    "reopen": "Reopen milestone",
+    "delete": "Delete milestone",
+    "empty": "Break the goal into steps — it is easier to move.",
+    "placeholder": "New milestone",
+    "due": "Milestone deadline",
+    "add": "Add"
+  },
+  "milestoneStatus": {
+    "PENDING": "Planned",
+    "COMPLETED": "Done",
+    "SKIPPED": "Skipped"
+  },
+  "tasks": {
+    "title": "Linked tasks",
+    "notCounted": "This goal measures progress differently — tasks are here for convenience.",
+    "unlink": "Unlink task",
+    "empty": "No linked tasks.",
+    "pick": "Pick a task",
+    "link": "Link"
+  },
+  "history": {
+    "title": "History",
+    "progress": "Progress {{pct}}%",
+    "status": "Status: {{to}}",
+    "created": "Goal created"
+  }
+}

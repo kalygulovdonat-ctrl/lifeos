@@ -9,6 +9,8 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from apps.accounts.models import Category, Tag
+from apps.goals.models import Goal
+from apps.journal.models import JournalEntry
 from apps.schedule.models import Event, EventSeries
 from apps.tasks.models import Subtask, Task
 
@@ -16,7 +18,17 @@ OWNED_ENDPOINTS = [
     ("/api/v1/categories/", lambda user: Category.objects.filter(user=user).first()),
     ("/api/v1/tags/", lambda user: Tag.objects.create(user=user, name="secret-tag")),
     ("/api/v1/tasks/", lambda user: Task.objects.create(user=user, title="secret task")),
+    (
+        "/api/v1/goals/",
+        lambda user: Goal.objects.create(user=user, title="secret goal", start_date=START.date()),
+    ),
+    (
+        "/api/v1/journal/",
+        lambda user: JournalEntry.objects.create(user=user, entry_date=START.date(), body="secret"),
+    ),
 ]
+# Habits, habit logs, time entries and the timer have no DELETE on the detail route or no list
+# without parameters; their isolation is covered in each module's own test_isolation().
 
 START = datetime(2026, 11, 18, 4, tzinfo=UTC)
 

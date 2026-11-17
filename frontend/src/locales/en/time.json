@@ -1,0 +1,55 @@
+{
+  "title": "Time tracking",
+  "subtitle": "A timer and manual entries to compare plan and reality.",
+  "hm": "{{h}} h {{m}} min",
+  "m": "{{m}} min",
+  "pill": "Timer running: {{time}}",
+  "timer": {
+    "label": "Timer",
+    "untitled": "No description",
+    "focus": "Focus",
+    "idle": "What are you working on?",
+    "description": "What are you working on?",
+    "task": "Task",
+    "noTask": "No task",
+    "start": "Start",
+    "pause": "Pause",
+    "resume": "Resume",
+    "stop": "Stop",
+    "discard": "Discard"
+  },
+  "entries": {
+    "title": "Entries",
+    "day": "Today",
+    "week": "Week",
+    "add": "Manual",
+    "manual": "manual",
+    "delete": "Delete entry",
+    "empty": "No entries yet. Start the timer or add time manually."
+  },
+  "pva": {
+    "title": "Plan vs actual this week",
+    "noPlan": "No finished schedule blocks to compare with yet.",
+    "accuracy": "Plan accuracy: {{value}}%",
+    "planned": "Planned",
+    "actual": "Actual",
+    "focus": "Focus",
+    "unplanned": "Unplanned",
+    "hint": "Compares finished schedule events with time tracked for them or their tasks."
+  },
+  "manual": {
+    "title": "Add time",
+    "ok": "Got it",
+    "cancel": "Cancel",
+    "save": "Save",
+    "overlap": "Saved, but it overlaps another entry. Stats never count time twice.",
+    "date": "Date",
+    "start": "Start",
+    "end": "End",
+    "endBeforeStart": "End must be after start",
+    "futureHint": "An entry cannot end in the future.",
+    "description": "Description",
+    "category": "Category",
+    "noCategory": "No category"
+  }
+}

@@ -37,11 +37,13 @@
     },
     "habits": {
       "title": "Habits",
-      "empty": "Today's check-ins and current streaks."
+      "none": "No habits for today.",
+      "add": "Create a habit"
     },
     "goals": {
       "title": "Active goals",
-      "empty": "Goal progress and upcoming milestones."
+      "none": "No active goals.",
+      "add": "Set a goal"
     },
     "focus": {
       "title": "Day stats",
@@ -71,6 +73,9 @@
   "stats": {
     "focus": "Focus",
     "planned": "Planned",
-    "done": "Tasks done"
-  }
+    "done": "Tasks done",
+    "tracked": "Tracked"
+  },
+  "openHabits": "All habits",
+  "openGoals": "All goals"
 }

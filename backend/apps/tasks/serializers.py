@@ -64,6 +64,8 @@ class TaskSerializer(serializers.ModelSerializer):
     in_inbox = serializers.SerializerMethodField()
     subtasks_total = serializers.IntegerField(read_only=True, default=0)
     subtasks_done = serializers.IntegerField(read_only=True, default=0)
+    actual_minutes = serializers.SerializerMethodField()
+    goal_ids = serializers.SerializerMethodField()
 
     class Meta:
         model = Task
@@ -91,10 +93,18 @@ class TaskSerializer(serializers.ModelSerializer):
             "is_archived",
             "subtasks_total",
             "subtasks_done",
+            "actual_minutes",
+            "goal_ids",
             "created_at",
             "updated_at",
         ]
         read_only_fields = fields
+
+    def get_actual_minutes(self, obj: Task) -> int:
+        return int(getattr(obj, "actual_seconds", 0) or 0) // 60
+
+    def get_goal_ids(self, obj: Task) -> list[str]:
+        return [str(link.goal_id) for link in obj.goal_links.all() if link.goal.deleted_at is None]
 
     def get_tag_ids(self, obj: Task) -> list[str]:
         return [str(t.id) for t in obj.tags.all()]

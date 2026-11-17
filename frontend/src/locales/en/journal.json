@@ -1,0 +1,64 @@
+{
+  "title": "Journal",
+  "subtitle": "Daily reflection and free entries — for your eyes only.",
+  "newNote": "Entry",
+  "search": "Search the journal",
+  "filter": "Entry type",
+  "all": "All",
+  "untitled": "Untitled",
+  "private": "Private entry",
+  "privacy": "Journal entries are private: they never reach the logs and are not sent to AI without your permission.",
+  "back": "Journal",
+  "keep": "Keep",
+  "confirmDelete": "Yes, delete",
+  "delete": "Delete",
+  "save": "Save",
+  "saved": "Saved",
+  "notFound": "Entry not found.",
+  "type": {
+    "DAILY": "Daily reflection",
+    "FREE": "Entry",
+    "NOTE": "Note"
+  },
+  "daily": {
+    "start": "Reflect on your day",
+    "continue": "Continue today’s reflection",
+    "hint": "A few questions, skip any of them.",
+    "title": "Daily reflection",
+    "prev": "Previous day",
+    "next": "Next day",
+    "skipHint": "Fill in only what you want. Empty fields are not saved."
+  },
+  "empty": {
+    "title": "Your journal is empty",
+    "description": "Start with today’s reflection — it takes a couple of minutes.",
+    "search": "Nothing found",
+    "preview": "Empty entry"
+  },
+  "note": {
+    "edit": "Entry",
+    "new": "New entry",
+    "title": "Title",
+    "date": "Date",
+    "body": "Text"
+  },
+  "sections": {
+    "happened": "What happened today?",
+    "accomplished": "What did I get done?",
+    "problems": "What went wrong?",
+    "learned": "What did I learn?",
+    "grateful": "What am I grateful for?",
+    "improve": "What can I improve?",
+    "tomorrow": "Top priorities for tomorrow",
+    "notes": "Personal notes"
+  },
+  "placeholders": {
+    "happened": "A couple of sentences about the day",
+    "accomplished": "Small wins count too",
+    "problems": "No self-criticism — just facts",
+    "learned": "An idea, a skill, a takeaway",
+    "grateful": "People, events, little things",
+    "improve": "One concrete thing",
+    "tomorrow": "1–3 key things"
+  }
+}

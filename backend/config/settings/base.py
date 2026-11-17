@@ -34,6 +34,10 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.tasks",
     "apps.schedule",
+    "apps.habits",
+    "apps.goals",
+    "apps.journal",
+    "apps.time_tracking",
     "apps.dashboard",
 ]
 
@@ -158,6 +162,11 @@ SPECTACULAR_SETTINGS = {
     "ENUM_NAME_OVERRIDES": {
         "TaskStatusEnum": "apps.tasks.models.TaskStatus",
         "EventStatusEnum": "apps.schedule.models.EventStatus",
+        "HabitLogStatusEnum": "apps.habits.models.LogStatus",
+        "TrackingTypeEnum": "apps.habits.models.TrackingType",
+        "GoalStatusEnum": "apps.goals.models.GoalStatus",
+        "MilestoneStatusEnum": "apps.goals.models.MilestoneStatus",
+        "TimeEntryStatusEnum": "apps.time_tracking.models.EntryStatus",
     },
 }
 

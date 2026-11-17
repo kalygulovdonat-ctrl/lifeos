@@ -88,7 +88,9 @@
     "keep": "Keep",
     "save": "Save",
     "discard": "Discard changes",
-    "close": "Close"
+    "close": "Close",
+    "startTimer": "Timer",
+    "stopTimer": "Stop · {{time}}"
   },
   "postponedTimes": "Postponed: {{count}}",
   "postpone": {
@@ -118,5 +120,6 @@
     "changed": "{{from}} → {{to}}",
     "reason": "Reason: {{reason}}",
     "due": "New due date: {{date}}"
-  }
+  },
+  "actualTime": "Actual: {{time}}"
 }

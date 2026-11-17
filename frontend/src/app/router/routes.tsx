@@ -13,6 +13,19 @@ const ProfileSettingsPage = lazy(() => import('@/modules/settings/ProfileSetting
 const CategoriesSettingsPage = lazy(() => import('@/modules/settings/CategoriesSettingsPage'));
 const TasksPage = lazy(() => import('@/modules/tasks/TasksPage'));
 const SchedulePage = lazy(() => import('@/modules/schedule/SchedulePage'));
+const HabitsPage = lazy(() => import('@/modules/habits/HabitsPage'));
+const HabitDetailPage = lazy(() => import('@/modules/habits/HabitDetailPage'));
+const GoalsPage = lazy(() => import('@/modules/goals/GoalsPage'));
+const GoalDetailPage = lazy(() => import('@/modules/goals/GoalDetailPage'));
+const JournalPage = lazy(() => import('@/modules/journal/JournalPage'));
+const DailyPage = lazy(() =>
+  import('@/modules/journal/JournalEditorPage').then((m) => ({ default: m.DailyPage })),
+);
+const NotePage = lazy(() =>
+  import('@/modules/journal/JournalEditorPage').then((m) => ({ default: m.NotePage })),
+);
+const TimePage = lazy(() => import('@/modules/time/TimePage'));
+const MorePage = lazy(() => import('@/app/layouts/MorePage'));
 
 /** Modules not built yet get a placeholder; their phase comes from the navigation config. */
 const UPCOMING = NAV_GROUPS.flatMap((group) => group.items).filter((item) => item.phase);
@@ -37,6 +50,16 @@ export const routes: RouteObject[] = [
       { path: 'tasks', element: <TasksPage /> },
       { path: 'tasks/inbox', element: <TasksPage inbox /> },
       { path: 'tasks/:taskId', element: <TasksPage /> },
+      { path: 'habits', element: <HabitsPage /> },
+      { path: 'habits/:habitId', element: <HabitDetailPage /> },
+      { path: 'goals', element: <GoalsPage /> },
+      { path: 'goals/:goalId', element: <GoalDetailPage /> },
+      { path: 'journal', element: <JournalPage /> },
+      { path: 'journal/new', element: <NotePage /> },
+      { path: 'journal/date/:date', element: <DailyPage /> },
+      { path: 'journal/:entryId', element: <NotePage /> },
+      { path: 'time', element: <TimePage /> },
+      { path: 'more', element: <MorePage /> },
       ...UPCOMING.map(({ to, key, phase }) => ({
         path: `${to.slice(1)}/*`,
         element: <PlaceholderPage moduleKey={key} phase={phase ?? ''} />,

@@ -6,7 +6,8 @@ from dataclasses import dataclass, field
 from datetime import date, datetime
 from uuid import UUID
 
-from django.db.models import Count, Q, QuerySet
+from django.db.models import Case, Count, IntegerField, OuterRef, Q, QuerySet, Subquery, Sum, Value, When
+from django.db.models.functions import Coalesce
 
 from apps.accounts.models import User
 from apps.tasks.models import OPEN_STATUSES, Subtask, Task, TaskStatus, TaskStatusChange
@@ -26,14 +27,22 @@ ORDERINGS = {
 
 
 def _annotated(qs: QuerySet[Task]) -> QuerySet[Task]:
-    from django.db.models import Case, IntegerField, Value, When
+    from apps.time_tracking.models import TimeEntry  # actual time is derived, never stored (SDD §4.5)
 
+    actual = (
+        TimeEntry.objects.filter(task=OuterRef("pk"), status="STOPPED")
+        .order_by()
+        .values("task")
+        .annotate(total=Sum("duration_seconds"))
+        .values("total")
+    )
     return (
         qs.select_related("category")
-        .prefetch_related("tags")
+        .prefetch_related("tags", "goal_links__goal")
         .annotate(
             subtasks_total=Count("subtasks", distinct=True),
             subtasks_done=Count("subtasks", filter=Q(subtasks__is_done=True), distinct=True),
+            actual_seconds=Coalesce(Subquery(actual, output_field=IntegerField()), Value(0)),
             priority_rank=Case(
                 When(priority="LOW", then=Value(0)),
                 When(priority="MEDIUM", then=Value(1)),

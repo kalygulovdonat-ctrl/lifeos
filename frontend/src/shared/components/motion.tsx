@@ -1,5 +1,5 @@
 import { animate, motion, useInView, useReducedMotion } from 'motion/react';
-import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Fragment, useEffect, useRef, useState, type ReactNode, useId } from 'react';
 
 import { EASE } from './motion-utils';
 import styles from './motion.module.css';
@@ -41,22 +41,27 @@ export function ProgressRing({
   value,
   size = 168,
   stroke = 12,
+  tone = 'onDark',
   children,
 }: {
   value: number;
   size?: number;
   stroke?: number;
+  /** onDark: white ring for gradient heroes; onLight: brand ring for regular cards. */
+  tone?: 'onDark' | 'onLight';
   children?: ReactNode;
 }) {
   const radius = (size - stroke) / 2;
+  const gradientId = useId().replace(/:/g, '');
+  const light = tone === 'onLight';
   const clamped = Math.min(1, Math.max(0, value));
   return (
     <div className={styles.ring} style={{ width: size, height: size }}>
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
         <defs>
-          <linearGradient id="ring-gradient" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="100%" stopColor="#f9a8d4" />
+          <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor={light ? '#5650e6' : '#ffffff'} />
+            <stop offset="100%" stopColor={light ? '#d946ef' : '#f9a8d4'} />
           </linearGradient>
         </defs>
         <circle
@@ -64,7 +69,7 @@ export function ProgressRing({
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="rgb(255 255 255 / 16%)"
+          stroke={light ? 'var(--color-surface-2)' : 'rgb(255 255 255 / 16%)'}
           strokeWidth={stroke}
         />
         <motion.circle
@@ -72,7 +77,7 @@ export function ProgressRing({
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="url(#ring-gradient)"
+          stroke={`url(#${gradientId})`}
           strokeWidth={stroke}
           strokeLinecap="round"
           transform={`rotate(-90 ${size / 2} ${size / 2})`}

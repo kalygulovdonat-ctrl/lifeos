@@ -1,0 +1,123 @@
+.tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tree .tree {
+  margin-top: 8px;
+}
+.card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'level title meta'
+    'progress progress progress';
+  align-items: center;
+  gap: 8px var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xs);
+  color: var(--color-text);
+  transition:
+    transform 220ms var(--ease),
+    box-shadow 220ms var(--ease),
+    border-color 220ms var(--ease);
+}
+.card:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
+}
+.card[data-status='COMPLETED'],
+.card[data-status='ABANDONED'] {
+  opacity: 0.7;
+}
+.level {
+  grid-area: level;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--color-surface-2);
+  color: var(--color-text-muted);
+}
+.level[data-level='VISION'] {
+  background: var(--gradient-brand);
+  color: #fff;
+}
+.level[data-level='YEARLY'] {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+.title {
+  grid-area: title;
+  font-weight: 650;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.meta {
+  grid-area: meta;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.progress {
+  grid-area: progress;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+.progress strong {
+  color: var(--color-text);
+}
+.hero {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  gap: var(--space-6);
+  flex-wrap: wrap;
+}
+.ringValue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+.ringValue strong {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 500;
+}
+.ringValue span {
+  margin-top: 4px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+.reached {
+  border-color: var(--color-success) !important;
+}
+@media (max-width: 639px) {
+  .card {
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+      'level meta'
+      'title title'
+      'progress progress';
+  }
+}

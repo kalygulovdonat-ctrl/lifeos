@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from datetime import date
+from typing import Any
+
 from drf_spectacular.utils import extend_schema
 from rest_framework import serializers
 from rest_framework.request import Request
@@ -7,10 +10,18 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from apps.dashboard.selectors import dashboard_for_date
+from apps.goals import selectors as goal_selectors
+from apps.goals.views import GoalSerializer
+from apps.habits import selectors as habit_selectors
+from apps.habits.serializers import TodaySerializer
 from apps.schedule.serializers import EventViewSerializer
 from apps.schedule.views import free_time_payload
 from apps.tasks.serializers import TaskSerializer
-from common.time import local_today
+from apps.time_tracking import selectors as time_selectors
+from apps.time_tracking.views import TimeEntrySerializer
+from common.time import local_today, period_bounds
+
+GOALS_LIMIT = 4
 
 
 class DashboardQuery(serializers.Serializer):
@@ -49,9 +60,35 @@ class DashboardView(APIView):
                     "tasks_completed": len(t.completed),
                     "tasks_total": len(t.completed) + len(t.due),
                 },
-                # Phase 2 modules: present in the contract, empty until they exist.
-                "habits": None,
-                "goals": None,
-                "active_timer": None,
+                "habits": _habits(request, day),
+                "goals": _goals(request),
+                "active_timer": _timer(request),
+                "tracked_minutes": _tracked_minutes(request, day),
             }
         )
+
+
+def _habits(request: Request, day: date) -> dict[str, Any]:
+    items = [i for i in habit_selectors.habits_for_day(request.user, day) if i.planned and not i.paused]
+    return {
+        "planned": len(items),
+        "done": sum(1 for i in items if i.status == "DONE"),
+        "items": TodaySerializer(items, many=True).data,
+    }
+
+
+def _goals(request: Request) -> list[dict[str, Any]]:
+    goals = goal_selectors.goal_list(request.user, statuses=["ACTIVE"]).order_by(
+        "target_date", "-progress_pct"
+    )
+    return GoalSerializer(goals[:GOALS_LIMIT], many=True).data
+
+
+def _timer(request: Request) -> dict[str, Any] | None:
+    entry = time_selectors.active_timer(request.user)
+    return TimeEntrySerializer(entry).data if entry else None
+
+
+def _tracked_minutes(request: Request, day: date) -> int:
+    bounds = period_bounds(request.user.profile.timezone, "day", day)
+    return time_selectors.tracked_seconds(request.user, bounds.start, bounds.end) // 60

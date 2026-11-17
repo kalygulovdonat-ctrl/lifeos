@@ -8,6 +8,8 @@ import {
   Play,
   Redo2,
   RotateCcw,
+  Square,
+  Timer,
   Trash2,
   Undo2,
   X,
@@ -31,6 +33,8 @@ import {
   intlLocale,
   zonedIso,
 } from '@/shared/utils/datetime';
+
+import { formatStopwatch, useMinutesLabel, useTimer } from '@/modules/time/useTimer';
 
 import styles from './tasks.module.css';
 
@@ -61,6 +65,7 @@ export function TaskDrawer({ taskId, onClose }: { taskId?: string; onClose: () =
 
 function TaskEditor({ task, onClose }: { task: TaskDetail; onClose: () => void }) {
   const { t } = useTranslation('tasks');
+  const fmtMinutes = useMinutesLabel();
   const errorMessage = useErrorMessage();
   const invalidate = useInvalidatePlanning();
   const { categories, label } = useCategories();
@@ -134,6 +139,11 @@ function TaskEditor({ task, onClose }: { task: TaskDetail; onClose: () => void }
           {t(`status.${task.status}`)}
         </span>
         {task.in_inbox ? <span className={styles.inboxChip}>{t('views.inbox')}</span> : null}
+        {task.actual_minutes ? (
+          <span className={styles.muted}>
+            {t('actualTime', { time: fmtMinutes(task.actual_minutes) })}
+          </span>
+        ) : null}
         {task.postponed_count ? (
           <span className={styles.muted}>
             {t('postponedTimes', { count: task.postponed_count })}
@@ -251,6 +261,7 @@ function TaskEditor({ task, onClose }: { task: TaskDetail; onClose: () => void }
                 {t('actions.postpone')}
               </Button>
             ) : null}
+            <TimerButton taskId={task.id} />
             <Button
               variant="secondary"
               size="sm"
@@ -326,6 +337,32 @@ function TaskEditor({ task, onClose }: { task: TaskDetail; onClose: () => void }
 
       <PostponeDialog task={task} open={postponeOpen} onClose={() => setPostponeOpen(false)} />
       <ScheduleDialog task={task} open={scheduleOpen} onClose={() => setScheduleOpen(false)} />
+    </>
+  );
+}
+
+function TimerButton({ taskId }: { taskId: string }) {
+  const { t } = useTranslation('tasks');
+  const errorMessage = useErrorMessage();
+  const timer = useTimer();
+  const mine = timer.entry?.task_id === taskId;
+  if (timer.entry && !mine) return null;
+  return (
+    <>
+      <Button
+        variant="secondary"
+        size="sm"
+        icon={mine ? <Square size={14} /> : <Timer size={15} />}
+        loading={timer.busy}
+        onClick={() =>
+          mine ? timer.stop.mutate() : timer.start.mutate({ task_id: taskId, is_focus: true })
+        }
+      >
+        {mine
+          ? t('actions.stopTimer', { time: formatStopwatch(timer.seconds) })
+          : t('actions.startTimer')}
+      </Button>
+      {timer.error ? <span className={styles.muted}>{errorMessage(timer.error)}</span> : null}
     </>
   );
 }

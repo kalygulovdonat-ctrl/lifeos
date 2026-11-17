@@ -7,6 +7,18 @@ Personal Life Management System — планирование, задачи, пр
 
 ## Скриншоты
 
+| Привычки | Привычка: серии и тепловая карта |
+| --- | --- |
+| ![Привычки](docs/screenshots/phase2-habits.png) | ![Привычка](docs/screenshots/phase2-habit-detail.png) |
+| **Цель и этапы** | **Учёт времени** |
+| ![Цель](docs/screenshots/phase2-goal-detail.png) | ![Таймер](docs/screenshots/phase2-time.png) |
+| **Дневник** | **Главная: привычки и цели** |
+| ![Дневник](docs/screenshots/phase2-journal.png) | ![Главная](docs/screenshots/phase2-dashboard-widgets.png) |
+
+<img src="docs/screenshots/phase2-mobile-habits.png" alt="Привычки на телефоне" width="300">
+
+<details><summary>Phase 1: расписание и задачи</summary>
+
 | Главная | Расписание — неделя |
 | --- | --- |
 | ![Главная](docs/screenshots/phase1-dashboard.png) | ![Неделя](docs/screenshots/phase1-week.png) |
@@ -16,6 +28,8 @@ Personal Life Management System — планирование, задачи, пр
 | ![Карточка задачи](docs/screenshots/phase1-task-drawer.png) | ![Тёмная тема](docs/screenshots/phase1-week-dark.png) |
 
 <img src="docs/screenshots/phase1-mobile-tasks.png" alt="Задачи на телефоне" width="300">
+
+</details>
 
 <details><summary>Phase 0: вход, настройки</summary>
 
@@ -29,7 +43,18 @@ Personal Life Management System — планирование, задачи, пр
 
 </details>
 
-## Статус: Phase 1 — Planning Core ✅
+## Статус: Phase 2 — Personal Development ✅
+
+| Модуль | Что готово |
+| --- | --- |
+| Привычки | Типы «да/нет», количество, время, шкала; частота: каждый день, по дням недели, N раз в неделю/месяц, раз в N дней; цель «не меньше» или «не больше». Частота версионируется — изменение не переписывает прошлую статистику. Отметки неизменяемы: правка и отмена пишутся в историю. Повторная отметка дня — `409 HABIT_ALREADY_LOGGED`, количество и время за день суммируются. Паузы (отпуск, болезнь) и «отдых» не прерывают серию |
+| Статистика привычек | Регулярность по формуле SDD §5.3 (сегодняшний день не считается до конца, отдых и паузы исключены, «N раз в неделю» считается по неделям), текущая и лучшая серия, тепловая карта за полгода |
+| Цели | Иерархия до 6 уровней без циклов (видение → год → квартал → месяц), прогресс по показателю (в том числе убывающему), по этапам с весами, по связанным задачам или вручную; история прогресса и статусов. 100% не завершает цель сама — приложение предлагает подтвердить |
+| Дневник | «Итоги дня» по шаблону из 7 вопросов (любые можно пропустить, одна запись на день) и свободные записи; поиск; записи приватны и не попадают в аудит и логи |
+| Учёт времени | Один активный таймер (`409 TIMER_ALREADY_RUNNING`), пауза и продолжение, состояние хранится на сервере и переживает перезагрузку; ручные записи с защитой от дублей и будущего времени, правки с историей; план против факта за неделю, фокус-время. Таймер виден на всех страницах |
+| Связи | Задача показывает фактическое время и цели, в карточке задачи — кнопка таймера; выполнение задачи пересчитывает прогресс связанных целей; на главной — привычки дня, активные цели, учтённое время и активный таймер |
+
+## Phase 1 — Planning Core ✅
 
 | Модуль | Что готово |
 | --- | --- |
@@ -122,10 +147,14 @@ backend/
   apps/accounts/     пользователь, профиль, категории, теги, JWT-аутентификация
   apps/schedule/     события, серии (RRULE), конфликты, свободное время
   apps/tasks/        задачи, подзадачи, история статусов, Входящие
+  apps/habits/       привычки, версии частоты, отметки, паузы, серии и регулярность
+  apps/goals/        цели, этапы, связь с задачами, история прогресса
+  apps/journal/      итоги дня и свободные записи
+  apps/time_tracking/ таймер, записи времени, план против факта
   apps/dashboard/    агрегированная выдача главной страницы
 frontend/src/
   app/               router, layouts, providers (i18n, query client)
-  modules/           auth, dashboard, schedule, tasks, settings, placeholder (модули Phase 2+)
+  modules/           auth, dashboard, schedule, tasks, habits, goals, journal, time, settings, placeholder (модули Phase 3+)
   shared/            api-клиент, store, компоненты, хуки, утилиты времени
   locales/{ru,en,ky}/
 infra/               Dockerfiles, nginx, compose, backup/restore
@@ -142,4 +171,4 @@ infra/               Dockerfiles, nginx, compose, backup/restore
 
 ## Следующий шаг
 
-**Phase 2 — Personal Development:** Habits, Goals и Milestones, Journal, Time Tracking — по SDD §4.6–4.9.
+**Phase 3 — Intelligence & Analytics:** аналитика (дневная, недельная, месячная), Weekly Review, месячные отчёты, AI-ассистент с подтверждением действий — по SDD §4.11–4.14, §5, §9.

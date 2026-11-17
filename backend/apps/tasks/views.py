@@ -253,3 +253,14 @@ class SubtaskDetailView(APIView):
     def delete(self, request: Request, subtask_id: str) -> Response:
         services.subtask_delete(user=request.user, subtask=selectors.subtask_get(request.user, subtask_id))
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class TaskTimeEntriesView(APIView):
+    @extend_schema(responses={200: dict})
+    def get(self, request: Request, task_id: str) -> Response:
+        from apps.time_tracking.selectors import task_entries
+        from apps.time_tracking.views import TimeEntrySerializer
+
+        task = selectors.task_get(request.user, task_id)
+        entries = task_entries(request.user, task.id).prefetch_related("pauses")
+        return Response({"results": TimeEntrySerializer(entries, many=True).data})

@@ -13,6 +13,7 @@ urlpatterns = [
     path("tasks/<uuid:task_id>/archive/", views.TaskArchiveView.as_view(), name="task-archive"),
     path("tasks/<uuid:task_id>/restore/", views.TaskRestoreView.as_view(), name="task-restore"),
     path("tasks/<uuid:task_id>/history/", views.TaskHistoryView.as_view(), name="task-history"),
+    path("tasks/<uuid:task_id>/time-entries/", views.TaskTimeEntriesView.as_view(), name="task-time-entries"),
     path("tasks/<uuid:task_id>/schedule/", views.TaskScheduleView.as_view(), name="task-schedule"),
     path("tasks/<uuid:task_id>/subtasks/", views.SubtaskListView.as_view(), name="task-subtasks"),
     path(

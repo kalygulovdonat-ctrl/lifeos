@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router';
 
 import { TIME_TYPE_META } from '@/modules/planning/meta';
+import { HabitTodayRow } from '@/modules/habits/HabitToday';
 import { TaskRow } from '@/modules/tasks/TaskRow';
 import { dashboardApi, keys } from '@/shared/api/planning';
 import type { DashboardData } from '@/shared/api/types';
@@ -138,19 +139,56 @@ export function DayWidgets() {
             icon={Flame}
             title={t('widgets.habits.title')}
             to="/habits"
-            action={t('openModule')}
-            badge={<Badge tone="accent">Phase 2</Badge>}
+            action={t('openHabits')}
+            badge={
+              d.habits.planned ? (
+                <Badge tone="accent">
+                  {d.habits.done}/{d.habits.planned}
+                </Badge>
+              ) : null
+            }
           >
-            <p className={styles.muted}>{t('widgets.habits.empty')}</p>
+            {d.habits.items.length ? (
+              <ul className={styles.taskList}>
+                {d.habits.items.slice(0, 5).map((item) => (
+                  <HabitTodayRow key={item.habit.id} item={item} date={d.date} compact />
+                ))}
+              </ul>
+            ) : (
+              <div className={styles.emptyBlock}>
+                <p>{t('widgets.habits.none')}</p>
+                <Link to="/habits" className={styles.inlineCta}>
+                  {t('widgets.habits.add')}
+                </Link>
+              </div>
+            )}
           </Widget>
           <Widget
             icon={Target}
             title={t('widgets.goals.title')}
             to="/goals"
-            action={t('openModule')}
-            badge={<Badge tone="accent">Phase 2</Badge>}
+            action={t('openGoals')}
           >
-            <p className={styles.muted}>{t('widgets.goals.empty')}</p>
+            {d.goals.length ? (
+              <ul className={styles.goalList}>
+                {d.goals.map((goal) => (
+                  <li key={goal.id}>
+                    <Link to={`/goals/${goal.id}`}>{goal.title}</Link>
+                    <div className={styles.split} aria-hidden="true">
+                      <i style={{ width: `${Number(goal.progress_pct)}%` }} />
+                    </div>
+                    <small>{Math.round(Number(goal.progress_pct))}%</small>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div className={styles.emptyBlock}>
+                <p>{t('widgets.goals.none')}</p>
+                <Link to="/goals" className={styles.inlineCta}>
+                  {t('widgets.goals.add')}
+                </Link>
+              </div>
+            )}
           </Widget>
         </motion.div>
       )}
@@ -285,6 +323,15 @@ function Stats({ data }: { data: DashboardData }) {
         <dd>
           <CountUp
             value={s.planned_minutes / 60}
+            format={(n) => t('units.hours', { value: n.toFixed(1) })}
+          />
+        </dd>
+      </div>
+      <div>
+        <dt>{t('stats.tracked')}</dt>
+        <dd>
+          <CountUp
+            value={data.tracked_minutes / 60}
             format={(n) => t('units.hours', { value: n.toFixed(1) })}
           />
         </dd>

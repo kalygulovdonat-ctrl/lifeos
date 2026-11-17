@@ -88,7 +88,9 @@
     "keep": "Не удалять",
     "save": "Сохранить",
     "discard": "Отменить изменения",
-    "close": "Закрыть"
+    "close": "Закрыть",
+    "startTimer": "Таймер",
+    "stopTimer": "Стоп · {{time}}"
   },
   "postponedTimes": "Переносов: {{count}}",
   "postpone": {
@@ -118,5 +120,6 @@
     "changed": "{{from}} → {{to}}",
     "reason": "Причина: {{reason}}",
     "due": "Новый срок: {{date}}"
-  }
+  },
+  "actualTime": "Факт: {{time}}"
 }

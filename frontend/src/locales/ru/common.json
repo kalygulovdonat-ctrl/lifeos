@@ -20,7 +20,8 @@
       "growth": "Развитие",
       "insight": "Анализ"
     },
-    "soon": "Скоро · {{phase}}"
+    "soon": "Скоро · {{phase}}",
+    "more": "Ещё"
   },
   "actions": {
     "save": "Сохранить",
@@ -69,7 +70,17 @@
     "RATE_LIMITED": "Слишком много запросов. Попробуйте позже.",
     "INTERNAL_ERROR": "Внутренняя ошибка сервера.",
     "NETWORK_ERROR": "Нет соединения с сервером.",
-    "UNKNOWN_ERROR": "Что-то пошло не так."
+    "UNKNOWN_ERROR": "Что-то пошло не так.",
+    "HABIT_ALREADY_LOGGED": "Этот день уже отмечен.",
+    "HABIT_TYPE_LOCKED": "Тип привычки нельзя менять после первых отметок — создайте новую привычку.",
+    "HABIT_LOG_VOIDED": "Эта запись уже отменена.",
+    "TIMER_ALREADY_RUNNING": "Таймер уже запущен.",
+    "NO_ACTIVE_TIMER": "Таймер не запущен.",
+    "DUPLICATE_TIME_ENTRY": "Такая запись времени уже есть.",
+    "JOURNAL_DAILY_EXISTS": "Итоги этого дня уже записаны.",
+    "GOAL_PROGRESS_AUTOMATIC": "Прогресс этой цели считается автоматически.",
+    "INVALID_STATUS_TRANSITION": "Такой переход статуса невозможен.",
+    "SCHEDULE_CONFLICT": "Время пересекается с фиксированным событием."
   },
   "modules": {
     "schedule": {

@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { growthKeys } from '@/shared/api/growth';
 import { categoriesApi, keys } from '@/shared/api/planning';
 import type { Category } from '@/shared/api/types';
 
@@ -12,6 +13,10 @@ export function useInvalidatePlanning() {
     void qc.invalidateQueries({ queryKey: keys.tasks });
     void qc.invalidateQueries({ queryKey: keys.events });
     void qc.invalidateQueries({ queryKey: keys.dashboard });
+    // Task changes move goal progress and actual time (SDD §8.3).
+    void qc.invalidateQueries({ queryKey: growthKeys.goals });
+    void qc.invalidateQueries({ queryKey: growthKeys.habits });
+    void qc.invalidateQueries({ queryKey: growthKeys.time });
   }, [qc]);
 }
 

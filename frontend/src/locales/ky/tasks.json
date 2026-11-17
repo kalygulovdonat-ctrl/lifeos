@@ -88,7 +88,9 @@
     "keep": "Өчүрбөө",
     "save": "Сактоо",
     "discard": "Өзгөртүүлөрдү жокко чыгаруу",
-    "close": "Жабуу"
+    "close": "Жабуу",
+    "startTimer": "Таймер",
+    "stopTimer": "Токтотуу · {{time}}"
   },
   "postponedTimes": "Жылдыруулар: {{count}}",
   "postpone": {
@@ -118,5 +120,6 @@
     "changed": "{{from}} → {{to}}",
     "reason": "Себеби: {{reason}}",
     "due": "Жаңы мөөнөт: {{date}}"
-  }
+  },
+  "actualTime": "Факт: {{time}}"
 }
