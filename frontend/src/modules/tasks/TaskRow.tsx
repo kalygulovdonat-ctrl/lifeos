@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { AlarmClock, CalendarDays, Inbox, ListChecks } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { PRIORITY_COLOR } from '@/modules/planning/meta';
@@ -27,22 +28,28 @@ export function TaskRow({
   const dueLabel = useDueLabel();
   const done = task.status === 'COMPLETED';
 
+  // Optimistic until the refreshed task arrives, so the check never flickers back.
+  const [optimistic, setOptimistic] = useState<boolean | null>(null);
+  useEffect(() => setOptimistic(null), [done]);
   const toggle = useMutation({
     mutationFn: () => (done ? tasksApi.setStatus(task.id, 'TODO') : tasksApi.complete(task.id)),
+    onMutate: () => setOptimistic(!done),
+    onError: () => setOptimistic(null),
     onSettled: invalidate,
   });
   const triage = useMutation({ mutationFn: () => tasksApi.triage(task.id), onSettled: invalidate });
 
   const category = task.category_id ? byId.get(task.category_id) : undefined;
   const due = dueLabel(task);
-  const optimisticDone = toggle.isPending ? !done : done;
+  const optimisticDone = optimistic ?? done;
 
   return (
     <motion.li
       layout
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, x: 24, transition: { duration: 0.18 } }}
+      // A just-completed task stays a moment so its check-off celebration can play.
+      exit={{ opacity: 0, x: 24, transition: { duration: 0.2, delay: optimisticDone ? 0.45 : 0 } }}
       className={styles.row}
       data-done={optimisticDone || undefined}
       data-cancelled={task.status === 'CANCELLED' || undefined}

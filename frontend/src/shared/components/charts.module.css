@@ -189,3 +189,43 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+/* ---------- entrance motion: columns grow from the baseline, lines draw, shares fill ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .bar {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: grow 700ms var(--ease) both;
+  }
+  .line {
+    stroke-dasharray: 1;
+    animation: draw 1100ms var(--ease) both;
+  }
+  .endLabel {
+    animation: fadeIn 400ms var(--ease) 900ms both;
+  }
+  .shareTrack b {
+    transform-origin: left center;
+    animation: fill 900ms var(--ease) both;
+  }
+}
+@keyframes grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes fill {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}

@@ -5,6 +5,11 @@
     "title": "The assistant is not connected.",
     "hint": "The server admin needs to set AI_ENABLED and an ANTHROPIC_API_KEY. Everything else works as usual."
   },
+  "demo": {
+    "badge": "Demo",
+    "title": "Demo mode.",
+    "hint": "The assistant runs without a connected Claude model: it understands simple requests — free time, a plan for tomorrow, tasks, events, habits, goals, the week’s results — and answers from your data. For open conversation the server admin needs to set ANTHROPIC_API_KEY."
+  },
   "conversations": "Conversations",
   "newChat": "New conversation",
   "untitled": "Untitled",

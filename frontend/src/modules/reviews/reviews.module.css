@@ -64,3 +64,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* Anchor for the confetti burst when a review is completed. */
+.confetti {
+  position: relative;
+  display: block;
+  height: 0;
+}

@@ -28,7 +28,7 @@ test('assistant: consent, draft, edit, confirm, undo', async ({ page }) => {
   await page.keyboard.press('Enter');
 
   const card = page.locator('[data-status="PROPOSED"]').first();
-  await expect(card).toBeVisible();
+  await expect(card).toBeVisible({ timeout: 20_000 }); // the Celery worker answers asynchronously
   await expect(card.getByText('Срок не указан — без срока.')).toBeVisible();
   await card.getByLabel('Название').fill('Купить билеты в Ош');
   await card.getByRole('button', { name: 'Подтвердить' }).click();

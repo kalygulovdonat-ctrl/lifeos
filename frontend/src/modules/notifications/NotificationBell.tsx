@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 
 import { insightKeys, notificationsApi, type AppNotification } from '@/shared/api/insight';
+import { useCelebration } from '@/shared/components/motion-utils';
 import { usePrefs } from '@/shared/hooks/usePrefs';
 import { formatTime } from '@/shared/utils/datetime';
 
@@ -48,6 +49,12 @@ export function NotificationBell({ align = 'left' }: { align?: 'left' | 'right' 
   }, [open]);
 
   const count = unread.data?.count ?? 0;
+  // The bell swings each time a new notification arrives (not on page load).
+  const [seen, setSeen] = useState<number | undefined>(undefined);
+  useEffect(() => {
+    if (unread.data) setSeen((prev) => (prev === undefined ? count : Math.max(prev, count)));
+  }, [unread.data, count]);
+  const ring = useCelebration(seen === undefined ? undefined : count > seen);
   const text = (n: AppNotification) => {
     const p = { ...n.params } as Record<string, unknown>;
     if (typeof p.start_at === 'string') p.time = formatTime(new Date(p.start_at), prefs);
@@ -70,8 +77,29 @@ export function NotificationBell({ align = 'left' }: { align?: 'left' | 'right' 
         aria-label={count ? t('labelUnread', { count }) : t('label')}
         aria-expanded={open}
       >
-        <Bell size={18} />
-        {count ? <b className={styles.dot}>{count > 9 ? '9+' : count}</b> : null}
+        <motion.span
+          key={ring}
+          className={styles.bellIcon}
+          initial={{ rotate: 0 }}
+          animate={ring ? { rotate: [0, -18, 15, -10, 6, 0] } : undefined}
+          transition={{ duration: 0.8, ease: 'easeInOut' }}
+        >
+          <Bell size={18} />
+        </motion.span>
+        <AnimatePresence>
+          {count ? (
+            <motion.b
+              key={count}
+              className={styles.dot}
+              initial={{ scale: 0.3 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 600, damping: 16 }}
+            >
+              {count > 9 ? '9+' : count}
+            </motion.b>
+          ) : null}
+        </AnimatePresence>
       </button>
       <AnimatePresence>
         {open ? (

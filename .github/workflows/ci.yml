@@ -120,7 +120,7 @@ jobs:
           THROTTLE_AUTH: 1000/min # each scenario registers its own user
           AI_ENABLED: "true"
           AI_PROVIDER: fake # scripted assistant, no network and no API key
-        run: docker compose -f infra/compose/docker-compose.yml up -d --build --wait backend frontend
+        run: docker compose -f infra/compose/docker-compose.yml up -d --build --wait backend worker frontend # worker runs the AI queue
       - name: Wait for frontend
         run: |
           for i in $(seq 1 60); do curl -fsS http://localhost:5173 >/dev/null && exit 0; sleep 2; done

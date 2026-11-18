@@ -15,6 +15,7 @@ import {
   type Metric,
 } from '@/shared/api/insight';
 import { ColumnChart, ShareBars } from '@/shared/components/charts';
+import { CountUp } from '@/shared/components/motion';
 import { riseChild, staggerParent } from '@/shared/components/motion-utils';
 import { Alert, PageHeader } from '@/shared/components/ui';
 import { useErrorMessage } from '@/shared/hooks/useErrorMessage';
@@ -26,8 +27,13 @@ import a from './analytics.module.css';
 const PERIODS = ['day', 'week', 'month'] as const;
 type Period = (typeof PERIODS)[number];
 
-const pct = (v: number | null | undefined) =>
-  v === null || v === undefined ? '—' : `${Math.round(v * 100)}%`;
+/** A percentage that counts up to its value when the tile appears. */
+const pctCount = (v: number | null | undefined) =>
+  v === null || v === undefined ? (
+    '—'
+  ) : (
+    <CountUp value={Math.round(v * 100)} format={(n) => `${Math.round(n)}%`} />
+  );
 
 function Delta({
   now,
@@ -62,7 +68,7 @@ function Tile({
   delta,
 }: {
   title: string;
-  metric: string;
+  metric: React.ReactNode;
   detail?: string;
   hint: string;
   delta?: React.ReactNode;
@@ -196,28 +202,28 @@ function Report({ s }: { s: AnalyticsSummary }) {
       >
         <Tile
           title={t('tiles.tasks')}
-          metric={pct(tcr.value)}
+          metric={pctCount(tcr.value)}
           detail={ratio(tcr, t)}
           hint={t('formulas.tasks')}
           delta={<Delta now={tcr.value} before={s.previous?.task_completion_rate} />}
         />
         <Tile
           title={t('tiles.habits')}
-          metric={pct(hc.value)}
+          metric={pctCount(hc.value)}
           detail={ratio(hc, t)}
           hint={t('formulas.habits')}
           delta={<Delta now={hc.value} before={s.previous?.habit_consistency} />}
         />
         <Tile
           title={t('tiles.focus')}
-          metric={t('hours', { value: focus.toFixed(1) })}
+          metric={<CountUp value={focus} format={(n) => t('hours', { value: n.toFixed(1) })} />}
           detail={t('tracked', { value: s.time.tracked_hours.toFixed(1) })}
           hint={t('formulas.focus')}
           delta={<Delta now={focus} before={s.previous?.focus_hours} unit="h" />}
         />
         <Tile
           title={t('tiles.accuracy')}
-          metric={pct(acc.value)}
+          metric={pctCount(acc.value)}
           detail={
             acc.value === null
               ? t('noData')

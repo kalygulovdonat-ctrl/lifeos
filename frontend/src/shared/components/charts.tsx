@@ -126,6 +126,7 @@ export function ColumnChart({
                 {d.value > 0 ? (
                   <path
                     className={styles.bar}
+                    style={{ animationDelay: `${Math.min(i * 30, 600)}ms` }}
                     d={`M${x0},${top + h} V${top + r} Q${x0},${top} ${x0 + r},${top} H${x0 + barW - r} Q${x0 + barW},${top} ${x0 + barW},${top + r} V${top + h} Z`}
                   />
                 ) : null}
@@ -302,6 +303,7 @@ export function LineChart({
               <path
                 key={s.key}
                 d={paths[si]}
+                pathLength={1}
                 className={styles.line}
                 style={{ stroke: SERIES[si] }}
               />
@@ -325,7 +327,7 @@ export function LineChart({
             const li = lastIndex(s);
             if (li < 0) return null;
             return (
-              <g key={`label-${s.key}`}>
+              <g key={`label-${s.key}`} className={styles.endLabel}>
                 <line
                   x1={x(li) + 4}
                   x2={x(li) + 10}
@@ -384,14 +386,20 @@ export function ShareBars({
 }) {
   return (
     <ul className={styles.shares}>
-      {rows.map((r) => (
+      {rows.map((r, i) => (
         <li key={r.key}>
           <span className={styles.shareLabel}>
             <i style={{ background: r.color }} aria-hidden="true" />
             {r.label}
           </span>
           <span className={styles.shareTrack} aria-hidden="true">
-            <b style={{ width: `${Math.max(r.share * 100, 1)}%`, background: r.color }} />
+            <b
+              style={{
+                width: `${Math.max(r.share * 100, 1)}%`,
+                background: r.color,
+                animationDelay: `${i * 70}ms`,
+              }}
+            />
           </span>
           <span className={styles.shareValue}>
             {format(r.value)}

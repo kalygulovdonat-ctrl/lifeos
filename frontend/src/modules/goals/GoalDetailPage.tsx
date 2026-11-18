@@ -21,7 +21,8 @@ import { TaskRow } from '@/modules/tasks/TaskRow';
 import { goalsApi, growthKeys } from '@/shared/api/growth';
 import { keys, tasksApi } from '@/shared/api/planning';
 import type { GoalAction, GoalDetail } from '@/shared/api/types';
-import { ProgressRing } from '@/shared/components/motion';
+import { Confetti, ProgressRing } from '@/shared/components/motion';
+import { useCelebration } from '@/shared/components/motion-utils';
 import { Notice } from '@/shared/components/overlay';
 import { Alert, Button, PageHeader } from '@/shared/components/ui';
 import { useErrorMessage } from '@/shared/hooks/useErrorMessage';
@@ -49,6 +50,9 @@ export default function GoalDetailPage() {
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const goal = useQuery({ queryKey: growthKeys.goal(goalId), queryFn: () => goalsApi.get(goalId) });
+  const celebrate = useCelebration(
+    goal.data ? goal.data.target_reached || goal.data.status === 'COMPLETED' : undefined,
+  );
   const status = useMutation({
     mutationFn: (action: GoalAction) => goalsApi.status(goalId, action),
     onSettled: invalidate,
@@ -105,6 +109,7 @@ export default function GoalDetailPage() {
 
       <section className={[styles.panel, g.hero].join(' ')} aria-label={t('progressTitle')}>
         <ProgressRing value={pct / 100} size={140} stroke={11} tone="onLight">
+          {celebrate ? <Confetti key={celebrate} /> : null}
           <div className={g.ringValue}>
             <strong>{Math.round(pct)}%</strong>
             <span>{t('progressTitle')}</span>

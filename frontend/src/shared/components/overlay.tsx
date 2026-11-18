@@ -5,12 +5,14 @@ import {
   useEffect,
   useId,
   useRef,
+  useState,
   type ReactNode,
   type TextareaHTMLAttributes,
 } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
+import { Confetti } from './motion';
 import { EASE } from './motion-utils';
 import styles from './overlay.module.css';
 import ui from './ui.module.css';
@@ -181,6 +183,13 @@ export function CheckButton({
   disabled?: boolean;
   size?: number;
 }) {
+  // Each time the user checks it off, a ring and a few sparks celebrate (not on first render).
+  const [bursts, setBursts] = useState(0);
+  const was = useRef(checked);
+  useEffect(() => {
+    if (checked && !was.current) setBursts((n) => n + 1);
+    was.current = checked;
+  }, [checked]);
   return (
     <button
       type="button"
@@ -204,6 +213,11 @@ export function CheckButton({
       >
         <Check size={Math.round(size * 0.62)} strokeWidth={3} />
       </motion.span>
+      {bursts ? (
+        <span key={bursts} className={styles.burst} aria-hidden="true">
+          <Confetti pieces={10} spread={0.32} />
+        </span>
+      ) : null}
     </button>
   );
 }

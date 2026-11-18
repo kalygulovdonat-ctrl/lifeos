@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Bot, Check, Eye, Plus, Send, ShieldCheck, Sparkles, Trash2, Undo2, X } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate, useParams } from 'react-router';
 
@@ -14,6 +14,8 @@ import {
   type AIScope,
   type AIStatus,
 } from '@/shared/api/insight';
+import { PopCheck } from '@/shared/components/motion';
+import { EASE } from '@/shared/components/motion-utils';
 import { Notice } from '@/shared/components/overlay';
 import { Alert, Button, PageHeader } from '@/shared/components/ui';
 import { useErrorMessage } from '@/shared/hooks/useErrorMessage';
@@ -47,7 +49,22 @@ export default function AssistantPage() {
 
   return (
     <div className={s.page}>
-      <PageHeader title={t('title')} description={t('subtitle')} />
+      <PageHeader
+        title={
+          <span className={s.titleRow}>
+            {t('title')}
+            {st?.enabled && st.provider === 'fake' ? (
+              <span className={s.demoBadge}>{t('demo.badge')}</span>
+            ) : null}
+          </span>
+        }
+        description={t('subtitle')}
+      />
+      {st?.enabled && st.provider === 'fake' ? (
+        <Notice tone="info" icon={<Sparkles size={16} />}>
+          <strong>{t('demo.title')}</strong> {t('demo.hint')}
+        </Notice>
+      ) : null}
       {st && !st.enabled ? (
         <Notice tone="info" icon={<Bot size={16} />}>
           <strong>{t('disabled.title')}</strong> {t('disabled.hint')}
@@ -204,8 +221,15 @@ function Chat({ conversationId }: { conversationId: string }) {
       void qc.invalidateQueries({ queryKey: insightKeys.aiStatus });
     },
   });
-  const messages = convo.data?.messages ?? [];
+  const messages = useMemo(() => convo.data?.messages ?? [], [convo.data]);
   const pending = messages.some((m) => m.status === 'PENDING');
+  // Replies that arrive while the chat is open are typed out; history appears at once.
+  const [history, setHistory] = useState<ReadonlySet<string> | null>(null);
+  useEffect(() => {
+    if (convo.data && history === null) setHistory(new Set(convo.data.messages.map((m) => m.id)));
+  }, [convo.data, history]);
+  const isFresh = (m: AIMessage) =>
+    m.role === 'ASSISTANT' && history !== null && !history.has(m.id);
   useEffect(() => {
     bottom.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
   }, [messages.length, pending]);
@@ -233,12 +257,15 @@ function Chat({ conversationId }: { conversationId: string }) {
           {messages.map((m) => (
             <motion.div
               key={m.id}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
+              layout="position"
+              initial={{ opacity: 0, y: 14, scale: 0.92, x: m.role === 'USER' ? 16 : -16 }}
+              animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
+              transition={{ type: 'spring', stiffness: 420, damping: 30 }}
+              style={{ transformOrigin: m.role === 'USER' ? '100% 100%' : '0% 100%' }}
               className={s.message}
               data-role={m.role}
             >
-              <MessageBody message={m} conversationId={conversationId} />
+              <MessageBody message={m} conversationId={conversationId} typeOut={isFresh(m)} />
             </motion.div>
           ))}
         </AnimatePresence>
@@ -270,7 +297,49 @@ function Chat({ conversationId }: { conversationId: string }) {
   );
 }
 
-function MessageBody({ message, conversationId }: { message: AIMessage; conversationId: string }) {
+/** Reveals text a few characters at a time, like someone typing; instant with reduced motion. */
+function TypeOut({ text, onDone }: { text: string; onDone: () => void }) {
+  const reduce = useReducedMotion();
+  const [shown, setShown] = useState(reduce ? text.length : 0);
+  const done = useRef(onDone);
+  done.current = onDone;
+  useEffect(() => {
+    if (reduce) {
+      done.current();
+      return;
+    }
+    const step = Math.max(1, Math.ceil(text.length / 90)); // about 1.5 s whatever the length
+    const id = window.setInterval(() => {
+      setShown((n) => {
+        const next = Math.min(text.length, n + step);
+        if (next >= text.length) {
+          window.clearInterval(id);
+          done.current();
+        }
+        return next;
+      });
+    }, 16);
+    return () => window.clearInterval(id);
+  }, [text, reduce]);
+  return (
+    <p>
+      <span className={s.srOnly}>{text}</span>
+      <span aria-hidden="true">{text.slice(0, shown)}</span>
+      {shown < text.length ? <span className={s.caret} aria-hidden="true" /> : null}
+    </p>
+  );
+}
+
+function MessageBody({
+  message,
+  conversationId,
+  typeOut = false,
+}: {
+  message: AIMessage;
+  conversationId: string;
+  typeOut?: boolean;
+}) {
+  const [typed, setTyped] = useState(!typeOut);
   const { t } = useTranslation('assistant');
   const [showContext, setShowContext] = useState(false);
   const context = useQuery({
@@ -295,13 +364,27 @@ function MessageBody({ message, conversationId }: { message: AIMessage; conversa
             defaultValue: t('errors.AI_INVALID_OUTPUT'),
           })}
         </p>
-      ) : (
+      ) : typed ? (
         <p>{message.content}</p>
+      ) : (
+        <TypeOut text={message.content} onDone={() => setTyped(true)} />
       )}
-      {message.actions.map((a) => (
-        <ActionCard key={a.id} action={a} conversationId={conversationId} />
-      ))}
-      {message.status === 'OK' ? (
+      <AnimatePresence>
+        {typed
+          ? message.actions.map((a, i) => (
+              <motion.div
+                key={a.id}
+                initial={{ opacity: 0, height: 0, y: 10 }}
+                animate={{ opacity: 1, height: 'auto', y: 0 }}
+                transition={{ duration: 0.45, ease: EASE, delay: i * 0.08 }}
+                style={{ overflow: 'hidden' }}
+              >
+                <ActionCard action={a} conversationId={conversationId} />
+              </motion.div>
+            ))
+          : null}
+      </AnimatePresence>
+      {message.status === 'OK' && typed ? (
         <button type="button" className={s.contextBtn} onClick={() => setShowContext((v) => !v)}>
           <Eye size={13} /> {t('context.button')}
         </button>
@@ -366,9 +449,17 @@ function ActionCard({ action, conversationId }: { action: AIAction; conversation
     <div className={s.card} data-status={action.status}>
       <div className={s.cardHead}>
         <strong>{t(`action.${action.action_type}`)}</strong>
-        <span className={s.badge} data-status={action.status}>
+        <motion.span
+          key={action.status}
+          className={s.badge}
+          data-status={action.status}
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 22 }}
+        >
+          {action.status === 'EXECUTED' ? <PopCheck size={11} /> : null}
           {t(`actionStatus.${action.status}`)}
-        </span>
+        </motion.span>
       </div>
       {proposed ? (
         <div className={s.fields}>

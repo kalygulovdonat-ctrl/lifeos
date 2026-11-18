@@ -178,3 +178,34 @@
     padding-right: var(--space-4);
   }
 }
+
+.check {
+  position: relative;
+}
+/* A ring that spreads out once when a check is ticked. */
+.burst {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .burst::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+    animation: ring 600ms var(--ease) forwards;
+  }
+}
+@keyframes ring {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}

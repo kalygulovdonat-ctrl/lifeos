@@ -17,6 +17,8 @@ export function useInvalidatePlanning() {
     void qc.invalidateQueries({ queryKey: growthKeys.goals });
     void qc.invalidateQueries({ queryKey: growthKeys.habits });
     void qc.invalidateQueries({ queryKey: growthKeys.time });
+    // A finished task or a goal at 100% can create a notification right away.
+    void qc.invalidateQueries({ queryKey: ['notifications'] });
   }, [qc]);
 }
 

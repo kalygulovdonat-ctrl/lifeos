@@ -130,3 +130,74 @@ export function RevealText({ text, delay = 0 }: { text: string; delay?: number }
     </span>
   );
 }
+
+const CONFETTI_COLORS = ['#5650e6', '#d946ef', '#f472b6', '#22c55e', '#f59e0b', '#3b82f6'];
+
+/**
+ * A short burst of confetti from the center of its parent (which needs `position: relative`).
+ * Plays once when mounted; renders nothing when the user prefers reduced motion.
+ */
+export function Confetti({ pieces = 28, spread = 1 }: { pieces?: number; spread?: number }) {
+  const reduce = useReducedMotion();
+  const [bits] = useState(() =>
+    Array.from({ length: pieces }, (_, i) => {
+      const angle = (i / pieces) * Math.PI * 2 + Math.random() * 0.4;
+      const distance = (70 + Math.random() * 90) * spread;
+      return {
+        x: Math.cos(angle) * distance,
+        y: Math.sin(angle) * distance - 40 * spread,
+        rotate: Math.random() * 540 - 270,
+        color: CONFETTI_COLORS[i % CONFETTI_COLORS.length],
+        round: i % 3 === 0,
+        delay: Math.random() * 0.08,
+      };
+    }),
+  );
+  if (reduce) return null;
+  return (
+    <span className={styles.confetti} aria-hidden="true">
+      {bits.map((b, i) => (
+        <motion.i
+          key={i}
+          style={{ background: b.color, borderRadius: b.round ? '50%' : 2 }}
+          initial={{ x: 0, y: 0, opacity: 1, scale: 0.6, rotate: 0 }}
+          animate={{
+            x: b.x,
+            y: [0, b.y, b.y + 90 * spread],
+            opacity: [1, 1, 0],
+            scale: spread < 1 ? 0.7 : 1,
+            rotate: b.rotate,
+          }}
+          transition={{ duration: 1.3, ease: 'easeOut', delay: b.delay, times: [0, 0.45, 1] }}
+        />
+      ))}
+    </span>
+  );
+}
+
+/** A check mark that pops in (completed task, confirmed AI draft). */
+export function PopCheck({ size = 16 }: { size?: number }) {
+  return (
+    <motion.svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={3}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      initial={{ scale: 0.4, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: 'spring', stiffness: 500, damping: 18 }}
+    >
+      <motion.path
+        d="M5 12.5l4.5 4.5L19 7.5"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 0.35, ease: EASE, delay: 0.1 }}
+      />
+    </motion.svg>
+  );
+}

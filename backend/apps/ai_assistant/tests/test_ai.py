@@ -1,3 +1,4 @@
+# ruff: noqa: RUF001 - Russian user messages
 """AI assistant (SDD §9): consent gates, drafts only, confirm/reject/revert, failures stay local."""
 
 from datetime import timedelta
@@ -184,3 +185,53 @@ def test_isolation(api_client, other_client, django_capture_on_commit_callbacks)
     )
     assert other_client.get("/api/v1/ai/actions/").json()["results"] == []
     assert ActionStatus.PROPOSED == AIAction.objects.get(id=action["id"]).status
+
+
+class TestDemoProvider:
+    """The demo provider answers common questions from the user's own data, through the same tools."""
+
+    def reply(self, client, text, capture):
+        with capture(execute=True):
+            _, res = ask(client, text)
+        msg = answer_of(client, res)
+        assert msg["status"] == "OK"
+        return msg["content"]
+
+    def test_help_says_it_is_a_demo(self, api_client, django_capture_on_commit_callbacks):
+        enable(api_client)
+        text = self.reply(api_client, "что ты умеешь?", django_capture_on_commit_callbacks)
+        assert "демо-режиме" in text and "Задача:" in text
+
+    def test_free_time_lists_windows(self, api_client, django_capture_on_commit_callbacks):
+        enable(api_client)
+        cap = django_capture_on_commit_callbacks
+        text = self.reply(api_client, "Когда у меня есть два свободных часа?", cap)
+        assert text.startswith("Окна от 2 ч подряд"), text
+        assert "завтра" in text
+        assert AIContextAccess.objects.filter(scope="SCHEDULE").exists()
+
+    def test_plan_uses_tasks_by_priority(self, api_client, django_capture_on_commit_callbacks):
+        enable(api_client)
+        api_client.post("/api/v1/tasks/", {"title": "Мелочь", "priority": "LOW"}, format="json")
+        api_client.post("/api/v1/tasks/", {"title": "Курсовая", "priority": "URGENT"}, format="json")
+        text = self.reply(
+            api_client,
+            "Составь план на завтра с учётом свободного времени",
+            django_capture_on_commit_callbacks,
+        )
+        assert text.startswith("План на завтра"), text
+        assert text.index("Курсовая") < text.index("Мелочь"), text
+
+    def test_without_consent_points_to_settings(self, api_client, django_capture_on_commit_callbacks):
+        enable(api_client, ["TASKS"])
+        text = self.reply(api_client, "какие цели?", django_capture_on_commit_callbacks)
+        assert "Нет доступа к разделу «Цели»" in text
+
+    def test_goals_habits_week_and_duplicates(self, api_client, django_capture_on_commit_callbacks):
+        enable(api_client)
+        cap = django_capture_on_commit_callbacks
+        assert self.reply(api_client, "Как дела с целями?", cap) == "Активных целей нет."
+        assert "привычек" in self.reply(api_client, "как мои привычки", cap)
+        assert self.reply(api_client, "итоги недели", cap).startswith("Итоги этой недели")
+        api_client.post("/api/v1/tasks/", {"title": "купить билеты"}, format="json")
+        assert "Похожая открытая задача" in self.reply(api_client, "задача: купить билеты", cap)

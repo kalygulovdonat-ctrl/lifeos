@@ -7,6 +7,8 @@ import { Link, useParams } from 'react-router';
 import styles from '@/modules/growth.module.css';
 import { useInvalidatePlanning } from '@/modules/planning/hooks';
 import { insightKeys, reviewsApi, type Review, type ReviewDecision } from '@/shared/api/insight';
+import { Confetti } from '@/shared/components/motion';
+import { useCelebration } from '@/shared/components/motion-utils';
 import { TextArea } from '@/shared/components/overlay';
 import { Alert, Button, PageHeader } from '@/shared/components/ui';
 import { useErrorMessage } from '@/shared/hooks/useErrorMessage';
@@ -30,6 +32,7 @@ export default function ReviewPage() {
     queryFn: () => reviewsApi.get(reviewId),
   });
   const [step, setStep] = useState(0);
+  const celebrate = useCelebration(review.data ? review.data.status === 'COMPLETED' : undefined);
 
   if (review.error) return <Alert>{errorMessage(review.error)}</Alert>;
   const d = review.data;
@@ -46,6 +49,11 @@ export default function ReviewPage() {
         title={t('weekTitle')}
         description={`${range}${locked ? ` · ${t('status.COMPLETED')}` : ''}`}
       />
+      {celebrate ? (
+        <span className={r.confetti}>
+          <Confetti key={celebrate} pieces={40} />
+        </span>
+      ) : null}
       {locked ? (
         <>
           <Stats review={d} />
