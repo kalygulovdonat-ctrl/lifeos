@@ -220,6 +220,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = "same-origin"
 X_FRAME_OPTIONS = "DENY"
 ADMIN_URL = env("DJANGO_ADMIN_URL", default="admin/")
+# Built React app (frontend/dist) served by Django itself: single-container hosting such as Render.
+FRONTEND_DIST = env("FRONTEND_DIST", default="")
 
 # --- Celery -----------------------------------------------------------------------
 CELERY_BROKER_URL = env("CELERY_BROKER_URL", default=REDIS_URL or "redis://localhost:6379/0")

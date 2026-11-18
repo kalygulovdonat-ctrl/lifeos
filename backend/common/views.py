@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
+from django.conf import settings
 from django.core.cache import cache
 from django.db import connection
 from django.db.models import QuerySet
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from drf_spectacular.utils import extend_schema
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
@@ -88,3 +90,11 @@ def json_404(request: HttpRequest, exception: Exception | None = None) -> JsonRe
 
 def json_500(request: HttpRequest) -> JsonResponse:
     return JsonResponse(error_payload("INTERNAL_ERROR", "Internal server error."), status=500)
+
+
+def spa_index(request: HttpRequest) -> HttpResponse:
+    """index.html of the React build for client-side routes (used only when FRONTEND_DIST is set)."""
+    page = Path(settings.FRONTEND_DIST, "index.html").read_bytes()
+    response = HttpResponse(page, content_type="text/html; charset=utf-8")
+    response["Cache-Control"] = "no-cache"
+    return response

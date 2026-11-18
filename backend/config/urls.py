@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
+from common.views import spa_index
 
 api_v1 = [
     path("", include("common.urls")),
@@ -27,6 +29,9 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path("api/v1/", include(api_v1)),
 ]
+if settings.FRONTEND_DIST:
+    # Every non-API path is a client-side route of the React app.
+    urlpatterns.append(re_path(r"^(?!api/|static/).*$", spa_index))
 
 handler404 = "common.views.json_404"
 handler500 = "common.views.json_500"

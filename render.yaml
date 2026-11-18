@@ -1,0 +1,37 @@
+# Render Blueprint: free demo deployment (https://render.com/docs/blueprint-spec).
+# One web service (API + React app) and a free PostgreSQL database.
+# Free plan limits: the service sleeps after ~15 min idle, the free database expires after 30 days,
+# no background worker, so the AI runs inline and scheduled reminders are off.
+services:
+  - type: web
+    name: lifeos
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./infra/docker/Dockerfile.render
+    dockerContext: .
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: lifeos-db
+          property: connectionString
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: JWT_SIGNING_KEY
+        generateValue: true
+      - key: REGISTRATION_OPEN
+        value: "true"
+      - key: AI_ENABLED
+        value: "true"
+      - key: AI_PROVIDER
+        value: fake # demo assistant; set to anthropic and add ANTHROPIC_API_KEY for real Claude
+      - key: AI_RUN_INLINE
+        value: "true"
+
+databases:
+  - name: lifeos-db
+    plan: free
+    region: frankfurt
+    databaseName: lifeos
+    user: lifeos

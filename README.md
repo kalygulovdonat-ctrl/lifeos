@@ -160,6 +160,10 @@ cd backend && DATABASE_URL=postgres://lifeos:lifeos@localhost:5432/lifeos .venv/
 
 Чтобы dev-сервер работал на PostgreSQL, замените `DATABASE_URL` в `backend/.env`.
 
+## Размещение на Render (бесплатно)
+
+`render.yaml` описывает демо-размещение: один веб-сервис (Django отдаёт и API, и собранный React, `infra/docker/Dockerfile.render`) и бесплатная PostgreSQL. В Render: **New → Blueprint**, выбрать этот репозиторий, **Apply**. Ограничения бесплатного плана: сервис засыпает после ~15 минут простоя (первое открытие ~1 минута), бесплатная база удаляется через 30 дней, фонового воркера нет — ИИ работает в запросе (`AI_RUN_INLINE`), напоминания по расписанию не отправляются.
+
 ## Проверки
 
 ```bash

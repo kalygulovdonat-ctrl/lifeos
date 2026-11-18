@@ -1,12 +1,19 @@
 """Production (cloud) settings. All secrets must come from the environment."""
 
 from .base import *  # noqa: F403
-from .base import MIDDLEWARE, env
+from .base import CSRF_TRUSTED_ORIGINS, FRONTEND_DIST, MIDDLEWARE, env
 
 DEBUG = False
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 SIMPLE_JWT["SIGNING_KEY"] = env("JWT_SIGNING_KEY", default=SECRET_KEY)
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS")
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])
+# Render sets the public hostname of the service (https://<name>.onrender.com).
+_render_host = env("RENDER_EXTERNAL_HOSTNAME", default="")
+if _render_host:
+    ALLOWED_HOSTS = [*ALLOWED_HOSTS, _render_host]
+    CSRF_TRUSTED_ORIGINS = [*CSRF_TRUSTED_ORIGINS, f"https://{_render_host}"]
+if not ALLOWED_HOSTS:
+    raise RuntimeError("Set DJANGO_ALLOWED_HOSTS")
 REGISTRATION_OPEN = env.bool("REGISTRATION_OPEN", default=False)
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -35,3 +42,8 @@ STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
 }
+
+if FRONTEND_DIST:
+    # The React build is served from the site root; hashed bundles in /assets/ never change.
+    WHITENOISE_ROOT = FRONTEND_DIST
+    WHITENOISE_IMMUTABLE_FILE_TEST = r"^/assets/"
